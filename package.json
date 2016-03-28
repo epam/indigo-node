@@ -1,0 +1,32 @@
+{
+  "name": "indigo-node",
+  "version": "0.0.0",
+  "description": "Indigo nodejs bindings",
+  "main": "indigo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epam/indigo-node.git"
+  },
+  "keywords": [
+    "indigo",
+    "bingo",
+    "chemistry",
+    "ctfile",
+    "mdl",
+    "mol",
+    "molecule",
+    "molfile",
+    "sdf"
+  ],
+  "author": "Dmitry Sigaev",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/epam/indigo-node/issues"
+  },
+  "homepage": "https://github.com/epam/indigo-node",
+  "devDependencies": {},
+  "dependencies": {}
+}
