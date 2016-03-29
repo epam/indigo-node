@@ -28,5 +28,7 @@
   },
   "homepage": "https://github.com/epam/indigo-node",
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "fs-extra": "^0.26.7"
+  }
 }

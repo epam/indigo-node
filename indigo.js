@@ -11,6 +11,9 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
+var path = require("path");
+var local = path.join.bind(path, __dirname);
+var config = require(local("configureIndigo"));
 
 var Indigo = function () {
 }
