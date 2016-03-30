@@ -23,6 +23,9 @@ var Indigo = function (options) {
 	var libpath = local('shared/' + process.platform + '/' + process.arch + '/indigo');
 	this.libpath = options.libpath || libpath;
 	this._lib = ffi.Library(libpath, libs_api);
+	// Allocate a new session. Each session has its own
+	// set of objects created and options set up.
+	this._sid = this._lib.indigoAllocSessionId();
 };
 
 /*
@@ -33,6 +36,31 @@ var Indigo = function (options) {
  */
 Indigo.prototype.getVersion = function () {
 	return "Indigo version(" + this._lib.indigoVersion() + ");";
-}
+};
+
+/* System */
+
+/*
+ * Switch to another session. The session, if was not allocated
+ * previously, is allocated automatically and initialized with
+ * empty set of objects and default options.
+ * 
+ * @method _setSessionId
+ */
+Indigo.prototype._setSessionId = function () {
+	this._lib.indigoSetSessionId(this._sid)
+};
+
+/*
+ * Release session. The memory used by the released session
+ * is not freed, but the number will be reused on
+ * further allocations.
+ * 
+ * @method _releaseSessionId
+ */
+Indigo.prototype._releaseSessionId = function () {
+	if (this._lib)
+		this._lib.indigoReleaseSessionId(this._sid);
+};
 
 module.exports = new Indigo();
