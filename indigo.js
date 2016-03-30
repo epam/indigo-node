@@ -14,8 +14,25 @@
 var path = require("path");
 var local = path.join.bind(path, __dirname);
 var config = require(local("configureIndigo"));
+var libs_api = require(local("indigo-api"));
+var ffi = require('ffi');
 
-var Indigo = function () {
+
+var Indigo = function (options) {
+	options = options || {};
+	var libpath = local('shared/' + process.platform + '/' + process.arch + '/indigo');
+	this.libpath = options.libpath || libpath;
+	this._lib = ffi.Library(libpath, libs_api);
+};
+
+/*
+ * Return Indigo version string.
+ * 
+ * @method getVersion
+ * @return {String} Indigo version
+ */
+Indigo.prototype.getVersion = function () {
+	return "Indigo version(" + this._lib.indigoVersion() + ");";
 }
 
-exports = new Indigo;
+module.exports = new Indigo();
