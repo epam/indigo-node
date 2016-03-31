@@ -63,4 +63,16 @@ Indigo.prototype._releaseSessionId = function () {
 		this._lib.indigoReleaseSessionId(this._sid);
 };
 
+/*
+ * Get the last error message
+ * 
+ * @method getLastError
+ */
+Indigo.prototype.getLastError = function () {
+	if (this._lib)
+		return this._lib.indigoGetLastError();
+	return '';
+};
+
+
 module.exports = new Indigo();
