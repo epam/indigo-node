@@ -15,8 +15,15 @@ var path = require("path");
 var local = path.join.bind(path, __dirname);
 var config = require(local("configureIndigo"));
 var libs_api = require(local("indigo-api"));
+var IndigoObject = require(local('indigoObject'));
 var ffi = require('ffi');
 
+function MyError(message, customProperty) {
+//	Error.captureStackTrace(this, this.constructor);
+	this.message = message;
+	this.customProperty = customProperty;
+//	console.error(message);
+}
 
 var Indigo = function (options) {
 	options = options || {};
@@ -74,5 +81,41 @@ Indigo.prototype.getLastError = function () {
 	return '';
 };
 
+/*
+ * Check results 
+ * 
+ * @method _checkResult
+ * @param {number} result
+ */
+Indigo.prototype._checkResult = function (result) {
+	if (result < 0) {
+		var msg = this.getLastError();
+		throw new MyError('indigo:res < 0[' + result + ']: ' + msg);
+	}
+	return result;
+};
+
+/*
+ * Count object currently allocated
+ * 
+ * @method countReferences
+ * @return {number} count
+ */
+Indigo.prototype.countReferences = function () {
+        this._setSessionId();
+        return this._checkResult(this._lib.indigoCountReferences());
+    }
+
+/*
+ * Load molecule from string 
+ * 
+ * @method loadMolecule
+ * @param {string} string reprsantation of molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadMolecule = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromString(string)));
+}
 
 module.exports = new Indigo();
