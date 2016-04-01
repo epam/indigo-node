@@ -18,17 +18,11 @@ var libs_api = require(local("indigo-api"));
 var IndigoObject = require(local('indigoObject'));
 var ffi = require('ffi');
 
-function MyError(message, customProperty) {
-//	Error.captureStackTrace(this, this.constructor);
-	this.message = message;
-	this.customProperty = customProperty;
-//	console.error(message);
-}
-
 var Indigo = function (options) {
 	options = options || {};
 	var libpath = local('shared/' + process.platform + '/' + process.arch + '/indigo');
 	this.libpath = options.libpath || libpath;
+	this.logger = options.logger || console;
 	this._lib = ffi.Library(libpath, libs_api);
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
@@ -90,7 +84,7 @@ Indigo.prototype.getLastError = function () {
 Indigo.prototype._checkResult = function (result) {
 	if (result < 0) {
 		var msg = this.getLastError();
-		throw new MyError('indigo:res < 0[' + result + ']: ' + msg);
+		this.logger.error('res < 0[' + result + ']: ' + msg);
 	}
 	return result;
 };
