@@ -14,7 +14,7 @@
 var path = require('path');
 var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
-var libs_api = require(local('indigo-api'));
+var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
 var ffi = require('ffi');
 
@@ -23,10 +23,12 @@ var Indigo = function (options) {
 	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo']);
 	this.libpath = options.libpath || libpath;
 	this.logger = options.logger || console;
-	this._lib = ffi.Library(libpath, libs_api);
+	this._lib = ffi.Library(libpath, lib_api.api);
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
 	this._sid = this._lib.indigoAllocSessionId();
+	this._out = lib_api.out;
+	this._type = lib_api.type;
 };
 
 /*
@@ -110,6 +112,57 @@ Indigo.prototype.countReferences = function () {
 Indigo.prototype.loadMolecule = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromString(string)));
+}
+
+/*
+ * Set Option 
+ * 
+ * @method setOption
+ * @param {string} name of option.
+ * @param {number or string or boolean} value of option.
+ * @return {boolean} return true if option applies as successful
+ */
+Indigo.prototype.setOption = function (option, value1, value2, value3) {
+	this._setSessionId();
+	var ret = -1;
+	var value2 = value2 || 0;
+	var value3 = value3 || 0;
+	if (!value2) {
+		switch (typeof value1) {
+			case 'string':
+				ret = this._checkResult(this._lib.indigoSetOption(option, value1));
+				break;
+			case 'number':
+				{
+					if(/^[0-9]+$/.test(String(value1)))
+						ret = this._checkResult(this._lib.indigoSetOptionInt(option, value1));
+					else
+						ret = this._checkResult(this._lib.indigoSetOptionFloat(option, value1));
+				}
+				break;
+			case 'boolean':
+				var value1_b = (value1)?1:0;
+				ret = this._checkResult(this._lib.indigoSetOptionBool(option, value1_b));
+				break;
+			default:
+				this.logger.error("bad option");
+		}
+	}
+	else {
+		if (typeof value1 === 'number' && typeof value2 === 'number') {
+			if ((/^[0-9]+$/.test(String(value1))) && (/^[0-9]+$/.test(String(value2))))
+				ret = this._checkResult(this._lib.indigoSetOptionXY(option, value1, value2));
+			else
+				this.logger.error("bad option");
+		}
+		if (typeof value1 === 'number' && typeof value2 === 'number' && typeof value3 === 'number') {
+			if (!(/^[0-9]+$/.test(String(value1))) && !(/^[0-9]+$/.test(String(value2))) && !(/^[0-9]+$/.test(String(value3))))
+				ret = this._checkResult(this._lib.indigoSetOptionColor(option, value1, value2, value3));
+			else
+				this.logger.error("bad option");
+		}
+	}
+	return (ret === 1);
 }
 
 module.exports = new Indigo();
