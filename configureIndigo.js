@@ -12,7 +12,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
-var path = require("path");
+var path = require('path');
 var local = path.join.bind(path, __dirname);
 
 module.exports = {
@@ -26,6 +26,28 @@ module.exports = {
 			src: local('Indigo/api/libs/shared'),
 			dest: local('shared')
 
+		},
+		libs:{
+			'indigo':'indigo',
+			'bingo':'bingo',
+			'indigo-inchi':'indigo-inchi',
+			'indigo-renderer':'indigo-renderer'
+		}
+	},
+	linux:{
+		flag: {
+			'x64': '--preset=linux64', //architecture
+			'x32': '--preset=linux32'
+		},
+		copy: {
+			src: local('Indigo/api/libs/shared'),
+			dest: local('shared')
+		},
+		libs:{
+			'indigo':'libindigo',
+			'bingo':'libbingo',
+			'indigo-inchi':'libindigo-inchi',
+			'indigo-renderer':'libindigo-renderer'
 		}
 	}
 };

@@ -12,17 +12,17 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
-var cp = require("child_process");
-var path = require("path");
+var cp = require('child_process');
+var path = require('path');
 
 var local = path.join.bind(path, __dirname);
 
-var config = require(local("configureIndigo"));
+var config = require(local('configureIndigo'));
 
 module.exports = function BuildLib() {
 
   return new Promise(function(resolve, reject) {
-    cp.exec("python "+ local("Indigo/build_scripts/indigo-release-libs.py")+" "+config[process.platform].flag[process.arch], function(err, stdout, stderr) {
+    cp.exec('python '+ local('Indigo/build_scripts/indigo-release-libs.py')+' '+config[process.platform].flag[process.arch], function(err, stdout, stderr) {
       if (err) {
         console.error(stderr);
         reject(err, stderr);
@@ -37,9 +37,9 @@ module.exports = function BuildLib() {
 		var fse = require('fs-extra');
 		fse.copy(config[process.platform].copy.src, config[process.platform].copy.dest, function (err) {
 			if (err) return console.error(err)
-//			console.log("success!")
+			console.log('success!')
 		}); // copies file
-		if (process.platform === "win32") {
+		if (process.platform === 'win32') {
 			fs.access(local('/shared/Win'), fs.R_OK | fs.W_OK, function (err) {
 				if (err) return console.error(err)
 //				console.log(err ? 'no access!' : 'can read/write');
@@ -50,6 +50,18 @@ module.exports = function BuildLib() {
 
 			});
 		}
+        if (process.platform === 'linux') {
+          fs.access(local('/shared/Linux'), fs.R_OK | fs.W_OK, function (err) {
+              if (err) return console.error(err)
+//				console.log(err ? 'no access!' : 'can read/write');
+              fse.move(local('/shared/Linux'), local('/shared/linux'), function (err) {
+                  if (err) return console.error(err)
+//					console.log("success!")
+              }); // copies file
+
+          });
+        }
+
   });
 };
 

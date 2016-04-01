@@ -11,16 +11,16 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
-var path = require("path");
+var path = require('path');
 var local = path.join.bind(path, __dirname);
-var config = require(local("configureIndigo"));
-var libs_api = require(local("indigo-api"));
+var config = require(local('configureIndigo'));
+var libs_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
 var ffi = require('ffi');
 
 var Indigo = function (options) {
 	options = options || {};
-	var libpath = local('shared/' + process.platform + '/' + process.arch + '/indigo');
+	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo']);
 	this.libpath = options.libpath || libpath;
 	this.logger = options.logger || console;
 	this._lib = ffi.Library(libpath, libs_api);
