@@ -42,4 +42,34 @@ IndigoObject.prototype.clone = function () {
 	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoClone(this.id)));
 }
 
+/*
+ * Get a 3d coordinates of an atom
+ * 
+ * @method xyz
+ * @returns {Array} the [x, y, z] coordinates
+ */
+IndigoObject.prototype.xyz = function () {
+	this.d._setSessionId();
+	var xyz_ptr = this.d._lib.indigoXYZ(this.id); /* int atom */
+	if (xyz_ptr.length == 0) {
+		var msg = this.d.getLastError();
+		this.d.logger.error('xyz [fault]: ' + msg);
+		return [0.0, 0.0, 0.0];
+	}
+
+	var xyz = xyz_ptr.deref();
+	return [xyz.x, xyz.y, xyz.z];
+}
+
+/*
+ * Sat a 3d coordinates of an atom
+ * 
+ * @method xyz
+ * @returns {Array} the [x, y, z] coordinates
+ */
+IndigoObject.prototype.setXYZ = function (x, y, z) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSetXYZ(this.id, x, y, z));
+}
+
 module.exports = IndigoObject;
