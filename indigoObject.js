@@ -62,7 +62,7 @@ IndigoObject.prototype.xyz = function () {
 }
 
 /*
- * Sat a 3d coordinates of an atom
+ * Set a 3d coordinates of an atom
  * 
  * @method xyz
  * @returns {Array} the [x, y, z] coordinates
@@ -70,6 +70,17 @@ IndigoObject.prototype.xyz = function () {
 IndigoObject.prototype.setXYZ = function (x, y, z) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoSetXYZ(this.id, x, y, z));
+}
+
+/*
+ * Generate molfile from IndigoObject
+ * 
+ * @method molfile
+ * @returns {string} string reprsantation of molfile
+ */
+IndigoObject.prototype.molfile = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoMolfile(this.id));
 }
 
 module.exports = IndigoObject;
