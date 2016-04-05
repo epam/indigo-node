@@ -78,7 +78,7 @@ Indigo.prototype.getLastError = function () {
 };
 
 /*
- * Check results 
+ * Check result
  * 
  * @method _checkResult
  * @param {number} result
@@ -92,15 +92,27 @@ Indigo.prototype._checkResult = function (result) {
 };
 
 /*
+ * Check string result 
+ * 
+ * @method _checkResultString
+ * @param {string} result
+ */
+Indigo.prototype._checkResultString = function (result) {
+	if (typeof result !== 'string')
+		this.logger.error("the result isn't string");
+	return result;
+}
+
+/*
  * Count object currently allocated
  * 
  * @method countReferences
  * @return {number} count
  */
 Indigo.prototype.countReferences = function () {
-        this._setSessionId();
-        return this._checkResult(this._lib.indigoCountReferences());
-    }
+	this._setSessionId();
+	return this._checkResult(this._lib.indigoCountReferences());
+}
 
 /*
  * Load molecule from string 
@@ -112,6 +124,30 @@ Indigo.prototype.countReferences = function () {
 Indigo.prototype.loadMolecule = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromString(string)));
+}
+
+/*
+ * Load query molecule from string 
+ * 
+ * @method loadQueryMolecule
+ * @param {string} string reprsantation of query molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadQueryMolecule = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryMoleculeFromString(string)));
+}
+
+/*
+ * Load query molecule from file 
+ * 
+ * @method loadQueryMoleculeFromFile
+ * @param {string} filename of chemical format of molecule.
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadQueryMoleculeFromFile = function (filename) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryMoleculeFromFile(filename)));
 }
 
 /*
