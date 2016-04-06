@@ -151,6 +151,22 @@ Indigo.prototype.loadQueryMoleculeFromFile = function (filename) {
 }
 
 /*
+ *  Substructure matching 
+ *  
+ * @method substructureMatcher
+ * @param {object} target is IndigoObject
+ * @param {string} 'mode' is reserved for future use; currently its value is ignored
+ * @return {object} a new 'matcher' object
+ */
+Indigo.prototype.substructureMatcher = function (target, mode) {
+	this._setSessionId();
+	if (mode === undefined || mode === null) {
+		mode = '';
+	}
+	return new IndigoObject(this, this._checkResult(this._lib.indigoSubstructureMatcher(target.id, mode)), target);
+}
+
+/*
  * Set Option 
  * 
  * @method setOption
