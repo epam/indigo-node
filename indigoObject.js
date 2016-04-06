@@ -83,4 +83,29 @@ IndigoObject.prototype.molfile = function () {
 	return this.d._checkResultString(this.d._lib.indigoMolfile(this.id));
 }
 
+/*
+ * 
+ * @method match
+ * @param {object} query
+ * @returns {object}  
+ */
+IndigoObject.prototype.match = function (query) {
+	this.d._setSessionId();
+	newobj = this.d._checkResult(this.d._lib.indigoMatch(this.id, query.id));
+	if (newobj === 0)
+		return null;
+	else
+		return new IndigoObject(d, newobj, this);
+}
+
+/*
+ * 
+ * @method match
+ * @returns {string}  
+ */
+IndigoObject.prototype.smiles = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoSmiles(this.id));
+}
+
 module.exports = IndigoObject;
