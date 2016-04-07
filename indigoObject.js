@@ -124,12 +124,43 @@ IndigoObject.prototype.iterateAtoms = function * () {
 
 /*
  * 
- * @method iterateAtoms
- * @returns {object}  
+ * @method removeConstraints
+ * @returns {number}  
  */
 IndigoObject.prototype.removeConstraints = function (type) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoRemoveConstraints(this.id, type));
 }
+
+/*
+ * 
+ * @method canonicalSmiles
+ * @returns {string}  
+ */
+IndigoObject.prototype.canonicalSmiles = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoCanonicalSmiles(this.id));
+}
+
+/*
+ * 
+ * @method unfoldHydrogens
+ * @returns {number}  
+ */
+IndigoObject.prototype.unfoldHydrogens = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoUnfoldHydrogens(this.id));
+}
+
+/*
+ * 
+ * @method resetAtom
+ * @returns {number}  
+ */
+IndigoObject.prototype.resetAtom = function (symbol) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoResetAtom(this.id, symbol));
+}
+
 
 module.exports = IndigoObject;
