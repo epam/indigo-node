@@ -162,5 +162,22 @@ IndigoObject.prototype.resetAtom = function (symbol) {
 	return this.d._checkResult(this.d._lib.indigoResetAtom(this.id, symbol));
 }
 
+/*
+ * 
+ * @method serialize
+ * @returns {Array}  
+ */
+IndigoObject.prototype.serialize = function () {
+	this.d._setSessionId();
+	var size = this.d._out.aint; // allocate a 4-byte (32-bit) chunk for the output value
+	var pointer = this.d._out.apbyte;
+	var status = this.d._checkResult(this.d._lib.indigoSerialize(this.id, pointer, size));
+	var buf = this.d._out.read(pointer, 0, size.deref());
+	res = [];
+	for (i = 0; i < size.deref(); i++) {
+		res.push(buf[i]);
+	}
+	return res;
+}
 
 module.exports = IndigoObject;

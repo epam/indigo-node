@@ -13,7 +13,6 @@
  ***************************************************************************/
 var ref = require('ref');
 var ref_struct = require('ref-struct');
-
 var int_ptr = ref.refType('int');
 var byte_ptr = ref.refType('byte');
 var char_ptr = ref.refType('char');
@@ -23,6 +22,7 @@ var bool_ptr = ref.refType('bool');
 var wchar = ('win32' == process.platform)?('uint16'):('uint32');
 var wchar_ptr = ref.refType(wchar);
 
+var byte_p_ptr = ref.refType(byte_ptr);
 var qword = ('win32' == process.platform)?('uint64'):('ulonglong');
 
 var xyz = ref_struct({ x: 'float', y: 'float',z: 'float' });
@@ -249,7 +249,7 @@ module.exports = {
 		"indigoSmiles": ["string", ["int"]], 
 		"indigoName": ["string", ["int"]], 
 		"indigoSetName": ["int", ["int", "string"]],
-		"indigoSerialize": ["int", ["int", byte_ptr, int_ptr]],
+		"indigoSerialize": ["int", ["int", byte_p_ptr, int_ptr]],
 		"indigoHasProperty": ["int", ["int", "string"]],
 		"indigoGetProperty": ["int", ["int", "string"]],
 		"indigoSetProperty": ["int", ["int", "string", "string"]],
@@ -295,7 +295,7 @@ module.exports = {
 		"indigoIterateDecompositions": ["int", ["int"]],
 		"indigoAddDecomposition": ["int", ["int", "int"]],
 		"indigoToString": ["string", ["int"]],
-		"indigoToBuffer": ["int", ["int", byte_ptr, int_ptr]],
+		"indigoToBuffer": ["int", ["int", byte_p_ptr, int_ptr]],
 		"indigoStereocenterPyramid": [int_ptr, ["int"]],
 		"indigoExpandAbbreviations": ["int", ["int"]],
 		"indigoDbgInternalType": ["string", ["int"]],
@@ -346,15 +346,21 @@ module.exports = {
 /*        "indigoIterateTautomers": ["int", ["int", "string"]] */
 	},
 	out: {
-		"char": ref.alloc('char'),
-		"float": ref.alloc('float'),
-		"double": ref.alloc('double'),
-		"bool": ref.alloc('bool'),
-		"wchar": ref.alloc(wchar),
+		"abyte": ref.alloc('byte'),
+		"achar": ref.alloc('char'),
+		"aint": ref.alloc('int'),
+		"afloat": ref.alloc('float'),
+		"adouble": ref.alloc('double'),
+		"abool": ref.alloc('bool'),
+		"awchar": ref.alloc(wchar),
+		"apbyte": ref.alloc(byte_ptr),
+		"read": ref.readPointer,
+		"alloc": ref.alloc
 	},
 	type: {
 		"wchar": wchar,
 		"qword":qword,
-		"xyz": xyz
+		"xyz": xyz,
+		"byte_ptr": byte_ptr
 	}
 };

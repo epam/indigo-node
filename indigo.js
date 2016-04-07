@@ -167,6 +167,21 @@ Indigo.prototype.substructureMatcher = function (target, mode) {
 }
 
 /*
+ * 
+ * 
+ * @method unserialize
+ * @param {array} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.unserialize = function (array) {
+	this._setSessionId();
+	var buf = new Buffer(array);
+	var pointer = this._out.alloc(this._type.byte_ptr, buf);
+	var res = this._lib.indigoUnserialize(pointer.deref(), buf.length);
+	return new IndigoObject(this, this._checkResult(res));
+}
+
+/*
  * Set Option 
  * 
  * @method setOption
