@@ -108,4 +108,28 @@ IndigoObject.prototype.smiles = function () {
 	return this.d._checkResultString(this.d._lib.indigoSmiles(this.id));
 }
 
+/*
+ * 
+ * @method iterateAtoms
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateAtoms = function * () {
+	this.d._setSessionId();
+	var newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(this.id)));
+	while (newobj && newobj.id !== -1) {
+		yield newobj;
+		newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(newobj.id)));
+	}
+}
+
+/*
+ * 
+ * @method iterateAtoms
+ * @returns {object}  
+ */
+IndigoObject.prototype.removeConstraints = function (type) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoRemoveConstraints(this.id, type));
+}
+
 module.exports = IndigoObject;
