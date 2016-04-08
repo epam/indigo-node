@@ -24,12 +24,26 @@ console.log('start:');
 
 var status = indigo.setOption("molfile-saving-skip-date", "1");
 console.log("****** Query reload ********")
-q = indigo.loadQueryMoleculeFromFile(local("../indigo-node/molecules/q_atom_list.mol"));
-qmf1 = q.molfile();
+var q = indigo.loadQueryMoleculeFromFile(local("../indigo-node/molecules/q_atom_list.mol"));
+var qmf1 = q.molfile();
 console.log(qmf1);
-q2 = indigo.loadQueryMolecule(q.molfile());
-qmf2 = q2.molfile();
+var q2 = indigo.loadQueryMolecule(q.molfile());
+var qmf2 = q2.molfile();
 if (qmf1 != qmf2) {
 	console.log("Error: reloaded query is different:");
 	console.log(qmf2);
 }
+
+/* Check that queires are equivalent */
+var matcher = indigo.substructureMatcher(indigo.loadMolecule("[Sc]CN[He]"));
+var none1 = matcher.match(q);
+var none2 = matcher.match(q2);
+if (none1 || none2)
+	console.log("Error: matching results are not None: " + none1 + ' ' + none2);
+
+console.log("****** Remove constraints and reload ********");
+var q = indigo.loadQueryMolecule("c1[nH]c2c(c(N)[n+]([O-])c[n]2)[n]1");
+var t = indigo.loadMolecule("c1[n]c2c(N)[n+]([O-])c[n]c2[n]1[C@H]1[C@@H](O)[C@H](O)[C@H](CO)O1");
+
+var original_smiles = q.smiles();
+console.log(q.smiles());
