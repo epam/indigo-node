@@ -47,3 +47,37 @@ var t = indigo.loadMolecule("c1[n]c2c(N)[n+]([O-])c[n]c2[n]1[C@H]1[C@@H](O)[C@H]
 
 var original_smiles = q.smiles();
 console.log(q.smiles());
+
+var matcher = indigo.substructureMatcher(t);
+var has_match_orig = (matcher.match(q) != null);
+console.log(has_match_orig);
+
+for (var a of q.iterateAtoms())
+	a.removeConstraints("hydrogens");
+console.log(q.smiles());
+
+var has_match = (matcher.match(q) != null);
+console.log(has_match);
+
+var q2 = q.clone();
+console.log(q2.smiles());
+var has_match2 = (matcher.match(q2) != null)
+console.log(has_match2);
+if (has_match != has_match2)
+	console.error("Error: query molecule match is different after cloning");
+
+/* reload query from original smiles */
+var q3 = indigo.loadQueryMolecule(original_smiles)
+console.log(q3.smiles());
+var has_match3 = (matcher.match(q3) != null)
+console.log(has_match3);
+if (has_match3 != has_match_orig)
+	console.error("Error: query molecule match is different after reloading from SMILES");
+/*
+console.log("****** Bad valence, smiles and unfold ********");
+var m = indigo.loadMolecule("C\C=C(/N(O)=O)N(O)=O");
+var sm = m.smiles();
+console.log(m.smiles());
+console.log(m.canonicalSmiles());
+m.unfoldHydrogens();
+*/
