@@ -101,7 +101,7 @@ Indigo.prototype._checkResultString = function (result) {
 	if (typeof result !== 'string')
 		this.logger.error("the result isn't string");
 	return result;
-}
+};
 
 /*
  * Count object currently allocated
@@ -112,7 +112,7 @@ Indigo.prototype._checkResultString = function (result) {
 Indigo.prototype.countReferences = function () {
 	this._setSessionId();
 	return this._checkResult(this._lib.indigoCountReferences());
-}
+};
 
 /*
  * Load molecule from string 
@@ -124,7 +124,7 @@ Indigo.prototype.countReferences = function () {
 Indigo.prototype.loadMolecule = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromString(string)));
-}
+};
 
 /*
  * Load query molecule from string 
@@ -136,7 +136,7 @@ Indigo.prototype.loadMolecule = function (string) {
 Indigo.prototype.loadQueryMolecule = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryMoleculeFromString(string)));
-}
+};
 
 /*
  * Load query molecule from file 
@@ -148,7 +148,19 @@ Indigo.prototype.loadQueryMolecule = function (string) {
 Indigo.prototype.loadQueryMoleculeFromFile = function (filename) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryMoleculeFromFile(filename)));
-}
+};
+
+/*
+ * Load molecule from file 
+ * 
+ * @method loadMoleculeFromFile
+ * @param {string} filename of chemical format of molecule.
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadMoleculeFromFile = function (filename) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromFile(filename)));
+};
 
 /*
  *  Substructure matching 
@@ -164,7 +176,7 @@ Indigo.prototype.substructureMatcher = function (target, mode) {
 		mode = '';
 	}
 	return new IndigoObject(this, this._checkResult(this._lib.indigoSubstructureMatcher(target.id, mode)), target);
-}
+};
 
 /*
  * 
@@ -179,7 +191,7 @@ Indigo.prototype.unserialize = function (array) {
 	var pointer = this._out.alloc(this._type.byte_ptr, buf);
 	var res = this._lib.indigoUnserialize(pointer.deref(), buf.length);
 	return new IndigoObject(this, this._checkResult(res));
-}
+};
 
 /*
  * Set Option 
@@ -201,7 +213,7 @@ Indigo.prototype.setOption = function (option, value1, value2, value3) {
 				break;
 			case 'number':
 				{
-					if(/^[0-9]+$/.test(String(value1)))
+					if (/^[0-9]+$/.test(String(value1)))
 						ret = this._checkResult(this._lib.indigoSetOptionInt(option, value1));
 					else
 						ret = this._checkResult(this._lib.indigoSetOptionFloat(option, value1));
@@ -230,6 +242,6 @@ Indigo.prototype.setOption = function (option, value1, value2, value3) {
 		}
 	}
 	return (ret === 1);
-}
+};
 
 module.exports = new Indigo();

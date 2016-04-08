@@ -205,4 +205,14 @@ IndigoObject.prototype.valence = function () {
 	return this.d._checkResult(this.d._lib.indigoValence(this.id));
 };
 
+/*
+ * 
+ * @method clearStereocenters
+ * @returns {number}  
+ */
+IndigoObject.prototype.clearStereocenters = function () {
+	this.d._setSessionId(); /* only molecules and reactions have stereocenters */
+	return this.d._checkResult(this.d._lib.indigoClearStereocenters(this.id));
+};
+
 module.exports = IndigoObject;
