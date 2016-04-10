@@ -91,7 +91,7 @@ IndigoObject.prototype.molfile = function () {
  */
 IndigoObject.prototype.match = function (query) {
 	this.d._setSessionId();
-	newobj = this.d._checkResult(this.d._lib.indigoMatch(this.id, query.id));
+	var newobj = this.d._checkResult(this.d._lib.indigoMatch(this.id, query.id));
 	if (newobj === 0)
 		return null;
 	else
@@ -173,7 +173,7 @@ IndigoObject.prototype.serialize = function () {
 	var pointer = this.d._out.apbyte;
 	var status = this.d._checkResult(this.d._lib.indigoSerialize(this.id, pointer, size));
 	var buf = this.d._out.read(pointer, 0, size.deref());
-	res = [];
+	var res = [];
 	for (i = 0; i < size.deref(); i++) {
 		res.push(buf[i]);
 	}
@@ -213,6 +213,18 @@ IndigoObject.prototype.valence = function () {
 IndigoObject.prototype.clearStereocenters = function () {
 	this.d._setSessionId(); /* only molecules and reactions have stereocenters */
 	return this.d._checkResult(this.d._lib.indigoClearStereocenters(this.id));
+};
+
+/*
+ * 
+ * @method grossFormula
+ * @returns {string}  
+ */
+IndigoObject.prototype.grossFormula = function () {
+	this.d._setSessionId();
+	var gfid = this.d._checkResult(this.d._lib.indigoGrossFormula(this.id));
+	var gf = new IndigoObject(this.d, gfid);
+	return this.d._checkResultString(this.d._lib.indigoToString(gf.id));
 };
 
 module.exports = IndigoObject;
