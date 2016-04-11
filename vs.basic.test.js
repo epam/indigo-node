@@ -97,3 +97,6 @@ for (a of m.iterateAtoms())
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
 
+var m2 = indigo.unserialize(m.serialize());
+console.log(m2.smiles());
+console.log(m2.canonicalSmiles());
