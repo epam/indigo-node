@@ -124,6 +124,20 @@ IndigoObject.prototype.iterateAtoms = function* () {
 
 /*
  * 
+ * @method iterateNeighbors
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateNeighbors = function* () {
+	this.d._setSessionId();
+	var newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateNeighbors(this.id)));
+	while (newobj && newobj.id !== -1) {
+		yield newobj;
+		newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateNeighbors(newobj.id)));
+	}
+};
+
+/*
+ * 
  * @method removeConstraints
  * @returns {number}  
  */
@@ -225,6 +239,16 @@ IndigoObject.prototype.grossFormula = function () {
 	var gfid = this.d._checkResult(this.d._lib.indigoGrossFormula(this.id));
 	var gf = new IndigoObject(this.d, gfid);
 	return this.d._checkResultString(this.d._lib.indigoToString(gf.id));
+};
+
+/*
+ * 
+ * @method index
+ * @returns {number}  
+ */
+IndigoObject.prototype.index = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
 };
 
 module.exports = IndigoObject;
