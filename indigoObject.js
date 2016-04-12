@@ -251,4 +251,18 @@ IndigoObject.prototype.index = function () {
 	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
 };
 
+/*
+ * 
+ * @method normalize
+ * @returns {number}  
+ */
+IndigoObject.prototype.normalize = function (options) {
+	this.d._setSessionId();
+	if (options === undefined || options === null) {
+		options = '';
+	}
+	return this.d._checkResult(this.d._lib.indigoNormalize(this.id, options));
+};
+
+
 module.exports = IndigoObject;
