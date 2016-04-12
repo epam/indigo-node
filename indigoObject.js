@@ -264,5 +264,15 @@ IndigoObject.prototype.normalize = function (options) {
 	return this.d._checkResult(this.d._lib.indigoNormalize(this.id, options));
 };
 
+/*
+ * 
+ * @method symbol
+ * @returns {string}  
+ */
+IndigoObject.prototype.symbol = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoSymbol(this.id));
+}
+
 
 module.exports = IndigoObject;
