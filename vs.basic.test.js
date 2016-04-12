@@ -100,3 +100,15 @@ console.log(m.canonicalSmiles());
 var m2 = indigo.unserialize(m.serialize());
 console.log(m2.smiles());
 console.log(m2.canonicalSmiles());
+
+console.log("****** Anormal properties ********")
+var m = indigo.loadMolecule("[WH7][W][W][W+10][W][W-10]")
+for (a of m.iterateAtoms())
+console.log(" "+a.charge()+" "+a.valence());
+
+
+m2 = indigo.unserialize(m.serialize());
+console.log(m2.smiles())
+console.log(m2.canonicalSmiles())
+for (a of m2.iterateAtoms())
+console.log(" "+a.charge()+" "+a.valence());
