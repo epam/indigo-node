@@ -92,7 +92,7 @@ IndigoObject.prototype.molfile = function () {
 IndigoObject.prototype.match = function (query) {
 	this.d._setSessionId();
 	var newobj = this.d._checkResult(this.d._lib.indigoMatch(this.id, query.id));
-	if (newobj === 0)
+	if (newobj === 0 || newobj === -1)
 		return null;
 	else
 		return new IndigoObject(d, newobj, this);
