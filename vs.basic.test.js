@@ -113,7 +113,7 @@ console.log(m2.canonicalSmiles());
 for (a of m2.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
 
-console.log("****** Unmarked stereobonds ********")
+console.log("****** Unmarked stereobonds ********");
 var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/stereo.mol"));
 console.log(m.canonicalSmiles());
 m.clearStereocenters();
@@ -123,4 +123,15 @@ var m2 = indigo.loadMolecule(m.molfile());
 console.log(m2.canonicalSmiles());
 if (m.canonicalSmiles() != m2.canonicalSmiles())
 	console.error("Error: canonical smiles are different");
+
+console.log("****** Chemical formula ********");
+console.log(indigo.loadMolecule("[Br][I]").grossFormula());
+console.log(indigo.loadMolecule("[Br][H]").grossFormula());
+console.log(indigo.loadMolecule("OS(=O)(=O)O").grossFormula());
+console.log(indigo.loadMolecule("CI").grossFormula());
+console.log(indigo.loadMolecule("CCBr").grossFormula());
+console.log(indigo.loadMolecule("[H]O[H]").grossFormula());
+console.log(indigo.loadMolecule("c1ccccc1").grossFormula());
+console.log(indigo.loadMolecule("c1ccccc1[He]").grossFormula());
+console.log(indigo.loadMolecule("c1ccccc1[He][Br]").grossFormula());
 
