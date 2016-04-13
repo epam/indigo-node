@@ -163,6 +163,30 @@ Indigo.prototype.loadMoleculeFromFile = function (filename) {
 };
 
 /*
+ * Load molecular pattern from SMARTS string format
+ * 
+ * @method loadSmarts
+ * @param {string} a particular pattern (subgraph) in a molecule (graph)
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadSmarts = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadSmartsFromString(string)));
+}
+
+/*
+ * Load molecular pattern from file which contains SMARTS string format
+ * 
+ * @method loadSmartsFromFile
+ * @param {string} a particular pattern (subgraph) in a molecule (graph)
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadSmartsFromFile = function (filename) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadSmartsFromFile(filename)));
+}
+
+/*
  *  Substructure matching 
  *  
  * @method substructureMatcher
