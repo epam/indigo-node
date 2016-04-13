@@ -274,5 +274,24 @@ IndigoObject.prototype.symbol = function () {
 	return this.d._checkResultString(this.d._lib.indigoSymbol(this.id));
 }
 
+/*
+ * 
+ * @method resetSymmetricCisTrans
+ * @returns {number}  
+ */
+IndigoObject.prototype.resetSymmetricCisTrans = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoResetSymmetricCisTrans(this.id));
+}
+
+/*
+ * 
+ * @method resetSymmetricStereocenters
+ * @returns {number}  
+ */
+IndigoObject.prototype.resetSymmetricStereocenters = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoResetSymmetricStereocenters(this.id));
+}
 
 module.exports = IndigoObject;
