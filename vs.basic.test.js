@@ -101,14 +101,26 @@ var m2 = indigo.unserialize(m.serialize());
 console.log(m2.smiles());
 console.log(m2.canonicalSmiles());
 
-console.log("****** Anormal properties ********")
-var m = indigo.loadMolecule("[WH7][W][W][W+10][W][W-10]")
+console.log("****** Anormal properties ********");
+var m = indigo.loadMolecule("[WH7][W][W][W+10][W][W-10]");
 for (a of m.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
 
 
-m2 = indigo.unserialize(m.serialize());
-console.log(m2.smiles())
-console.log(m2.canonicalSmiles())
+var m2 = indigo.unserialize(m.serialize());
+console.log(m2.smiles());
+console.log(m2.canonicalSmiles());
 for (a of m2.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
+
+console.log("****** Unmarked stereobonds ********")
+var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/stereo.mol"));
+console.log(m.canonicalSmiles());
+m.clearStereocenters();
+console.log(m.canonicalSmiles());
+
+var m2 = indigo.loadMolecule(m.molfile());
+console.log(m2.canonicalSmiles());
+if (m.canonicalSmiles() != m2.canonicalSmiles())
+	console.error("Error: canonical smiles are different");
+
