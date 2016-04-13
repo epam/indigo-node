@@ -135,3 +135,13 @@ console.log(indigo.loadMolecule("c1ccccc1").grossFormula());
 console.log(indigo.loadMolecule("c1ccccc1[He]").grossFormula());
 console.log(indigo.loadMolecule("c1ccccc1[He][Br]").grossFormula());
 
+console.log("****** Nei iterator ********");
+var m = indigo.loadMolecule("CCC1=CC2=C(C=C1)C(CC)=CC(CC)=C2");
+for (v of m.iterateAtoms())
+{
+	console.log("v:"+v.index());
+	for (nei of v.iterateNeighbors())
+		console.log("  neighbor atom "+nei.index()+"is connected by bond "+nei.bond().index());
+}
+
+
