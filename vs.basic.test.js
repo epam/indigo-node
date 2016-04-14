@@ -164,3 +164,16 @@ for (molfile of mols)
 		console.log("  " + m.smiles());
 	}
 }
+
+console.log("****** Smiles with R-group ********")
+var smiles_set = [ "NC****", "**NC**", "****NC" ]
+for (smiles of smiles_set)
+{
+	console.log("Smiles: " + smiles);
+	var m = indigo.loadMolecule(smiles);
+	console.log("  Smiles:      " + m.smiles());
+	console.log("  Cano smiles: " + m.canonicalSmiles());
+	for (a of m.iterateAtoms())
+		console.log(" "+ a.index()+" "+a.symbol());
+}
+
