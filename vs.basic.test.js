@@ -144,4 +144,11 @@ for (v of m.iterateAtoms())
 		console.log("  neighbor atom "+nei.index()+"is connected by bond "+nei.bond().index());
 }
 
+console.log("****** Structure normalization ********");
+var m = indigo.loadMolecule("[H]N(C)C(\\[H])=C(\\[NH2+][O-])N(=O)=O");
+console.log(m.smiles());
+console.log(m.normalize(""));
+console.log(m.smiles());
+console.log(m.normalize(""));
+console.log(m.smiles());
 
