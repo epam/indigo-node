@@ -306,5 +306,16 @@ IndigoObject.prototype.removeBonds = function (bonds) {
 	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, pointer.deref())));
 }
 
+/*
+ * 
+ * @method foldHydrogens
+ * @returns {number}  
+ */
+IndigoObject.prototype.foldHydrogens = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoFoldHydrogens(this.id));
+}
+
+
 
 module.exports = IndigoObject;
