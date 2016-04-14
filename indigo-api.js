@@ -361,6 +361,7 @@ module.exports = {
 		"wchar": wchar,
 		"qword":qword,
 		"xyz": xyz,
-		"byte_ptr": byte_ptr
+		"byte_ptr": byte_ptr,
+		"int_ptr": int_ptr
 	}
 };

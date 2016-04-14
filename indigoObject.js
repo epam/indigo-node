@@ -294,4 +294,17 @@ IndigoObject.prototype.resetSymmetricStereocenters = function () {
 	return this.d._checkResult(this.d._lib.indigoResetSymmetricStereocenters(this.id));
 }
 
+/*
+ * 
+ * @method removeBonds
+ * @returns {number}  
+ */
+IndigoObject.prototype.removeBonds = function (bonds) {
+	this.d._setSessionId();
+	var buf = new Buffer(bonds);
+	var pointer = this.d._out.alloc(this.d._type.int_ptr, buf);
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, pointer.deref())));
+}
+
+
 module.exports = IndigoObject;
