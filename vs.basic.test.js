@@ -91,7 +91,7 @@ var m = indigo.loadMolecule("CC[C@@H](N)\C=C/C");
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
 
-for (a of m.iterateAtoms())
+for (var a of m.iterateAtoms())
 	a.resetAtom("*");
 
 console.log(m.smiles());
@@ -103,7 +103,7 @@ console.log(m2.canonicalSmiles());
 
 console.log("****** Anormal properties ********");
 var m = indigo.loadMolecule("[WH7][W][W][W+10][W][W-10]");
-for (a of m.iterateAtoms())
+for (var a of m.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
 
 
@@ -137,7 +137,7 @@ console.log(indigo.loadMolecule("c1ccccc1[He][Br]").grossFormula());
 
 console.log("****** Nei iterator ********");
 var m = indigo.loadMolecule("CCC1=CC2=C(C=C1)C(CC)=CC(CC)=C2");
-for (v of m.iterateAtoms())
+for (var v of m.iterateAtoms())
 {
 	console.log("v:"+v.index());
 	for (nei of v.iterateNeighbors())
@@ -152,3 +152,15 @@ console.log(m.smiles());
 console.log(m.normalize(""));
 console.log(m.smiles());
 
+console.log("****** R-group big index ********")
+var mols = ["molecules/r31.mol", "molecules/r32.mol", "molecules/r128.mol" ]
+for (molfile of mols)
+{
+	for (var obj of [ {"loader":indigo.loadMoleculeFromFile, "type":"molecule"}, {"loader":indigo.loadQueryMoleculeFromFile, "type":"query"} ])
+	{
+		console.log(molfile + " " + obj.type + ":");
+		var m = obj.loader.call(indigo,local("../indigo-node/"+ molfile));
+		var str = m.molfile(); // check molfile generation
+		console.log("  " + m.smiles());
+	}
+}
