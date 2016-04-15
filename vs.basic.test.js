@@ -189,3 +189,9 @@ for (val of [ "2000", "3000", "auto" ])
 	var m3 = indigo.loadQueryMolecule(m.molfile());
 	console.log(m3.smiles());
 }
+
+console.log("****** SMARTS and query SMILES ********");
+var q = indigo.loadSmarts("[#8;A]-[*]-[#6;A](-[#9])(-[#9])-[#9]");
+console.log(q.smiles());
+var q2 = indigo.loadQueryMolecule(q.smiles());
+console.log(q2.smiles());
