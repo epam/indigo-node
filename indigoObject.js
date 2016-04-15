@@ -316,6 +316,15 @@ IndigoObject.prototype.foldHydrogens = function () {
 	return this.d._checkResult(this.d._lib.indigoFoldHydrogens(this.id));
 }
 
+/*
+ * 
+ * @method markStereobonds
+ * @returns {number}  
+ */
+IndigoObject.prototype.markStereobonds = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoMarkStereobonds(this.id));
+}
 
 
 module.exports = IndigoObject;

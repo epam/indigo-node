@@ -38,30 +38,29 @@ module.exports = function BuildLib() {
 		fse.copy(config[process.platform].copy.src, config[process.platform].copy.dest, function (err) {
 			if (err) return console.error(err)
 			console.log('success!')
-		}); // copies file
-		if (process.platform === 'win32') {
-			fs.access(local('/shared/Win'), fs.R_OK | fs.W_OK, function (err) {
-				if (err) return console.error(err)
-//				console.log(err ? 'no access!' : 'can read/write');
-				fse.move(local('/shared/Win'), local('/shared/win32'), function (err) {
+			if (process.platform === 'win32') {
+				fs.access(local('/shared/Win'), fs.R_OK | fs.W_OK, function (err) {
 					if (err) return console.error(err)
+					//				console.log(err ? 'no access!' : 'can read/write');
+					fse.move(local('/shared/Win'), local('/shared/win32'), function (err) {
+						if (err) return console.error(err)
 //					console.log("success!")
-				}); // copies file
+					}); // copies file
 
-			});
-		}
-        if (process.platform === 'linux') {
-          fs.access(local('/shared/Linux'), fs.R_OK | fs.W_OK, function (err) {
-              if (err) return console.error(err)
-//				console.log(err ? 'no access!' : 'can read/write');
-              fse.move(local('/shared/Linux'), local('/shared/linux'), function (err) {
-                  if (err) return console.error(err)
+				});
+			}
+			if (process.platform === 'linux') {
+				fs.access(local('/shared/Linux'), fs.R_OK | fs.W_OK, function (err) {
+					if (err) return console.error(err)
+					//				console.log(err ? 'no access!' : 'can read/write');
+					fse.move(local('/shared/Linux'), local('/shared/linux'), function (err) {
+						if (err) return console.error(err)
 //					console.log("success!")
-              }); // copies file
+					}); // copies file
 
-          });
-        }
-
+				});
+			}
+		}); // copies file
   });
 };
 
