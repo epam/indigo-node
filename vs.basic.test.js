@@ -165,8 +165,8 @@ for (molfile of mols)
 	}
 }
 
-console.log("****** Smiles with R-group ********")
-var smiles_set = [ "NC****", "**NC**", "****NC" ]
+console.log("****** Smiles with R-group ********");
+var smiles_set = [ "NC****", "**NC**", "****NC" ];
 for (smiles of smiles_set)
 {
 	console.log("Smiles: " + smiles);
@@ -177,3 +177,15 @@ for (smiles of smiles_set)
 		console.log(" "+ a.index()+" "+a.symbol());
 }
 
+console.log("****** Smiles <-> Molfile ********");
+var m = indigo.loadQueryMolecule("[CH6]");
+console.log(m.smiles());
+for (val of [ "2000", "3000", "auto" ])
+{
+	console.log(" molfile-saving-mode: " + (val));
+	indigo.setOption("molfile-saving-mode", val);
+	var m2 = indigo.loadMolecule(m.molfile());
+	console.log(m2.smiles());
+	var m3 = indigo.loadQueryMolecule(m.molfile());
+	console.log(m3.smiles());
+}
