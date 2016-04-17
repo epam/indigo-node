@@ -43,6 +43,17 @@ IndigoObject.prototype.clone = function () {
 };
 
 /*
+ * Close an object
+ * 
+ * @method close
+ * @returns {number}  
+ */
+IndigoObject.prototype.close = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoClose(this.id));
+}
+
+/*
  * Get a 3d coordinates of an atom
  * 
  * @method xyz
@@ -324,6 +335,34 @@ IndigoObject.prototype.foldHydrogens = function () {
 IndigoObject.prototype.markStereobonds = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoMarkStereobonds(this.id));
+}
+
+/*
+ * 
+ * @method toString
+ * @returns {string}  
+ */
+IndigoObject.prototype.toString = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoToString(this.id));
+}
+
+/*
+ * 
+ * @method toBuffer
+ * @returns {Array}
+ */
+IndigoObject.prototype.toBuffer = function () {
+	this.d._setSessionId();
+	var size = this.d._out.aint; 
+	var pointer = this.d._out.apbyte;
+	var status = this.d._checkResult(this.d._lib.indigoToBuffer(this.id, pointer, size));
+	var buf = this.d._out.read(pointer, 0, size.deref());
+	var res = [];
+	for (i = 0; i < size.deref(); i++) {
+		res.push(buf[i]);
+	}
+	return res;
 }
 
 

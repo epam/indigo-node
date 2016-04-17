@@ -218,6 +218,31 @@ Indigo.prototype.unserialize = function (array) {
 };
 
 /*
+ * 
+ * 
+ * @method writeBuffer
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.writeBuffer = function () {
+	this._setSessionId();
+	var id = this._checkResult(this._lib.indigoWriteBuffer());
+	return new IndigoObject(this, id);
+}
+
+/*
+ * 
+ * 
+ * @method createSaver
+ * @param {object} 
+ * @param {string} format
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createSaver = function (obj, format) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateSaver(obj.id, format)));
+}
+
+/*
  * Set Option 
  * 
  * @method setOption
