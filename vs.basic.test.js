@@ -195,3 +195,9 @@ var q = indigo.loadSmarts("[#8;A]-[*]-[#6;A](-[#9])(-[#9])-[#9]");
 console.log(q.smiles());
 var q2 = indigo.loadQueryMolecule(q.smiles());
 console.log(q2.smiles());
+
+console.log("****** Large symmetric molecule ********");
+var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmetric.smi"));
+console.log(m.smiles());
+var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmetric.mol"));
+console.log(m.smiles());
