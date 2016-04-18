@@ -242,6 +242,35 @@ Indigo.prototype.createSaver = function (obj, format) {
 	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateSaver(obj.id, format)));
 }
 
+
+/*
+ * 
+ * 
+ * @method loadString
+ * @param {string} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.loadString = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadString(string)));
+}
+
+/*
+ * 
+ * 
+ * @method iterateSDF
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateSDF = function* (reader) {
+	this._setSessionId();
+	var newobj = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDF(reader.id)), reader);
+	while (newobj && newobj.id !== -1) {
+		yield newobj;
+		newobj = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDF(newobj.id)), newobj);
+	}
+};
+
 /*
  * Set Option 
  * 
