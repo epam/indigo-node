@@ -121,20 +121,25 @@ IndigoObject.prototype.smiles = function () {
 
 /*
  * 
+ * @method _next
+ * @returns {object}  
+ */
+IndigoObject.prototype._next = function () {
+	this.d._setSessionId();
+	var newobj = this.d._checkResult(this.d._lib.indigoNext(this.id));
+	return (newobj && newobj !== -1)? new IndigoObject(this.d, newobj, this):null;
+};
+
+/*
+ * 
  * @method iterateAtoms
  * @returns {object}  
  */
 IndigoObject.prototype.iterateAtoms = function* () {
 	this.d._setSessionId();
-	var newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(this.id)));
-	var parent = newobj;
-	while (newobj && newobj.id !== -1) { //  yield* _next(parent);
-		var newobj = this.d._checkResult(this.d._lib.indigoNext(parent.id));
-		if (newobj) {
-			newobj = new IndigoObject(this.d, newobj, parent);
-			yield newobj;
-		}
-	}
+	var atom = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(this.id)));
+	var newobj = atom;
+	while (newobj && newobj.id !== -1) if (newobj = atom._next()) yield newobj;
 };
 
 /*
@@ -144,11 +149,9 @@ IndigoObject.prototype.iterateAtoms = function* () {
  */
 IndigoObject.prototype.iterateNeighbors = function* () {
 	this.d._setSessionId();
-	var newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateNeighbors(this.id)));
-	while (newobj && newobj.id !== -1) {
-		yield newobj;
-		newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateNeighbors(newobj.id)));
-	}
+	var nei = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateNeighbors(this.id)));
+	var newobj = nei;
+	while (newobj && newobj.id !== -1) if (newobj = nei._next()) yield newobj;
 };
 
 /*
