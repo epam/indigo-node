@@ -218,3 +218,14 @@ var m = indigo.loadMolecule("CNCNCNCN");
 console.log(m.smiles());
 m.removeBonds([1, 3, 4]);
 console.log(m.smiles());
+
+console.log("****** Overlapping stereocenters due to hydrogens folding bug fix check *****");
+var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/pubchem-150858.mol"));
+var cs = m.canonicalSmiles();
+console.log(cs);
+m.foldHydrogens();
+var m2 = indigo.loadMolecule(m.molfile());
+var cs2 = m2.canonicalSmiles();
+console.log(cs2);
+if (cs !== cs2)
+	console.error("Bug!");
