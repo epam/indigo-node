@@ -201,3 +201,14 @@ var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmet
 console.log(m.smiles());
 var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmetric.mol"));
 console.log(m.smiles());
+
+console.log("****** Symmetric stereocenters and cis-trans bonds ********");
+var m = indigo.loadMolecule("C[C@H]1CCC(CC1)C(\C1CC[C@H](C)CC1)=C(\C)C1CCCCC1");
+console.log(m.smiles());
+var m2 = m.clone();
+m.resetSymmetricCisTrans();
+console.log(m.smiles());
+m2.resetSymmetricStereocenters();
+console.log(m2.smiles());
+m.resetSymmetricStereocenters();
+console.log(m.smiles());
