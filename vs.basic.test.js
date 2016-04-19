@@ -212,3 +212,9 @@ m2.resetSymmetricStereocenters();
 console.log(m2.smiles());
 m.resetSymmetricStereocenters();
 console.log(m.smiles());
+
+console.log("****** Remove bonds ********");
+var m = indigo.loadMolecule("CNCNCNCN");
+console.log(m.smiles());
+m.removeBonds([1, 3, 4]);
+console.log(m.smiles());
