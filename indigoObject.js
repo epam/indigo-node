@@ -156,6 +156,26 @@ IndigoObject.prototype.iterateNeighbors = function* () {
 
 /*
  * 
+ * @method bond
+ * @returns {object}  
+ */
+IndigoObject.prototype.bond = function () {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoBond(this.id)));
+};
+
+/*
+ * 
+ * @method index
+ * @returns {object}  
+ */
+IndigoObject.prototype.index = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
+};
+
+/*
+ * 
  * @method removeConstraints
  * @returns {number}  
  */
@@ -290,7 +310,7 @@ IndigoObject.prototype.normalize = function (options) {
 IndigoObject.prototype.symbol = function () {
 	this.d._setSessionId();
 	return this.d._checkResultString(this.d._lib.indigoSymbol(this.id));
-}
+};
 
 /*
  * 
@@ -300,7 +320,7 @@ IndigoObject.prototype.symbol = function () {
 IndigoObject.prototype.resetSymmetricCisTrans = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoResetSymmetricCisTrans(this.id));
-}
+};
 
 /*
  * 
@@ -310,7 +330,7 @@ IndigoObject.prototype.resetSymmetricCisTrans = function () {
 IndigoObject.prototype.resetSymmetricStereocenters = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoResetSymmetricStereocenters(this.id));
-}
+};
 
 /*
  * 
@@ -321,8 +341,8 @@ IndigoObject.prototype.removeBonds = function (bonds) {
 	this.d._setSessionId();
 	var buf = new Buffer(bonds);
 	var pointer = this.d._out.alloc(this.d._type.int_ptr, buf);
-	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, pointer.deref())));
-}
+	return this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, pointer.deref());
+};
 
 /*
  * 
@@ -332,7 +352,7 @@ IndigoObject.prototype.removeBonds = function (bonds) {
 IndigoObject.prototype.foldHydrogens = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoFoldHydrogens(this.id));
-}
+};
 
 /*
  * 
@@ -342,7 +362,7 @@ IndigoObject.prototype.foldHydrogens = function () {
 IndigoObject.prototype.markStereobonds = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoMarkStereobonds(this.id));
-}
+};
 
 /*
  * 
@@ -352,7 +372,7 @@ IndigoObject.prototype.markStereobonds = function () {
 IndigoObject.prototype.toString = function () {
 	this.d._setSessionId();
 	return this.d._checkResultString(this.d._lib.indigoToString(this.id));
-}
+};
 
 /*
  * 
@@ -361,7 +381,7 @@ IndigoObject.prototype.toString = function () {
  */
 IndigoObject.prototype.toBuffer = function () {
 	this.d._setSessionId();
-	var size = this.d._out.aint; 
+	var size = this.d._out.aint;
 	var pointer = this.d._out.apbyte;
 	var status = this.d._checkResult(this.d._lib.indigoToBuffer(this.id, pointer, size));
 	var buf = this.d._out.read(pointer, 0, size.deref());
@@ -370,7 +390,7 @@ IndigoObject.prototype.toBuffer = function () {
 		res.push(buf[i]);
 	}
 	return res;
-}
+};
 
 
 module.exports = IndigoObject;

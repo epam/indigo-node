@@ -101,7 +101,7 @@ module.exports = {
 		"indigoIterateRGroupFragments": ["int", ["int"]],
 		"indigoCountAttachmentPoints": ["int", ["int"]],
 		"indigoIterateAttachmentPoints": ["int", ["int", "int"]],
-		"indigoSymbol": ["int", ["int"]],
+		"indigoSymbol": ["string", ["int"]],
 		"indigoDegree": ["int", ["int"]],
 		"indigoGetCharge": ["int", ["int", int_ptr]],
 		"indigoGetExplicitValence": ["int", ["int", int_ptr]],
