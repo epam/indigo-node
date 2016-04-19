@@ -106,7 +106,7 @@ IndigoObject.prototype.match = function (query) {
 	if (newobj === 0 || newobj === -1)
 		return null;
 	else
-		return new IndigoObject(d, newobj, this);
+		return new IndigoObject(this.d, newobj, this);
 };
 
 /*
@@ -127,9 +127,13 @@ IndigoObject.prototype.smiles = function () {
 IndigoObject.prototype.iterateAtoms = function* () {
 	this.d._setSessionId();
 	var newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(this.id)));
-	while (newobj && newobj.id !== -1) {
-		yield newobj;
-		newobj = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateAtoms(newobj.id)));
+	var parent = newobj;
+	while (newobj && newobj.id !== -1) { //  yield* _next(parent);
+		var newobj = this.d._checkResult(this.d._lib.indigoNext(parent.id));
+		if (newobj) {
+			newobj = new IndigoObject(this.d, newobj, parent);
+			yield newobj;
+		}
 	}
 };
 
