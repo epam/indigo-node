@@ -334,6 +334,26 @@ IndigoObject.prototype.resetSymmetricStereocenters = function () {
 
 /*
  * 
+ * @method addDataSGroup
+ * @returns {object}  
+ */
+IndigoObject.prototype.addDataSGroup = function (atoms, bonds, description, data) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoAddDataSGroup(this.id, atoms.length, atoms, bonds.length, bonds, description, data)));
+};
+
+/*
+ * 
+ * @method addSuperatom
+ * @returns {object}  
+ */
+IndigoObject.prototype.addSuperatom = function (atoms, name) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoAddSuperatom(this.id, atoms.length, atoms, name)));
+};
+
+/*
+ * 
  * @method createSubmolecule
  * @returns {object}  
  */
