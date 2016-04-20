@@ -334,6 +334,26 @@ IndigoObject.prototype.resetSymmetricStereocenters = function () {
 
 /*
  * 
+ * @method createSubmolecule
+ * @returns {object}  
+ */
+IndigoObject.prototype.createSubmolecule = function (vertices) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoCreateSubmolecule(this.id, vertices.length, vertices)));
+};
+
+/*
+ * 
+ * @method createEdgeSubmolecule
+ * @returns {object}  
+ */
+IndigoObject.prototype.createEdgeSubmolecule = function (vertices, edges) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoCreateEdgeSubmolecule(this.id, vertices.length, vertices, edges.length, edges)));
+};
+
+/*
+ * 
  * @method getSubmolecule
  * @returns {number}  
  */
