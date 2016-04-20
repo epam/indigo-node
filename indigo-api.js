@@ -13,6 +13,8 @@
  ***************************************************************************/
 var ref = require('ref');
 var ref_struct = require('ref-struct');
+var ArrayType = require('ref-array');
+var IntArray = ArrayType('int');
 var int_ptr = ref.refType('int');
 var byte_ptr = ref.refType('byte');
 var char_ptr = ref.refType('char');
@@ -237,9 +239,9 @@ module.exports = {
 		"indigoIsChiral": ["int", ["int"]],
 		"indigoCreateSubmolecule": ["int", ["int", "int", int_ptr]],
 		"indigoCreateEdgeSubmolecule": ["int", ["int", "int", int_ptr, "int", int_ptr]],
-		"indigoGetSubmolecule": ["int", ["int", "int", int_ptr]],
-		"indigoRemoveAtoms": ["int", ["int", "int", int_ptr]],
-		"indigoRemoveBonds": ["int", ["int", "int", int_ptr]],
+		"indigoGetSubmolecule": ["int", ["int", "int", IntArray]],
+		"indigoRemoveAtoms": ["int", ["int", "int", IntArray]],
+		"indigoRemoveBonds": ["int", ["int", "int", IntArray]],
 		"indigoAlignAtoms": ["float", ["int", "int", int_ptr, float_ptr]],
 		"indigoAromatize": ["int", ["int"]],
 		"indigoDearomatize": ["int", ["int"]],

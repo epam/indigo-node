@@ -334,14 +334,32 @@ IndigoObject.prototype.resetSymmetricStereocenters = function () {
 
 /*
  * 
+ * @method getSubmolecule
+ * @returns {number}  
+ */
+IndigoObject.prototype.getSubmolecule = function (vertices) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoGetSubmolecule(this.id, vertices.length, vertices));
+};
+
+/*
+ * 
+ * @method removeAtoms
+ * @returns {number}  
+ */
+IndigoObject.prototype.removeAtoms = function (atoms) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoRemoveAtoms(this.id, atoms.length, atoms));
+};
+
+/*
+ * 
  * @method removeBonds
  * @returns {number}  
  */
 IndigoObject.prototype.removeBonds = function (bonds) {
 	this.d._setSessionId();
-	var buf = new Buffer(bonds);
-	var pointer = this.d._out.alloc(this.d._type.int_ptr, buf);
-	return this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, pointer.deref());
+	return this.d._checkResult(this.d._lib.indigoRemoveBonds(this.id, bonds.length, bonds));
 };
 
 /*
