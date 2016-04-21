@@ -243,4 +243,11 @@ var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/016_26-large
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
 
+console.log("****** Empty SDF saver *****");
+var buffer = indigo.writeBuffer();
+var sdfSaver = indigo.createSaver(buffer, "sdf");
+sdfSaver.close();
+console.log(buffer.toBuffer().length);
+console.log(buffer.toString().length);
+
 
