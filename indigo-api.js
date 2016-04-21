@@ -15,6 +15,7 @@ var ref = require('ref');
 var ref_struct = require('ref-struct');
 var ArrayType = require('ref-array');
 var IntArray = ArrayType('int');
+var ByteArray = ArrayType('byte');
 var int_ptr = ref.refType('int');
 var byte_ptr = ref.refType('byte');
 var char_ptr = ref.refType('char');
@@ -337,7 +338,7 @@ module.exports = {
 		"indigoCreateDecomposer": ["int", ["int"]], 
 		"indigoReactionProductEnumerate": ["int", ["int", "int"]], 
 		"indigoTransform": ["int", ["int", "int"]],
-		"indigoLoadBuffer": ["int", [byte_ptr, "int"]],
+		"indigoLoadBuffer": ["int", [ByteArray, "int"]],
 		"indigoLoadString": ["int", ["string"]],
 		"indigoIterateSDF": ["int", ["int"]], 
 		"indigoIterateSmiles": ["int", ["int"]],

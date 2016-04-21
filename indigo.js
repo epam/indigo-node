@@ -172,7 +172,7 @@ Indigo.prototype.loadMoleculeFromFile = function (filename) {
 Indigo.prototype.loadSmarts = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadSmartsFromString(string)));
-}
+};
 
 /*
  * Load molecular pattern from file which contains SMARTS string format
@@ -184,7 +184,7 @@ Indigo.prototype.loadSmarts = function (string) {
 Indigo.prototype.loadSmartsFromFile = function (filename) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadSmartsFromFile(filename)));
-}
+};
 
 /*
  *  Substructure matching 
@@ -227,7 +227,18 @@ Indigo.prototype.writeBuffer = function () {
 	this._setSessionId();
 	var id = this._checkResult(this._lib.indigoWriteBuffer());
 	return new IndigoObject(this, id);
-}
+};
+
+/*
+ * 
+ * 
+ * @method loadBuffer
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.loadBuffer = function (buf) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadBuffer(buf, buf.length)));
+};
 
 /*
  * 
@@ -240,8 +251,7 @@ Indigo.prototype.writeBuffer = function () {
 Indigo.prototype.createSaver = function (obj, format) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateSaver(obj.id, format)));
-}
-
+};
 
 /*
  * 
@@ -253,7 +263,7 @@ Indigo.prototype.createSaver = function (obj, format) {
 Indigo.prototype.loadString = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadString(string)));
-}
+};
 
 /*
  * 
