@@ -250,4 +250,14 @@ sdfSaver.close();
 console.log(buffer.toBuffer().length);
 console.log(buffer.toString().length);
 
-
+console.log("****** Normalize and serialize *****");
+var mols = ["[O-]/[N+](=C(/[H])\\C1C([H])=C([H])C([H])=C([H])C=1[H])/C1C([H])=C([H])C([H])=C([H])C=1[H]",
+			"C\\C=C\\C1=CC=CC(\\C=[N+](/[O-])C2=C(\\C=C\\C)C=CC=C2)=C1"];
+for (mstr of mols)
+{
+	var m = indigo.loadMolecule(mstr);
+	console.log(m.canonicalSmiles());
+	m.normalize();
+	var m2 = indigo.unserialize(m.serialize());
+	console.log(m2.canonicalSmiles());
+}
