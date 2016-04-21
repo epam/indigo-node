@@ -280,6 +280,20 @@ Indigo.prototype.iterateSDF = function* (reader) {
 };
 
 /*
+ * 
+ * 
+ * @method iterateSmiles
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateSmiles = function* (reader) {
+	this._setSessionId();
+	var smile = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSmiles(reader.id)), reader);
+	var newobj = smile;
+	while (newobj && newobj.id !== -1) if (newobj = smile._next()) yield newobj;
+};
+
+/*
  * Set Option 
  * 
  * @method setOption
