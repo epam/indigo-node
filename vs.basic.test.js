@@ -229,3 +229,18 @@ var cs2 = m2.canonicalSmiles();
 console.log(cs2);
 if (cs !== cs2)
 	console.error("Bug!");
+
+/* another bug check for missing markSterebonds call in the foldHydrogens method */
+m.markStereobonds();
+var m3 = indigo.loadMolecule(m.molfile());
+cs3 = m3.canonicalSmiles();
+console.log(cs3);
+if (cs != cs3)
+	console.log("Bug!");
+
+console.log("****** SMILES cis-trans check *****");
+var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/016_26-large.mol"));
+console.log(m.smiles());
+console.log(m.canonicalSmiles());
+
+
