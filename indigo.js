@@ -264,11 +264,9 @@ Indigo.prototype.loadString = function (string) {
  */
 Indigo.prototype.iterateSDF = function* (reader) {
 	this._setSessionId();
-	var newobj = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDF(reader.id)), reader);
-	while (newobj && newobj.id !== -1) {
-		yield newobj;
-		newobj = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDF(newobj.id)), newobj);
-	}
+	var molfile = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDF(reader.id)), reader);
+	var newobj = molfile;
+	while (newobj && newobj.id !== -1) if (newobj = molfile._next()) yield newobj;
 };
 
 /*
