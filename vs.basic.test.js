@@ -261,3 +261,10 @@ for (mstr of mols)
 	var m2 = indigo.unserialize(m.serialize());
 	console.log(m2.canonicalSmiles());
 }
+
+console.log("***** Serialization of aromatic hydrogens *****");
+var m = indigo.loadMolecule("C[c]1(C)ccccc1");
+var q = indigo.loadQueryMolecule("N([H])[H]");
+var m2 = indigo.unserialize(m.serialize());
+var matcher = indigo.substructureMatcher(m2);
+assert(matcher.match(q) == null);
