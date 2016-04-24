@@ -98,8 +98,10 @@ Indigo.prototype._checkResult = function (result) {
  * @param {string} result
  */
 Indigo.prototype._checkResultString = function (result) {
-	if (typeof result !== 'string')
-		this.logger.error("the result isn't string");
+	if (typeof result !== 'string') {
+		var msg = this.getLastError();
+		if (msg) this.logger.error('Err: ' + msg);
+	}
 	return result;
 };
 
@@ -291,6 +293,20 @@ Indigo.prototype.iterateSmiles = function* (reader) {
 	var smile = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSmiles(reader.id)), reader);
 	var newobj = smile;
 	while (newobj && newobj.id !== -1) if (newobj = smile._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
+ * @method iterateCML
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateCML = function* (reader) {
+	this._setSessionId();
+	var cml = new IndigoObject(this, this._checkResult(this._lib.indigoIterateCML(reader.id)), reader);
+	var newobj = cml;
+	while (newobj && newobj.id !== -1) if (newobj = cml._next()) yield newobj;
 };
 
 /*
