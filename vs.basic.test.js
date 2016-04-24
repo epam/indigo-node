@@ -110,7 +110,7 @@ console.log(" "+a.charge()+" "+a.valence());
 var m2 = indigo.unserialize(m.serialize());
 console.log(m2.smiles());
 console.log(m2.canonicalSmiles());
-for (a of m2.iterateAtoms())
+for (var a of m2.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
 
 console.log("****** Unmarked stereobonds ********");
@@ -140,7 +140,7 @@ var m = indigo.loadMolecule("CCC1=CC2=C(C=C1)C(CC)=CC(CC)=C2");
 for (var v of m.iterateAtoms())
 {
 	console.log("v:"+v.index());
-	for (nei of v.iterateNeighbors())
+	for (var nei of v.iterateNeighbors())
 		console.log("  neighbor atom "+nei.index()+"is connected by bond "+nei.bond().index());
 }
 
@@ -154,7 +154,7 @@ console.log(m.smiles());
 
 console.log("****** R-group big index ********")
 var mols = ["molecules/r31.mol", "molecules/r32.mol", "molecules/r128.mol" ]
-for (molfile of mols)
+for (var molfile of mols)
 {
 	for (var obj of [ {"loader":indigo.loadMoleculeFromFile, "type":"molecule"}, {"loader":indigo.loadQueryMoleculeFromFile, "type":"query"} ])
 	{
@@ -167,20 +167,20 @@ for (molfile of mols)
 
 console.log("****** Smiles with R-group ********");
 var smiles_set = [ "NC****", "**NC**", "****NC" ];
-for (smiles of smiles_set)
+for (var smiles of smiles_set)
 {
 	console.log("Smiles: " + smiles);
 	var m = indigo.loadMolecule(smiles);
 	console.log("  Smiles:      " + m.smiles());
 	console.log("  Cano smiles: " + m.canonicalSmiles());
-	for (a of m.iterateAtoms())
+	for (var a of m.iterateAtoms())
 		console.log(" "+ a.index()+" "+a.symbol());
 }
 
 console.log("****** Smiles <-> Molfile ********");
 var m = indigo.loadQueryMolecule("[CH6]");
 console.log(m.smiles());
-for (val of [ "2000", "3000", "auto" ])
+for (var val of [ "2000", "3000", "auto" ])
 {
 	console.log(" molfile-saving-mode: " + (val));
 	indigo.setOption("molfile-saving-mode", val);
@@ -253,7 +253,7 @@ console.log(buffer.toString().length);
 console.log("****** Normalize and serialize *****");
 var mols = ["[O-]/[N+](=C(/[H])\\C1C([H])=C([H])C([H])=C([H])C=1[H])/C1C([H])=C([H])C([H])=C([H])C=1[H]",
 			"C\\C=C\\C1=CC=CC(\\C=[N+](/[O-])C2=C(\\C=C\\C)C=CC=C2)=C1"];
-for (mstr of mols)
+for (var mstr of mols)
 {
 	var m = indigo.loadMolecule(mstr);
 	console.log(m.canonicalSmiles());

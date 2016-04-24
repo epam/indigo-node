@@ -11,6 +11,17 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
-require('./vs.basic.test');
-require('./vs.buffer_string_load_iterate.test.js');
-require('./vs.logger.test');
+
+/* declaration of modules  */
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
+
+var indigo = require("../indigo-node/indigo");
+
+var data = fs.readFileSync(local("../indigo-node/molecules/stereo_parity.sdf")).toString();
+console.log("*** SDF loadString ***");
+for (var m of indigo.iterateSDF(indigo.loadString(data))) {
+	console.log(m.smiles());
+}
