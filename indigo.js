@@ -310,10 +310,24 @@ Indigo.prototype.iterateCML = function* (reader) {
 };
 
 /*
+ * 
+ * 
+ * @method iterateRDF
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateRDF = function* (reader) {
+	this._setSessionId();
+	var rdf = new IndigoObject(this, this._checkResult(this._lib.indigoIterateRDF(reader.id)), reader);
+	var newobj = rdf;
+	while (newobj && newobj.id !== -1) if (newobj = rdf._next()) yield newobj;
+};
+
+/*
  * Set Option 
  * 
  * @method setOption
- * @param {string} name of option.
+ * @param {string} name of option.	
  * @param {number or string or boolean} value of option.
  * @return {boolean} return true if option applies as successful
  */
