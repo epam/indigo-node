@@ -324,6 +324,20 @@ Indigo.prototype.iterateRDF = function* (reader) {
 };
 
 /*
+ * 
+ * 
+ * @method iterateCDX
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateCDX = function* (reader) {
+	this._setSessionId();
+	var cdx = new IndigoObject(this, this._checkResult(this._lib.indigoIterateCDX(reader.id)), reader);
+	var newobj = cdx;
+	while (newobj && newobj.id !== -1) if (newobj = cdx._next()) yield newobj;
+};
+
+/*
  * Set Option 
  * 
  * @method setOption

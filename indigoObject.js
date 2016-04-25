@@ -132,6 +132,18 @@ IndigoObject.prototype._next = function () {
 
 /*
  * 
+ * @method iterateProperties
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateProperties = function* () {
+	this.d._setSessionId();
+	var prop = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateProperties(this.id)));
+	var newobj = prop;
+	while (newobj && newobj.id !== -1) if (newobj = prop._next()) yield newobj;
+};
+
+/*
+ * 
  * @method iterateAtoms
  * @returns {object}  
  */
@@ -287,6 +299,26 @@ IndigoObject.prototype.grossFormula = function () {
 IndigoObject.prototype.index = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
+};
+
+/*
+ * 
+ * @method name
+ * @returns {string}  
+ */
+IndigoObject.prototype.name = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoName(this.id));
+};
+
+/*
+ * 
+ * @method rawData
+ * @returns {string}  
+ */
+IndigoObject.prototype.rawData = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoRawData(this.id));
 };
 
 /*
