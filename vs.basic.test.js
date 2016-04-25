@@ -75,7 +75,7 @@ if (has_match3 != has_match_orig)
 	console.error("Error: query molecule match is different after reloading from SMILES");
 
 console.log("****** Bad valence, smiles and unfold ********");
-var m = indigo.loadMolecule("C\C=C(/N(O)=O)N(O)=O");
+var m = indigo.loadMolecule("C\\C=C(/N(O)=O)N(O)=O");
 var sm = m.smiles();
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
@@ -87,7 +87,7 @@ if (sm2 != sm)
 	console.error("Error: " + sm + " != " + sm2);
 
 console.log("****** Serialize and atom changing ********");
-var m = indigo.loadMolecule("CC[C@@H](N)\C=C/C");
+var m = indigo.loadMolecule("CC[C@@H](N)\\C=C/C");
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
 
