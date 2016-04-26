@@ -32,3 +32,16 @@ console.log("*** SDF loadBuffer ***");
 for (var m of indigo.iterateSDF(indigo.loadBuffer(data))) {
 	console.log(m.smiles());
 }
+
+var data = fs.readFileSync(local("../indigo-node/molecules/helma.smi"));
+console.log(data.toString());
+
+console.log("*** SMILES loadString ***");
+for (var m of indigo.iterateSmiles(indigo.loadString(data.toString()))) {
+	console.log(m.smiles());
+}
+
+console.log("*** SMILES loadBuffer ***");
+for (var m of indigo.iterateSmiles(indigo.loadBuffer(data))) {
+	console.log(m.smiles());
+}
