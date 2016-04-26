@@ -156,6 +156,30 @@ IndigoObject.prototype.iterateAtoms = function* () {
 
 /*
  * 
+ * @method iteratePseudoatoms
+ * @returns {object}  
+ */
+IndigoObject.prototype.iteratePseudoatoms = function* () {
+	this.d._setSessionId();
+	var atom = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIteratePseudoatoms(this.id)));
+	var newobj = atom;
+	while (newobj && newobj.id !== -1) if (newobj = atom._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method iterateRSites
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateRSites = function* () {
+	this.d._setSessionId();
+	var rsite = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateRSites(this.id)));
+	var newobj = rsite;
+	while (newobj && newobj.id !== -1) if (newobj = rsite._next()) yield newobj;
+};
+
+/*
+ * 
  * @method iterateNeighbors
  * @returns {object}  
  */
@@ -194,6 +218,36 @@ IndigoObject.prototype.index = function () {
 IndigoObject.prototype.removeConstraints = function (type) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoRemoveConstraints(this.id, type));
+};
+
+/*
+ * 
+ * @method addConstraint
+ * @returns {number}  
+ */
+IndigoObject.prototype.addConstraint = function (type, value) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAddConstraint(this.id, type, value));
+};
+
+/*
+ * 
+ * @method addConstraintNot
+ * @returns {number}  
+ */
+IndigoObject.prototype.addConstraintNot = function (type, value) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAddConstraintNot(this.id, type, value));
+};
+
+/*
+ * 
+ * @method addConstraintOr
+ * @returns {number}  
+ */
+IndigoObject.prototype.addConstraintOr = function (type, value) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAddConstraintOr(this.id, type, value));
 };
 
 /*
