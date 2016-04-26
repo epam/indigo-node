@@ -141,7 +141,7 @@ for (var v of m.iterateAtoms())
 {
 	console.log("v:"+v.index());
 	for (var nei of v.iterateNeighbors())
-		console.log("  neighbor atom "+nei.index()+"is connected by bond "+nei.bond().index());
+		console.log("  neighbor atom "+nei.index()+" is connected by bond "+nei.bond().index());
 }
 
 console.log("****** Structure normalization ********");
@@ -203,7 +203,7 @@ var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmet
 console.log(m.smiles());
 
 console.log("****** Symmetric stereocenters and cis-trans bonds ********");
-var m = indigo.loadMolecule("C[C@H]1CCC(CC1)C(\C1CC[C@H](C)CC1)=C(\C)C1CCCCC1");
+var m = indigo.loadMolecule("C[C@H]1CCC(CC1)C(\\C1CC[C@H](C)CC1)=C(\\C)C1CCCCC1");
 console.log(m.smiles());
 var m2 = m.clone();
 m.resetSymmetricCisTrans();
