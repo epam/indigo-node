@@ -270,6 +270,76 @@ Indigo.prototype.loadString = function (string) {
 /*
  * 
  * 
+ * @method iterateSDFile
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateSDFile = function* (filename) {
+	this._setSessionId();
+	var molfile = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSDFile(filename)));
+	var newobj = molfile;
+	while (newobj && newobj.id !== -1) if (newobj = molfile._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
+ * @method iterateRDFile
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateRDFile = function* (filename) {
+	this._setSessionId();
+	var rdf = new IndigoObject(this, this._checkResult(this._lib.indigoIterateRDFile(filename)));
+	var newobj = rdf;
+	while (newobj && newobj.id !== -1) if (newobj = rdf._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
+ * @method iterateSmilesFile
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateSmilesFile = function* (filename) {
+	this._setSessionId();
+	var smile = new IndigoObject(this, this._checkResult(this._lib.indigoIterateSmilesFile(filename)));
+	var newobj = smile;
+	while (newobj && newobj.id !== -1) if (newobj = smile._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
+ * @method iterateCMLFile
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateCMLFile = function* (filename) {
+	this._setSessionId();
+	var cml = new IndigoObject(this, this._checkResult(this._lib.indigoIterateCMLFile(filename)));
+	var newobj = cml;
+	while (newobj && newobj.id !== -1) if (newobj = cml._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
+ * @method iterateCDXFile
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateCDXFile = function* (filename) {
+	this._setSessionId();
+	var cdx = new IndigoObject(this, this._checkResult(this._lib.indigoIterateCDXFile(filename)));
+	var newobj = cdx;
+	while (newobj && newobj.id !== -1) if (newobj = cdx._next()) yield newobj;
+};
+
+/*
+ * 
+ * 
  * @method iterateSDF
  * @param {object} 
  * @return {object} a new indigo object
