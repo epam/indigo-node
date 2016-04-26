@@ -338,6 +338,20 @@ Indigo.prototype.iterateCDX = function* (reader) {
 };
 
 /*
+ * 
+ * 
+ * @method iterateTautomers
+ * @param {object} 
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.iterateTautomers = function* (molecule, params) {
+	this._setSessionId();
+	var tau = new IndigoObject(this, this._checkResult(this._lib.indigoIterateTautomers(molecule.id, params)), molecule);
+	var newobj = tau;
+	while (newobj && newobj.id !== -1) if (newobj = tau._next()) yield newobj;
+};
+
+/*
  * Set Option 
  * 
  * @method setOption

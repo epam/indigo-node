@@ -336,6 +336,27 @@ IndigoObject.prototype.normalize = function (options) {
 
 /*
  * 
+ * @method aromatize
+ * @returns {number}  
+ */
+IndigoObject.prototype.aromatize = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAromatize(this.id));
+};
+
+
+/*
+ * 
+ * @method dearomatize
+ * @returns {number}  
+ */
+IndigoObject.prototype.dearomatize = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoDearomatize(this.id));
+};
+
+/*
+ * 
  * @method symbol
  * @returns {string}  
  */

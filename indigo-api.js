@@ -345,8 +345,8 @@ module.exports = {
 		"indigoIterateCML": ["int", ["int"]],
 		"indigoIterateCDX": ["int", ["int"]],
 		"indigoIterateRDF": ["int", ["int"]], 
-		"indigoWriteFile": ["int", ["string"]]
-/*        "indigoIterateTautomers": ["int", ["int", "string"]] */
+		"indigoWriteFile": ["int", ["string"]],
+		"indigoIterateTautomers": ["int", ["int", "string"]] 
 	},
 	out: {
 		"abyte": ref.alloc('byte'),
