@@ -20,8 +20,15 @@ var local = path.join.bind(path, __dirname);
 
 var indigo = require("../indigo-node/indigo");
 
-var data = fs.readFileSync(local("../indigo-node/molecules/stereo_parity.sdf")).toString();
+var data = fs.readFileSync(local("../indigo-node/molecules/stereo_parity.sdf"));
+console.log(data.toString());
+
 console.log("*** SDF loadString ***");
-for (var m of indigo.iterateSDF(indigo.loadString(data))) {
+for (var m of indigo.iterateSDF(indigo.loadString(data.toString()))) {
+	console.log(m.smiles());
+}
+
+console.log("*** SDF loadBuffer ***");
+for (var m of indigo.iterateSDF(indigo.loadBuffer(data))) {
 	console.log(m.smiles());
 }
