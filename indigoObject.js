@@ -75,12 +75,48 @@ IndigoObject.prototype.xyz = function () {
 /*
  * Set a 3d coordinates of an atom
  * 
- * @method xyz
- * @returns {Array} the [x, y, z] coordinates
+ * @method setXYZ
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
+ * @returns {number} 
  */
 IndigoObject.prototype.setXYZ = function (x, y, z) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoSetXYZ(this.id, x, y, z));
+};
+
+/*
+ * 
+ * @method atomicNumber
+ * @returns {number} 
+ */
+IndigoObject.prototype.atomicNumber = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAtomicNumber(this.id));
+};
+
+/*
+ * Set
+ * 
+ * @method setAttachmentPoint
+ * @param {number} order 
+ * @returns {number} 
+ */
+IndigoObject.prototype.setAttachmentPoint = function (order) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSetAttachmentPoint(this.id, order));
+};
+
+/*
+ * Clear
+ * 
+ * @method clearAttachmentPoints
+ * @returns {number} 
+ */
+IndigoObject.prototype.clearAttachmentPoints = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoClearAttachmentPoints(this.id));
 };
 
 /*
