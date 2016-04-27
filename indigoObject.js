@@ -132,6 +132,46 @@ IndigoObject.prototype._next = function () {
 
 /*
  * 
+ * @method hasProperty
+ * @returns {number}  
+ */
+IndigoObject.prototype.hasProperty = function (property) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoHasProperty(this.id, property));
+};
+
+/*
+ * 
+ * @method getProperty
+ * @returns {string}  
+ */
+IndigoObject.prototype.getProperty = function (property) {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoGetProperty(this.id, property));
+};
+
+/*
+ * 
+ * @method setProperty
+ * @returns {number}  
+ */
+IndigoObject.prototype.setProperty = function (property, value) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSetProperty(this.id, property, value));
+};
+
+/*
+ * 
+ * @method removeProperty
+ * @returns {number}  
+ */
+IndigoObject.prototype.removeProperty = function (property) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoRemoveProperty(this.id, property));
+};
+
+/*
+ * 
  * @method iterateProperties
  * @returns {object}  
  */
@@ -140,6 +180,16 @@ IndigoObject.prototype.iterateProperties = function* () {
 	var prop = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateProperties(this.id)));
 	var newobj = prop;
 	while (newobj && newobj.id !== -1) if (newobj = prop._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method clearProperties
+ * @returns {number}  
+ */
+IndigoObject.prototype.clearProperties = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoClearProperties(this.id));
 };
 
 /*

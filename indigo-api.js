@@ -254,7 +254,7 @@ module.exports = {
 		"indigoSetName": ["int", ["int", "string"]],
 		"indigoSerialize": ["int", ["int", byte_p_ptr, int_ptr]],
 		"indigoHasProperty": ["int", ["int", "string"]],
-		"indigoGetProperty": ["int", ["int", "string"]],
+		"indigoGetProperty": ["string", ["int", "string"]],
 		"indigoSetProperty": ["int", ["int", "string", "string"]],
 		"indigoRemoveProperty": ["int", ["int", "string"]],
 		"indigoIterateProperties": ["int", ["int"]],
