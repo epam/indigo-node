@@ -45,3 +45,16 @@ console.log("*** SMILES loadBuffer ***");
 for (var m of indigo.iterateSmiles(indigo.loadBuffer(data))) {
 	console.log(m.smiles());
 }
+
+var data = fs.readFileSync(local("../indigo-node/molecules/tetrahedral-all.cml"));
+console.log(data.toString());
+
+console.log("*** CML loadString ***");
+for (var m of indigo.iterateCML(indigo.loadString(data.toString()))) {
+	console.log(m.smiles());
+}
+
+console.log("*** CML loadBuffer ***");
+for (var m of indigo.iterateCML(indigo.loadBuffer(data))) {
+	console.log(m.smiles());
+}
