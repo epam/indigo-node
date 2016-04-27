@@ -111,7 +111,52 @@ IndigoObject.prototype.match = function (query) {
 
 /*
  * 
- * @method match
+ * @method mapAtom
+ * @param {object} atom
+ * @returns {object}  
+ */
+IndigoObject.prototype.mapAtom = function (atom) {
+	this.d._setSessionId();
+	var newobj = this.d._checkResult(this.d._lib.indigoMapAtom(this.id, atom.id));
+	if (newobj === 0 || newobj === -1)
+		return null;
+	else
+		return new IndigoObject(this.d, newobj, this);
+};
+
+/*
+ * 
+ * @method mapBond
+ * @param {object} bond
+ * @returns {object}  
+ */
+IndigoObject.prototype.mapBond = function (bond) {
+	this.d._setSessionId();
+	var newobj = this.d._checkResult(this.d._lib.indigoMapBond(this.id, bond.id));
+	if (newobj === 0 || newobj === -1)
+		return null;
+	else
+		return new IndigoObject(this.d, newobj, this);
+};
+
+/*
+ * 
+ * @method mapMolecule
+ * @param {object} molecule
+ * @returns {object}  
+ */
+IndigoObject.prototype.mapMolecule = function (molecule) {
+	this.d._setSessionId();
+	var newobj = this.d._checkResult(this.d._lib.indigoMapMolecule(this.id, molecule.id));
+	if (newobj === 0 || newobj === -1)
+		return null;
+	else
+		return new IndigoObject(this.d, newobj, this);
+};
+
+/*
+ * 
+ * @method smiles
  * @returns {string}  
  */
 IndigoObject.prototype.smiles = function () {
