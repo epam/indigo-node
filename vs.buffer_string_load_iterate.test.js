@@ -58,3 +58,17 @@ console.log("*** CML loadBuffer ***");
 for (var m of indigo.iterateCML(indigo.loadBuffer(data))) {
 	console.log(m.smiles());
 }
+
+var data = fs.readFileSync(local("../indigo-node/reactions/rxns.rdf"));
+console.log(data.toString());
+
+console.log("*** RDF loadString ***");
+for (var m of indigo.iterateRDF(indigo.loadString(data.toString()))) {
+	console.log(m.smiles());
+}
+
+console.log("*** RDF loadBuffer ***");
+for (var m of indigo.iterateRDF(indigo.loadBuffer(data))) {
+	console.log(m.smiles());
+}
+
