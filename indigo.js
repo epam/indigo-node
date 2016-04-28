@@ -245,6 +245,17 @@ Indigo.prototype.loadBuffer = function (buf) {
 /*
  * 
  * 
+ * @method createReaction
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createReaction = function () {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateReaction()));
+};
+
+/*
+ * 
+ * 
  * @method createSaver
  * @param {object} 
  * @param {string} format
