@@ -33,5 +33,42 @@ var testRSite = function () {
 	console.log(query.smiles());
 }
 
+var testRGroupDecomposition = function () {
+	var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
+	for (var rsite of query.iterateRSites())
+	{
+		rsite.removeConstraints("rsite");
+		rsite.addConstraintNot("atomic-number", "1");
+	}
+	for (var structure of indigo.iterateSDFile(local("../indigo-node/molecules/sugars.sdf")))
+	{
+		var id = structure.getProperty("molregno");
+		var match = indigo.substructureMatcher(structure).match(query);
+		if (!match) {
+			console.log(id + ' not matched');
+			continue;
+		}
+		console.log(structure.smiles());
+		var to_remove = [];
+		var mapped_rsites = [];
+		for (var qatom of query.iterateAtoms())
+		{
+			var tatom = match.mapAtom(qatom)
+			if (qatom.atomicNumber() == 0) {
+				tatom.setAttachmentPoint(1);
+				mapped_rsites.push(tatom);
+			} else
+				to_remove.push(tatom.index());
+		}
+		structure.removeAtoms(to_remove);
+		for (tatom of mapped_rsites)
+		{
+			console.log( id + ' RGROUP:');
+			console.log(structure.component(tatom.componentIndex()).clone().smiles());
+		}
+	}
+}
+
 testRSite();
+testRGroupDecomposition();
 	
