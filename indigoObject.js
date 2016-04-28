@@ -51,7 +51,51 @@ IndigoObject.prototype.clone = function () {
 IndigoObject.prototype.close = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoClose(this.id));
-}
+};
+
+/*
+ * 
+ * @method layout
+ * @returns {number}  
+ */
+IndigoObject.prototype.layout = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoLayout(this.id));
+};
+
+
+/*
+ * 
+ * @method mdlct
+ * @returns {array}  
+ */
+IndigoObject.prototype.mdlct = function () {
+	this.d._setSessionId();
+	var buf = this.d.writeBuffer();
+	var res = this.d._checkResult(this.d._lib.indigoSaveMDLCT(this.id, buf.id));
+	return buf.toBuffer();
+};
+
+
+/*
+ * 
+ * @method addReactant
+ * @returns {number}  
+ */
+IndigoObject.prototype.addReactant = function (molecule) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAddReactant(this.id, molecule.id));
+};
+
+/*
+ * 
+ * @method addProduct
+ * @returns {number}  
+ */
+IndigoObject.prototype.addProduct = function (molecule) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAddProduct(this.id, molecule.id));
+};
 
 /*
  * Get a 3d coordinates of an atom
