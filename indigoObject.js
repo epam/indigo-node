@@ -120,6 +120,49 @@ IndigoObject.prototype.clearAttachmentPoints = function () {
 };
 
 /*
+ * Count
+ * 
+ * @method countComponents
+ * @returns {number} 
+ */
+IndigoObject.prototype.countComponents = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountComponents(this.id));
+};
+
+/*
+ * 
+ * @method componentIndex
+ * @returns {number} 
+ */
+IndigoObject.prototype.componentIndex = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoComponentIndex(this.id));
+};
+
+/*
+ * 
+ * @method iterateComponents
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateComponents = function* () {
+	this.d._setSessionId();
+	var component = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateComponents(this.id)));
+	var newobj = component;
+	while (newobj && newobj.id !== -1) if (newobj = component._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method component
+ * @returns {object}  
+ */
+IndigoObject.prototype.component = function (index) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoComponent(this.id, index)));
+};
+
+/*
  * Generate molfile from IndigoObject
  * 
  * @method molfile
