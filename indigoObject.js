@@ -501,6 +501,18 @@ IndigoObject.prototype.iterateAtoms = function* () {
 
 /*
  * 
+ * @method iterateBonds
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateBonds = function* () {
+	this.d._setSessionId();
+	var bond = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateBonds(this.id)));
+	var newobj = bond;
+	while (newobj && newobj.id !== -1) if (newobj = bond._next()) yield newobj;
+};
+
+/*
+ * 
  * @method iteratePseudoatoms
  * @returns {object}  
  */
@@ -645,6 +657,37 @@ IndigoObject.prototype.serialize = function () {
 
 /*
  * 
+ * @method reactingCenter
+ * @returns {number}  
+ */
+IndigoObject.prototype.reactingCenter = function (reaction_bond) {
+	this.d._setSessionId();
+	if (reaction_bond === undefined || reaction_bond === null) {
+		return 0;
+	}
+	var value = this.d._out.aint;
+	var res = this.d._checkResult(this.d._lib.indigoGetReactingCenter(this.id, reaction_bond.id, value));
+	if (res === null)
+		return null;
+	else
+		return value.deref();
+};
+
+/*
+ * 
+ * @method setReactingCenter
+ * @returns {number}  
+ */
+IndigoObject.prototype.setReactingCenter = function (reaction_bond, rc) {
+	this.d._setSessionId();
+	if (reaction_bond === undefined || reaction_bond === null) {
+		return 0;
+	}
+	return this.d._checkResult(this.d._lib.indigoSetReactingCenter(this.id, reaction_bond.id, rc));
+};
+
+/*
+ * 
  * @method charge
  * @returns {number}  
  */
@@ -731,6 +774,29 @@ IndigoObject.prototype.normalize = function (options) {
 		options = '';
 	}
 	return this.d._checkResult(this.d._lib.indigoNormalize(this.id, options));
+};
+
+/*
+ * 
+ * @method standardize
+ * @returns {number}  
+ */
+IndigoObject.prototype.standardize = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoStandardize(this.id));
+};
+
+/*
+ * 
+ * @method automap
+ * @returns {number}  
+ */
+IndigoObject.prototype.automap = function (mode) {
+	this.d._setSessionId();
+	if (mode === undefined || mode === null) {
+		options = '';
+	}
+	return this.d._checkResult(this.d._lib.indigoAutomap(this.id, mode));
 };
 
 /*

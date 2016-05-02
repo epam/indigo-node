@@ -29,6 +29,12 @@ var Indigo = function (options) {
 	this._sid = this._lib.indigoAllocSessionId();
 	this._out = lib_api.out;
 	this._type = lib_api.type;
+	this.NOT_CENTER = -1;
+	this.UNMARKED = 0;
+	this.CENTER = 1;
+	this.UNCHANGED = 2;
+	this.MADE_OR_BROKEN = 4;
+	this.ORDER_CHANGED = 8;
 };
 
 /*
@@ -140,6 +146,18 @@ Indigo.prototype.countReferences = function () {
 Indigo.prototype.loadMolecule = function (string) {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadMoleculeFromString(string)));
+};
+
+/*
+ * Load reaction from string 
+ * 
+ * @method loadReaction
+ * @param {string} string reprsantation of molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
+ * @return {object} IndigoObject
+ */
+Indigo.prototype.loadReaction = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadReactionFromString(string)));
 };
 
 /*
