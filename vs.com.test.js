@@ -20,6 +20,43 @@ var local = path.join.bind(path, __dirname);
 
 var indigo = require("../indigo-node/indigo");
 
+var testMDLCT = function () {
+	var mol = indigo.loadMolecule("C(CC)CC");
+	mol.layout();
+	console.log(mol.mdlct());
+};
+
+var testReactionMaking = function () {
+	var rxn = indigo.createReaction();
+	var r1 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/reactant1.mol"));
+	var r2 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/reactant2.mol"));
+	var p1 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/product1.mol"));
+	
+	rxn.addReactant(r1);
+	rxn.addReactant(r2);
+	rxn.addProduct(p1);
+	
+	rxn.layout();
+	rxn.saveRxnfile("result.rxn");
+	
+	console.log(rxn.countReactants()+ " reactants");
+	console.log(rxn.countProducts()+ " products");
+	console.log(rxn.countMolecules()+ " total");
+	/* //c++
+	{
+		int item, iter = indigoIterateReactants(rxn);
+		
+		while ((item = indigoNext(iter))) {
+			printf("REACTANT:\n");
+			printf("%f\n", indigoMolecularWeight(item));
+			printf("%f\n", indigoMostAbundantMass(item));
+			printf("%f\n", indigoMonoisotopicMass(item));
+			printf("%s\n", indigoSmiles(item));
+		}
+
+	} */
+}
+
 var componentSmiles = function (mol) {
 	if (mol.countComponents() > 1) {
 		items = [];
@@ -38,5 +75,8 @@ var componentSmiles = function (mol) {
 var testCanonical = function () {
 	for(var m of indigo.iterateSDFile(local("../indigo-node/molecules/test.sdf")))
 		console.log(componentSmiles(m));
-}
+};
+
+testReactionMaking();
+testMDLCT();
 testCanonical();
