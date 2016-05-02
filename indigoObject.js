@@ -76,7 +76,6 @@ IndigoObject.prototype.mdlct = function () {
 	return buf.toBuffer();
 };
 
-
 /*
  * 
  * @method addReactant
@@ -95,6 +94,56 @@ IndigoObject.prototype.addReactant = function (molecule) {
 IndigoObject.prototype.addProduct = function (molecule) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoAddProduct(this.id, molecule.id));
+};
+
+/*
+ * 
+ * @method saveRxnfile
+ * @returns {number}  
+ */
+IndigoObject.prototype.saveRxnfile = function (filename) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSaveRxnfileToFile(this.id, filename));
+};
+
+/*
+ * 
+ * @method countReactants
+ * @returns {number}  
+ */
+IndigoObject.prototype.countReactants = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountReactants(this.id));
+};
+
+/*
+ * 
+ * @method countProducts
+ * @returns {number}  
+ */
+IndigoObject.prototype.countProducts = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountProducts(this.id));
+};
+
+/*
+ * 
+ * @method countCatalysts
+ * @returns {number}  
+ */
+IndigoObject.prototype.countCatalysts = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountCatalysts(this.id));
+};
+
+/*
+ * 
+ * @method countMolecules
+ * @returns {number}  
+ */
+IndigoObject.prototype.countMolecules = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountMolecules(this.id));
 };
 
 /*

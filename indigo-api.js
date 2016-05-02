@@ -74,7 +74,7 @@ module.exports = {
 		"indigoIterateProducts": ["int", ["int"]],
 		"indigoIterateCatalysts": ["int", ["int"]],
 		"indigoIterateMolecules": ["int", ["int"]],
-		"indigoSaveRxnfileToFile": ["int", ["string"]], 
+		"indigoSaveRxnfileToFile": ["int", ["int", "string"]], 
 		"indigoRxnfile": ["string", ["int"]],
 		"indigoOptimize": ["int", ["int", "string"]], 
 		"indigoNormalize": ["int", ["int", "string"]], 
