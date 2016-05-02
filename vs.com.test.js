@@ -42,19 +42,13 @@ var testReactionMaking = function () {
 	console.log(rxn.countReactants()+ " reactants");
 	console.log(rxn.countProducts()+ " products");
 	console.log(rxn.countMolecules()+ " total");
-	/* //c++
-	{
-		int item, iter = indigoIterateReactants(rxn);
-		
-		while ((item = indigoNext(iter))) {
-			printf("REACTANT:\n");
-			printf("%f\n", indigoMolecularWeight(item));
-			printf("%f\n", indigoMostAbundantMass(item));
-			printf("%f\n", indigoMonoisotopicMass(item));
-			printf("%s\n", indigoSmiles(item));
-		}
-
-	} */
+	for(item of rxn.iterateReactants()) {
+		console.log("REACTANT:");
+		console.log(item.molecularWeight());
+		console.log(item.mostAbundantMass());
+		console.log(item.monoisotopicMass());
+		console.log(item.smiles());
+	}
 }
 
 var componentSmiles = function (mol) {
