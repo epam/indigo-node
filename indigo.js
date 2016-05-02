@@ -92,6 +92,20 @@ Indigo.prototype._checkResult = function (result) {
 };
 
 /*
+ * Check result
+ * 
+ * @method _checkResultFloat
+ * @param {number} result
+ */
+Indigo.prototype._checkResultFloat = function (result) {
+	if (result < -0.5) {
+		var msg = this.getLastError();
+		this.logger.error('res < 0[' + result + ']: ' + msg);
+	}
+	return result;
+};
+
+/*
  * Check string result 
  * 
  * @method _checkResultString

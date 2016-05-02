@@ -235,6 +235,84 @@ IndigoObject.prototype.componentIndex = function () {
 
 /*
  * 
+ * @method iterateReactants
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateReactants = function* () {
+	this.d._setSessionId();
+	var rxn = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateReactants(this.id)));
+	var newobj = rxn;
+	while (newobj && newobj.id !== -1) if (newobj = rxn._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method iterateProducts
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateProducts = function* () {
+	this.d._setSessionId();
+	var pr = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateProducts(this.id)));
+	var newobj = pr;
+	while (newobj && newobj.id !== -1) if (newobj = pr._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method iterateCatalysts
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateCatalysts = function* () {
+	this.d._setSessionId();
+	var cat = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateCatalysts(this.id)));
+	var newobj = cat;
+	while (newobj && newobj.id !== -1) if (newobj = cat._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method iterateMolecules
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateMolecules = function* () {
+	this.d._setSessionId();
+	var mol = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateMolecules(this.id)));
+	var newobj = mol;
+	while (newobj && newobj.id !== -1) if (newobj = mol._next()) yield newobj;
+};
+
+/*
+ * 
+ * @method molecularWeight
+ * @returns {number}  
+ */
+IndigoObject.prototype.molecularWeight = function () {
+	this.d._setSessionId();
+	return this.d._checkResultFloat(this.d._lib.indigoMolecularWeight(this.id));
+};
+
+/*
+ * 
+ * @method mostAbundantMass
+ * @returns {number}  
+ */
+IndigoObject.prototype.mostAbundantMass = function () {
+	this.d._setSessionId();
+	return this.d._checkResultFloat(this.d._lib.indigoMostAbundantMass(this.id));
+};
+
+/*
+ * 
+ * @method monoisotopicMass
+ * @returns {number}  
+ */
+IndigoObject.prototype.monoisotopicMass = function () {
+	this.d._setSessionId();
+	return this.d._checkResultFloat(this.d._lib.indigoMonoisotopicMass(this.id));
+};
+
+/*
+ * 
  * @method iterateComponents
  * @returns {object}  
  */
