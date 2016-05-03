@@ -48,4 +48,11 @@ checkHasMatch(indigo, "molecules/either1.mol", "molecules/either1.mol");
 checkHasMatch(indigo, "molecules/either1.mol", "molecules/either2.mol");
 checkHasMatch(indigo, "molecules/either1.mol", "molecules/either1_query.mol");
 
-
+var mol = indigo.loadMolecule('C1C=CC=CC=1');
+mol.aromatize();
+var q = indigo.loadQueryMolecule("C:C:C");
+var m = indigo.substructureMatcher(mol).match(q);
+if (m === null)
+	console.log("not matched");
+else
+	console.log(m.highlightedTarget().smiles());
