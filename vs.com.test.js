@@ -71,6 +71,55 @@ var testCanonical = function () {
 		console.log(componentSmiles(m));
 };
 
+var TestReactingCenters = function () {
+	console.log("*** Test 1 ***");
+	var rxn = indigo.createReaction();
+	rxn.addProduct(indigo.loadMolecule("CCCC"));
+	rxn.addReactant(indigo.loadMolecule("CCCC"));
+	console.log(rxn.smiles());
+	console.log("reacting centers:");
+	for (var m of rxn.iterateMolecules())
+		for (var b of m.iterateBonds())
+			console.log(rxn.reactingCenter(b));
+	for (var m of rxn.iterateMolecules())
+		for (var b of m.iterateBonds())
+			rxn.setReactingCenter(b, indigo.CENTER | indigo.UNCHANGED);
+	console.log("modified centers:");
+	for (var m of rxn.iterateMolecules())
+		for (var b of m.iterateBonds())
+		console.log(rxn.reactingCenter(b));
+};
+
+var TestAAM = function () {
+	console.log("*** Test AAM ***");
+	var rxn2 = indigo.loadReaction("CC=O>>CCO");
+	console.log("reaction smiles " + rxn2.smiles())
+	for (var m of rxn2.iterateMolecules())
+		for (var b of m.iterateBonds())
+			rxn2.setReactingCenter(b, indigo.UNCHANGED | indigo.ORDER_CHANGED);
+	rxn2.automap("DISCARD");
+	console.log("aam reaction smiles for given RC " + rxn2.smiles());
+};
+
+var TestCorrectRCenters = function () {
+	console.log("*** Test correct reacting centers ***");
+	var rxn = indigo.loadReaction("[CH3:7][CH2:6][CH2:1][CH2:2]O[CH2:4][CH2:5][CH2:8][CH3:9]>>[CH3:7][CH2:6][CH:1]=[CH:2]C[CH2:4][CH2:5][C:8]#[CH:9]");
+	console.log("reacting centers:");
+	for (var m of rxn.iterateMolecules())
+		for (var b of m.iterateBonds())
+		console.log(rxn.reactingCenter(b));
+	rxn.correctReactingCenters()
+	console.log("modified centers:");
+	for (var m of rxn.iterateMolecules())
+		for (var b of m.iterateBonds())
+			console.log(rxn.reactingCenter(b));
+	console.log(rxn.rxnfile());
+};
+
+TestReactingCenters();
+TestAAM();
+TestCorrectRCenters();
+
 testReactionMaking();
 testMDLCT();
 testCanonical();
