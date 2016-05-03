@@ -479,6 +479,26 @@ IndigoObject.prototype.clearProperties = function () {
 
 /*
  * 
+ * @method checkBadValence
+ * @returns {string}  
+ */
+IndigoObject.prototype.checkBadValence = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoCheckBadValence(this.id));
+};
+
+/*
+ * 
+ * @method checkAmbiguousH
+ * @returns {string}  
+ */
+IndigoObject.prototype.checkAmbiguousH = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoCheckAmbiguousH(this.id));
+};
+
+/*
+ * 
  * @method iterateAtoms
  * @returns {object}  
  */
