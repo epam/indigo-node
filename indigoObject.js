@@ -98,16 +98,6 @@ IndigoObject.prototype.addProduct = function (molecule) {
 
 /*
  * 
- * @method saveRxnfile
- * @returns {number}  
- */
-IndigoObject.prototype.saveRxnfile = function (filename) {
-	this.d._setSessionId();
-	return this.d._checkResult(this.d._lib.indigoSaveRxnfileToFile(this.id, filename));
-};
-
-/*
- * 
  * @method countReactants
  * @returns {number}  
  */
@@ -688,6 +678,26 @@ IndigoObject.prototype.setReactingCenter = function (reaction_bond, rc) {
 
 /*
  * 
+ * @method clearAAM
+ * @returns {number}  
+ */
+IndigoObject.prototype.clearAAM = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoClearAAM(this.id));
+};
+
+/*
+ * 
+ * @method correctReactingCenters
+ * @returns {number}  
+ */
+IndigoObject.prototype.correctReactingCenters = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCorrectReactingCenters(this.id));
+};
+
+/*
+ * 
  * @method charge
  * @returns {number}  
  */
@@ -761,6 +771,39 @@ IndigoObject.prototype.name = function () {
 IndigoObject.prototype.rawData = function () {
 	this.d._setSessionId();
 	return this.d._checkResultString(this.d._lib.indigoRawData(this.id));
+};
+
+/*
+ * 
+ * @method saveRxnfile
+ * @returns {number}  
+ */
+IndigoObject.prototype.saveRxnfile = function (filename) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSaveRxnfileToFile(this.id, filename));
+};
+
+/*
+ * 
+ * @method rxnfile
+ * @returns {string}  
+ */
+IndigoObject.prototype.rxnfile = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoRxnfile(this.id));
+};
+
+/*
+ * 
+ * @method optimize
+ * @returns {number}  
+ */
+IndigoObject.prototype.optimize = function (options) {
+	this.d._setSessionId();
+	if (options === undefined || options === null) {
+		options = '';
+	}
+	return this.d._checkResult(this.d._lib.indigoOptimize(this.id, options));
 };
 
 /*
