@@ -351,6 +351,16 @@ IndigoObject.prototype.match = function (query) {
 
 /*
  * 
+ * @method highlightedTarget
+ * @returns {object}  
+ */
+IndigoObject.prototype.highlightedTarget = function () {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoHighlightedTarget(this.id)));
+};
+
+/*
+ * 
  * @method mapAtom
  * @param {object} atom
  * @returns {object}  
