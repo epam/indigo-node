@@ -22,6 +22,7 @@ var Indigo = function (options) {
 	options = options || {};
 	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo']);
 	this.libpath = options.libpath || libpath;
+	this.exception = options.exception || false;
 	this.logger = options.logger || console;
 	this._lib = ffi.Library(libpath, lib_api.api);
 	// Allocate a new session. Each session has its own
@@ -83,6 +84,11 @@ Indigo.prototype.getLastError = function () {
 	return '';
 };
 
+Indigo.IndigoException = function (message) {
+	this.message = message;
+	this.name = "IndigoException";
+};
+
 /*
  * Check result
  * 
@@ -92,7 +98,10 @@ Indigo.prototype.getLastError = function () {
 Indigo.prototype._checkResult = function (result) {
 	if (result < 0) {
 		var msg = this.getLastError();
-		this.logger.error('res < 0[' + result + ']: ' + msg);
+		if (this.exception)
+			throw new Indigo.IndigoException(msg);
+		else
+			this.logger.error('res < 0[' + result + ']: ' + msg);
 	}
 	return result;
 };
@@ -106,7 +115,10 @@ Indigo.prototype._checkResult = function (result) {
 Indigo.prototype._checkResultFloat = function (result) {
 	if (result < -0.5) {
 		var msg = this.getLastError();
-		this.logger.error('res < 0[' + result + ']: ' + msg);
+		if (this.exception)
+			throw new Indigo.IndigoException(msg);
+		else
+			this.logger.error('res < 0[' + result + ']: ' + msg);
 	}
 	return result;
 };
@@ -120,7 +132,10 @@ Indigo.prototype._checkResultFloat = function (result) {
 Indigo.prototype._checkResultString = function (result) {
 	if (typeof result !== 'string') {
 		var msg = this.getLastError();
-		if (msg) this.logger.error('Err: ' + msg);
+		if (this.exception)
+			throw new Indigo.IndigoException(msg);
+		else
+			if (msg) this.logger.error('Err: ' + msg);
 	}
 	return result;
 };
@@ -515,4 +530,4 @@ Indigo.prototype.setOption = function (option, value1, value2, value3) {
 	return (ret === 1);
 };
 
-module.exports = new Indigo();
+module.exports = Indigo;
