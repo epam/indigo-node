@@ -348,6 +348,13 @@ module.exports = {
 		"indigoWriteFile": ["int", ["string"]],
 		"indigoIterateTautomers": ["int", ["int", "string"]] 
 	},
+	api_render: {
+		"indigoRender": ["int", ["int", "int"]],
+		"indigoRenderToFile": ["int", ["int", "string"]],
+		"indigoRenderGrid": ["int", ["int", "pointer", "int", "int"]],
+		"indigoRenderGridToFile": ["int", ["int", "pointer", "int", "string"]],
+		"indigoRenderReset": ["int", ["int"]]
+	},
 	out: {
 		"abyte": ref.alloc('byte'),
 		"achar": ref.alloc('char'),
