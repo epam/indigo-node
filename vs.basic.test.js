@@ -17,7 +17,8 @@ var assert = require('assert');
 var path = require('path');
 var local = path.join.bind(path, __dirname);
 
-var indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo-node/indigo");
+var indigo = new Indigo();
 
 console.log('indigo basic test');
 console.log('start:');

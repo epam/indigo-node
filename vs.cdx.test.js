@@ -18,7 +18,9 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo-node/indigo");
+var indigo = new Indigo();
+
 indigo.setOption("molfile-saving-skip-date", true)
 
 var readCdxAndPrintInfo = function (fname){

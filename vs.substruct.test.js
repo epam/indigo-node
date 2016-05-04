@@ -18,8 +18,8 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var indigo = require("../indigo-node/indigo");
-
+var Indigo = require("../indigo-node/indigo");
+var indigo = new Indigo({ exception: true });
 var lyopset = {
 	"embedding-uniqueness": ["atoms", "bonds", "none"],
 	"midle": [6, 7],
@@ -150,19 +150,21 @@ var FullTest = function (mol, q) {
 
 	for (var opt_set of opt_combintations) {
 		console.log("Test set:");
-		var isok = false;
-		var emb_limit = -1
-		for (opt_tuple of opt_set){
-			console.log("  (" + opt_tuple[0]+","+ opt_tuple[1] +")");
-			if (opt_tuple[0] != '*embeddings limit*')
-				isok =indigo.setOption(opt_tuple[0], opt_tuple[1]);
-				if(!isok) break;
-			else
-				emb_limit = opt_tuple[1];
-		}
-		if(isok)
+		try {
+			var isok = false;
+			var emb_limit = -1
+			for (opt_tuple of opt_set){
+				console.log("  (" + opt_tuple[0]+","+ opt_tuple[1] +")");
+				if (opt_tuple[0] != '*embeddings limit*')
+					indigo.setOption(opt_tuple[0], opt_tuple[1]);
+				else
+					emb_limit = opt_tuple[1];
+			}
 			testEmbeddingCount(matcher, q, mol, emb_limit);
-		var error = indigo.getLastError();
+		}
+		catch (e){
+			console.log(e.message);
+		}
 	}
 };
 
