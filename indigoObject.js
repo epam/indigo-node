@@ -351,6 +351,41 @@ IndigoObject.prototype.match = function (query) {
 
 /*
  * 
+ * @method countMatches
+ * @param {object} query
+ * @returns {number}  
+ */
+IndigoObject.prototype.countMatches = function (query) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountMatches(this.id, query.id));
+};
+
+/*
+ * 
+ * @method countMatchesWithLimit
+ * @param {object} query
+ * @returns {number}  
+ */
+IndigoObject.prototype.countMatchesWithLimit = function (query, embeddings_limit) {
+	this.d._setSessionId();
+	var e_limit = embeddings_limit || 0; /*see indigoCountMatches implementation*/
+	return this.d._checkResult(this.d._lib.indigoCountMatchesWithLimit(this.id, query.id, e_limit));
+};
+
+/*
+ * 
+ * @method iterateMatches
+ * @returns {object}  
+ */
+IndigoObject.prototype.iterateMatches = function* (query) {
+	this.d._setSessionId();
+	var mtch = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateMatches(this.id, query.id)));
+	var newobj = mtch;
+	while (newobj && newobj.id !== -1) if (newobj = mtch._next()) yield newobj;
+};
+
+/*
+ * 
  * @method highlightedTarget
  * @returns {object}  
  */
