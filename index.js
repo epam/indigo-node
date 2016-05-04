@@ -12,6 +12,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
+require('./vs.renderer.test');
 require('./vs.substruct.test'); 
 require('./vs.com.test');
 require('./vs.rgroup.test');
