@@ -480,6 +480,17 @@ Indigo.prototype.iterateTautomers = function* (molecule, params) {
 };
 
 /*
+ * 
+ * 
+ * @method createArray
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createArray = function () {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateArray()));
+}
+
+/*
  * Set Option 
  * 
  * @method setOption

@@ -73,5 +73,66 @@ IndigoRenderer.prototype.renderToFile = function (obj, filename) {
 	this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename));
 };
 
+/*
+ * 
+ * @method renderGridToFile
+ * @param {object} objects  is an array of molecules created with indigoCreateArray
+ * @param {array} refatoms is an array of integers, whose size must be equal to the number of molecules if the array
+ * @param {number} ncolumns is the number of columns in the grid
+ * @param {string} filename
+ */
+IndigoRenderer.prototype.renderGridToFile = function (objects, refatoms, ncolumns, filename) {
+	this.indigo._setSessionId();
+	var arr = null;
+	if (refatoms) {
+		if (refatoms.length != objects.count()) {
+			if (this.exception) {
+				throw new Error("renderGridToFile(): refatoms[] size must be equal to the number of objects");
+			}
+			else
+				return [];
+		}
+		arr = refatoms;
+	}
+	this.indigo._checkResult(this._lib.indigoRenderGridToFile(objects.id, arr, ncolumns, filename));
+};
+
+/*
+ * 
+ * @method renderGridToBuffer
+ * @param {object} objects  is an array of molecules created with indigoCreateArray
+ * @param {array} refatoms is an array of integers, whose size must be equal to the number of molecules if the array
+ * @param {number} ncolumns is the number of columns in the grid
+ */
+IndigoRenderer.prototype.renderGridToBuffer = function (objects, refatoms, ncolumns, filename) {
+	this.indigo._setSessionId();
+	var arr = null;
+	if (refatoms) {
+		if (refatoms.length != objects.count()) {
+			if (this.exception) {
+				throw new Error("renderGridToBuffer(): refatoms[] size must be equal to the number of objects");
+			}
+			else
+				return [];
+		}
+		arr = refatoms;
+	}
+	var wb = this.indigo.writeBuffer();
+	if (this.exception) {
+		try {
+			this.indigo._checkResult(this._lib.indigoRenderGrid(objects.id, arr, ncolumns, wb.id));
+			return wb.toBuffer();
+		} finally {
+			wb.dispose();
+		}
+	}
+	else {
+		this.indigo._checkResult(this._lib.indigoRenderGrid(objects.id, arr, ncolumns, wb.id));
+		var array = wb.toBuffer();
+		wb.dispose();
+		return array;
+	}
+};
+
 module.exports = IndigoRenderer;
 

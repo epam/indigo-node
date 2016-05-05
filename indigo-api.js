@@ -351,8 +351,8 @@ module.exports = {
 	api_render: {
 		"indigoRender": ["int", ["int", "int"]],
 		"indigoRenderToFile": ["int", ["int", "string"]],
-		"indigoRenderGrid": ["int", ["int", "pointer", "int", "int"]],
-		"indigoRenderGridToFile": ["int", ["int", "pointer", "int", "string"]],
+		"indigoRenderGrid": ["int", ["int", IntArray, "int", "int"]],
+		"indigoRenderGridToFile": ["int", ["int", IntArray, "int", "string"]],
 		"indigoRenderReset": ["int", ["int"]]
 	},
 	out: {

@@ -98,6 +98,16 @@ IndigoObject.prototype.addProduct = function (molecule) {
 
 /*
  * 
+ * @method arrayAdd
+ * @returns {number}  
+ */
+IndigoObject.prototype.arrayAdd = function (object) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoArrayAdd(this.id, object.id));
+};
+
+/*
+ * 
  * @method countReactants
  * @returns {number}  
  */
