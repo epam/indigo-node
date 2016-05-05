@@ -23,12 +23,12 @@ var indigo = new Indigo();
 var IndigoRenderer = require("../indigo-node/indigo_renderer");
 var indigo_renderer = new IndigoRenderer(indigo);
 
-indigo.setOption("render-output-format", "png");
-indigo.setOption("render-background-color", "255,255,255");
-indigo.setOption("render-atom-ids-visible", "1");
-
 var testDearom = function ()
 {
+	indigo.setOption("render-output-format", "png");
+	indigo.setOption("render-background-color", "255,255,255");
+	indigo.setOption("render-atom-ids-visible", "1");
+
 	m = indigo.loadMolecule("c1ccsc1");
 	cnt0 = indigo.countReferences();
 	buf = indigo_renderer.renderToBuffer(m);
@@ -38,5 +38,35 @@ var testDearom = function ()
 	m.dearomatize();
 	console.log(m.smiles());
 }
+var cdxml = function () {
+	arr = indigo.createArray();
+	var idx = 0;
+	for (var m of indigo.iterateSmilesFile(local("../indigo-node/molecules/pubchem_slice_10.smi"))) {
+		console.log(m.smiles());
+		// Set title
+		m.setProperty("title", "Molecule:" + idx + "\nMass: " + m.molecularWeight() + "\nFormula: " + m.grossFormula());
+		//Add to the array
+		arr.arrayAdd(m);
+		idx++;
+	}
+	// Set required options    
+	indigo.setOption("render-grid-title-property", "title");
+	indigo.setOption("render-comment", "Comment:\nSet of molecules");
+	// Render
+	options_align = ["left", "right", "center", "center-left", "center-right"];
+	for (var alignment of options_align) {
+		indigo.setOption("render-grid-title-alignment", alignment);
+		indigo_renderer.renderGridToFile(arr, null, 3, local("cdxml-test-"+alignment+".cdxml"));
+	}
+	options_length = [0, 10, 50, 100, 200];
+	for (var length of options_length) {
+		indigo.setOption("render-bond-length", length);
+		indigo_renderer.renderGridToFile(arr, null, 3, local("cdxml-test-len"+length+".cdxml"));
+	}
+	indigo.setOption("render-output-format", "cdxml")
+	buf = indigo_renderer.renderGridToBuffer(arr, null, 3)
+	console.log(buf.length > 100);
+}
 
+cdxml();
 testDearom();
