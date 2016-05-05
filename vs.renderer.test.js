@@ -34,11 +34,17 @@ var testDearom = function ()
 	buf = indigo_renderer.renderToBuffer(m);
 	cnt1 = indigo.countReferences();
 
-	indigo_renderer.renderToFile(m, "m.png");
+	var status = indigo_renderer.renderToFile(m, "m.png");
+	if (status == 1) console.log("m.png have been created");
 	m.dearomatize();
 	console.log(m.smiles());
 }
 var cdxml = function () {
+	var status = indigo_renderer.renderReset();
+	if (status == 1) console.log("renderer have been reseted");
+	indigo.setOption("render-output-format", "png");
+	indigo.setOption("render-background-color", "255,255,255");
+	indigo.setOption("render-atom-ids-visible", "1");
 	arr = indigo.createArray();
 	var idx = 0;
 	for (var m of indigo.iterateSmilesFile(local("../indigo-node/molecules/pubchem_slice_10.smi"))) {
