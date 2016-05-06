@@ -18,15 +18,13 @@ var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
 var Indigo = require(local('indigo'));
 
-var ffi = require('ffi');
-
 var IndigoRenderer = function (indigo, options) {
 	options = options || {};
 	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo-renderer']);
 	this.libpath = options.libpath || libpath;
 	this.exception = options.exception || false;
 	this.logger = options.logger || console;
-	this._lib = ffi.Library(libpath, lib_api.api_render);
+	this._lib = lib_api.Library(libpath, lib_api.api_render);
 	if (indigo instanceof Indigo) {
 		this.indigo = indigo;
 	} else {
@@ -67,19 +65,21 @@ IndigoRenderer.prototype.renderToBuffer = function (obj) {
  * @method renderToFile
  * @param {object} obj is IndigoObject
  * @param {string} filename
+ * @return {boolean} return true if file have been saved successfully
  */
 IndigoRenderer.prototype.renderToFile = function (obj, filename) {
 	this.indigo._setSessionId();
-	return this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename));
+	return (this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename)) == 1);
 };
 
 /*
  * 
  * @method renderReset
+ * @return {boolean} return true if reset have been done successfully
  */
 IndigoRenderer.prototype.renderReset = function () {
 	this.indigo._setSessionId();
-	return this.indigo._checkResult(this._lib.indigoRenderReset());
+	return (this.indigo._checkResult(this._lib.indigoRenderReset()) == 1);
 };
 
 /*

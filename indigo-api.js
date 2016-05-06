@@ -11,6 +11,7 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
+var ffi = require('ffi');
 var ref = require('ref');
 var ref_struct = require('ref-struct');
 var ArrayType = require('ref-array');
@@ -32,6 +33,7 @@ var xyz = ref_struct({ x: 'float', y: 'float',z: 'float' });
 var xyz_ptr = ref.refType(xyz);
 
 module.exports = {
+	Library: ffi.Library,
 	api: {
 		"indigoSetOption" : ["int", ["string", "string"]],
 		"indigoSetOptionInt" : ["int", ["string", "int"]],
@@ -354,6 +356,16 @@ module.exports = {
 		"indigoRenderGrid": ["int", ["int", IntArray, "int", "int"]],
 		"indigoRenderGridToFile": ["int", ["int", IntArray, "int", "string"]],
 		"indigoRenderReset": ["int", []]
+	},
+	api_inchi: {
+		"indigoInchiVersion": ["string", []],
+		"indigoInchiResetOptions": ["int", []], 
+		"indigoInchiLoadMolecule": ["int", ["string"]],
+		"indigoInchiGetInchi": ["string", ["int"]],
+		"indigoInchiGetInchiKey": ["string", ["string"]],
+		"indigoInchiGetWarning": ["string", []],
+		"indigoInchiGetLog": ["string", []],
+		"indigoInchiGetAuxInfo": [" string", []]
 	},
 	out: {
 		"abyte": ref.alloc('byte'),

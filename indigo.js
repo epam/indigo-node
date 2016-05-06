@@ -16,7 +16,6 @@ var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
 var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
-var ffi = require('ffi');
 
 var Indigo = function (options) {
 	options = options || {};
@@ -24,7 +23,7 @@ var Indigo = function (options) {
 	this.libpath = options.libpath || libpath;
 	this.exception = options.exception || false;
 	this.logger = options.logger || console;
-	this._lib = ffi.Library(libpath, lib_api.api);
+	this._lib = lib_api.Library(libpath, lib_api.api);
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
 	this._sid = this._lib.indigoAllocSessionId();
