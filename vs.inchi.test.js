@@ -12,13 +12,15 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
-require('./vs.inchi.test');
-require('./vs.renderer.test');
-require('./vs.substruct.test'); 
-require('./vs.com.test');
-require('./vs.rgroup.test');
-require('./vs.tau_en.test');
-require('./vs.cdx.test');
-require('./vs.basic.test');
-require('./vs.buffer_string_load_iterate.test.js');
-require('./vs.logger.test');
+/* declaration of modules  */
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
+
+var Indigo = require("../indigo-node/indigo");
+var indigo = new Indigo();
+var IndigoInchi = require("../indigo-node/indigo_inchi");
+var indigo_inchi = new IndigoInchi(indigo);
+
+console.log(indigo_inchi.version());

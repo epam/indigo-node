@@ -35,13 +35,13 @@ var testDearom = function ()
 	cnt1 = indigo.countReferences();
 
 	var status = indigo_renderer.renderToFile(m, "m.png");
-	if (status == 1) console.log("m.png have been created");
+	if (status) console.log("m.png have been created");
 	m.dearomatize();
 	console.log(m.smiles());
 }
 var cdxml = function () {
 	var status = indigo_renderer.renderReset();
-	if (status == 1) console.log("renderer have been reseted");
+	if (status) console.log("renderer have been reseted");
 	indigo.setOption("render-output-format", "png");
 	indigo.setOption("render-background-color", "255,255,255");
 	indigo.setOption("render-atom-ids-visible", "1");
