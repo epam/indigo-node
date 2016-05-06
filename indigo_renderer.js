@@ -70,7 +70,16 @@ IndigoRenderer.prototype.renderToBuffer = function (obj) {
  */
 IndigoRenderer.prototype.renderToFile = function (obj, filename) {
 	this.indigo._setSessionId();
-	this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename));
+	return this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename));
+};
+
+/*
+ * 
+ * @method renderReset
+ */
+IndigoRenderer.prototype.renderReset = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResult(this._lib.indigoRenderReset());
 };
 
 /*

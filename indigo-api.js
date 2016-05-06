@@ -353,7 +353,7 @@ module.exports = {
 		"indigoRenderToFile": ["int", ["int", "string"]],
 		"indigoRenderGrid": ["int", ["int", IntArray, "int", "int"]],
 		"indigoRenderGridToFile": ["int", ["int", IntArray, "int", "string"]],
-		"indigoRenderReset": ["int", ["int"]]
+		"indigoRenderReset": ["int", []]
 	},
 	out: {
 		"abyte": ref.alloc('byte'),
