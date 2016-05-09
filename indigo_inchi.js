@@ -55,5 +55,18 @@ IndigoInchi.prototype.resetOptions = function () {
 	return (this.indigo._checkResult(this._lib.indigoInchiResetOptions()) === 1);
 };
 
+/*
+ * 
+ * 
+ * @method loadMolecule
+ * @param {string} 
+ * @return {object} a new indigo object
+ */
+IndigoInchi.prototype.loadMolecule = function (inchi) {
+	this.indigo._setSessionId();
+	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)))
+}
+
+
 module.exports = IndigoInchi;
 
