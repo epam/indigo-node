@@ -64,9 +64,29 @@ IndigoInchi.prototype.resetOptions = function () {
  */
 IndigoInchi.prototype.loadMolecule = function (inchi) {
 	this.indigo._setSessionId();
-	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)))
-}
+	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)));
+};
 
+/*
+ * 
+ * @method getInchi
+ * @param {object} 
+ * @return {string}
+ */
+IndigoInchi.prototype.getInchi = function (molecule) {
+	this.indigo._setSessionId();
+	return this.indigo._checkResultString(this._lib.indigoInchiGetInchi(molecule.id));
+};
+
+/*
+ * 
+ * @method getWarning
+ * @return {string}
+ */
+IndigoInchi.prototype.getWarning = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResultString(this._lib.indigoInchiGetWarning());
+};
 
 module.exports = IndigoInchi;
 
