@@ -19,7 +19,7 @@ var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo-node/indigo");
-var indigo = new Indigo();
+var indigo = new Indigo({ exception: true });
 var IndigoInchi = require("../indigo-node/indigo_inchi");
 var indigo_inchi = new IndigoInchi(indigo);
 
@@ -30,3 +30,32 @@ var m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-
 console.log(m.canonicalSmiles());
 console.log(indigo_inchi.getInchi(m));
 console.log(indigo_inchi.getWarning());
+
+console.log("*** Error handling *** ");
+var m = indigo.loadMolecule("B1=CB=c2cc3B=CC=c3cc12");
+try {
+	console.log(indigo_inchi.getInchi(m));
+}
+catch (e) {
+	console.log("Error: %s\n", e.message);
+}
+
+console.log("*** Options *** ");
+var testOpt = function (m, opt){
+	try {
+		indigo.setOption("inchi-options", opt);
+		console.log(indigo_inchi.getInchi(m));
+	}
+	catch (e) {
+		console.log("Error: %s\n", e.message);
+	}
+}
+
+m = indigo.loadMolecule("CC1CC(C)OC(C)N1");
+testOpt(m, "");
+testOpt(m, "/SUU");
+testOpt(m, "-SUU");
+testOpt(m, "/DoNotAddH /SUU /SLUUD");
+testOpt(m, "-DoNotAddH -SUU -SLUUD");
+testOpt(m, "/DoNotAddH -SUU -SLUUD");
+testOpt(m, "/invalid -option");
