@@ -27,6 +27,10 @@ var IndigoRenderer = function (indigo, options) {
 	this._lib = lib_api.Library(libpath, lib_api.api_render);
 	if (indigo instanceof Indigo) {
 		this.indigo = indigo;
+		if (this.exception)
+			indigo.exception = this.exception;
+		else 
+			this.exception= indigo.exception;
 	} else {
 		if (this.exception)
 			throw new Indigo.IndigoException("indigo isn't an instance of Indigo");
