@@ -35,7 +35,7 @@ for (var i = 0; i < 10000; i++) {
 	}
 }
 console.log("Optimize");
-bingo.optimize();
+var status = bingo.optimize();
 bingo.close()
 
 console.log("Append to the database");
@@ -48,6 +48,16 @@ for (var i = 0; i < 10000; i++) {
 		var id = bingo.insert(indigo.loadMolecule(sm), lastid);
 		ids[id] = sm;
 	}
+}
+bingo.close();
+
+console.log("Validate");
+var bingo = Bingo.loadDatabaseFile(indigo, dbname, { options: "read_only:true" });
+for (var id in ids) {
+	var obj = bingo.getRecordById(id);
+	var ref = indigo.loadMolecule(ids[id]);
+	if (obj.canonicalSmiles() != ref.canonicalSmiles())
+		console.log("Error:" + obj.smiles())
 }
 bingo.close();
 
