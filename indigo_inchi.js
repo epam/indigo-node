@@ -92,5 +92,35 @@ IndigoInchi.prototype.getWarning = function () {
 	return this.indigo._checkResultString(this._lib.indigoInchiGetWarning());
 };
 
+/*
+ * 
+ * @method getInchiKey
+ * @return {string}
+ */
+IndigoInchi.prototype.getInchiKey = function (inchi) {
+	this.indigo._setSessionId()
+	return this.indigo._checkResultString(this._lib.indigoInchiGetInchiKey(inchi));
+};
+
+/*
+ * 
+ * @method getLog
+ * @return {string}
+ */
+IndigoInchi.prototype.getLog = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResultString(this._lib.indigoInchiGetLog());
+}
+
+/*
+ * 
+ * @method getAuxInfo
+ * @return {string}
+ */
+IndigoInchi.prototype.getAuxInfo = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResultString(this._lib.indigoInchiGetAuxInfo());
+}
+
 module.exports = IndigoInchi;
 
