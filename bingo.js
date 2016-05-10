@@ -93,13 +93,24 @@ Bingo.prototype.close = function () {
 
 /*
  * 
- * @method version
- * @return {string} string of version
+ * @method optimize
+ * @return {boolean} true if optimization have been done successfully 
  */
 Bingo.prototype.optimize = function () {
 	this.indigo._setSessionId();
-	return this._lib.bingoOptimize(this.id);
+	return (this._lib.bingoOptimize(this.id) == 0);
 };
+
+/*
+ * 
+ * @method getRecordById
+ * @return {object} 
+ */
+Bingo.prototype.getRecordById = function (index) {
+	this.indigo._setSessionId();
+	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.bingoGetRecordObj(this.id, index)));
+};
+
 /*
  * 
  * @method insert
