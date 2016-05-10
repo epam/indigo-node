@@ -12,6 +12,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
+require('./vs.bingo.test');
 require('./vs.inchi.test');
 require('./vs.renderer.test');
 require('./vs.substruct.test'); 
