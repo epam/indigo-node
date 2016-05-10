@@ -59,3 +59,55 @@ testOpt(m, "/DoNotAddH /SUU /SLUUD");
 testOpt(m, "-DoNotAddH -SUU -SLUUD");
 testOpt(m, "/DoNotAddH -SUU -SLUUD");
 testOpt(m, "/invalid -option");
+
+
+console.log("*** Some molecules *** ");
+indigo.setOption("inchi-options", "");
+input = "InChI=1S/C6H5.C2H4O2.Hg/c1-2-4-6-5-3-1;1-2(3)4;/h1-5H;1H3,(H,3,4);"
+console.log(input);
+var m2 = indigo_inchi.loadMolecule(input);
+
+console.log("Arom");
+try {
+	var inchi2 = indigo_inchi.getInchi(m2);
+	console.log(inchi2);
+	m2.aromatize();
+	var inchi2 = indigo_inchi.getInchi(m2);
+	console.log(inchi2);
+}
+catch (e) {
+	console.log("Error: %s\n", e.message);
+}
+	
+console.log("Arom/dearom");
+try {
+	var inchi2 = indigo_inchi.getInchi(m2);
+	console.log(inchi2);
+	m2.aromatize();
+	m2.dearomatize();
+	var inchi2 = indigo_inchi.getInchi(m2);
+	console.log(inchi2);
+}
+catch (e) {
+	console.log("Error: %s\n", e.message);
+}
+
+console.log("*** Non-unqiue dearomatization ***");
+try {
+	var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+	var inchi = indigo_inchi.getInchi(m);
+	console.log(inchi);
+}
+catch (e) {
+	console.log("Error: %s\n", e.message);
+}
+
+console.log("*** Aux info ***");
+var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+m.dearomatize();
+var inchi = indigo_inchi.getInchi(m);
+var aux = indigo_inchi.getAuxInfo();
+console.log(inchi);
+console.log(aux);
+var m2 = indigo_inchi.loadMolecule(aux);
+console.log(m2.smiles());
