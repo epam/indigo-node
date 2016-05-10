@@ -367,6 +367,36 @@ module.exports = {
 		"indigoInchiGetLog": ["string", []],
 		"indigoInchiGetAuxInfo": [" string", []]
 	},
+	api_bingo: {
+		"bingoVersion": ["string", []], // options = "id: <property-name>"
+		"bingoCreateDatabaseFile": ["int", ["string", "string", "string"]],
+		"bingoLoadDatabaseFile": ["int", ["string", "string"]],
+		"bingoCloseDatabase": ["int", ["int"]],
+		// Record insertion/deletion
+		"bingoInsertRecordObj": ["int", ["int", "int"]],
+		"bingoInsertRecordObjWithId": ["int", ["int", "int", "int"]],
+		"bingoDeleteRecord": ["int", ["int", "int"]],
+		"bingoGetRecordObj": ["int", ["int", "int"]],
+		"bingoOptimize": ["int", ["int"]],
+		// Search methods that returns search object
+		// Search object is an iterator
+		"bingoSearchSub": ["int", ["int", "int", "string"]],
+		"bingoSearchExact": ["int", ["int", "int", "string"]],
+		"bingoSearchMolFormula": ["int", ["int", "string", "string"]],
+		"bingoSearchSim": ["int", ["int", "int", "float", "float", "string"]],
+		// Search object methods
+		"bingoNext": ["int", ["int"]],
+		"bingoGetCurrentId": ["int", ["int"]],
+		"bingoGetCurrentSimilarityValue": ["float", ["int"]],
+		// Estimation methods
+		"bingoEstimateRemainingResultsCount": ["int", ["int"]],
+		"bingoEstimateRemainingResultsCountError": ["int", ["int"]],
+		"bingoEstimateRemainingTime": ["int", ["float"]],
+		// This method return IndigoObject that represents current object.
+		// After calling bingoNext this object automatically points to the next found result
+		"bingoGetObject": ["int", ["int"]],
+		"bingoEndSearch": ["int", ["int"]]
+	},
 	out: {
 		"abyte": ref.alloc('byte'),
 		"achar": ref.alloc('char'),

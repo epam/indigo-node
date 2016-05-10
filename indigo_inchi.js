@@ -110,7 +110,7 @@ IndigoInchi.prototype.getInchiKey = function (inchi) {
 IndigoInchi.prototype.getLog = function () {
 	this.indigo._setSessionId();
 	return this.indigo._checkResultString(this._lib.indigoInchiGetLog());
-}
+};
 
 /*
  * 
@@ -120,7 +120,7 @@ IndigoInchi.prototype.getLog = function () {
 IndigoInchi.prototype.getAuxInfo = function () {
 	this.indigo._setSessionId();
 	return this.indigo._checkResultString(this._lib.indigoInchiGetAuxInfo());
-}
+};
 
 module.exports = IndigoInchi;
 
