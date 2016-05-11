@@ -12,6 +12,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
+require('./vs.indigo.sdf.test');
 require('./vs.bingo.basic.test');
 require('./vs.bingo.test');
 require('./vs.inchi.test');
