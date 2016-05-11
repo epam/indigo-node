@@ -25,10 +25,12 @@ var Bingo = require("../indigo-node/bingo");
 var dbname = local('append-mol-db');
 var smiles = ["CCCC1CCCCC1CPC", "CCC1CCNCC1CPC"];
 var ids = [];
+//var entry = 10000;
+var entry = 10;
 
 console.log("Create database");
 var bingo = Bingo.createDatabaseFile(indigo, dbname, 'molecule');
-for (var i = 0; i < 10000; i++) {
+for (var i = 0; i < entry; i++) {
 	for (var sm of smiles) {
 		var id = bingo.insert(indigo.loadMolecule(sm));
 		ids[id] = sm;
@@ -42,7 +44,7 @@ console.log("Append to the database");
 var bingo = Bingo.loadDatabaseFile(indigo, dbname);
 var smiles2 = ["C1CPCCC1", "C1CONCC1"];
 lastid = ids.length;
-for (var i = 0; i < 10000; i++) {
+for (var i = 0; i < entry; i++) {
 	for (var sm of smiles2) {
 		lastid += 2; // Skip space on purpose
 		var id = bingo.insert(indigo.loadMolecule(sm), lastid);
@@ -59,5 +61,25 @@ for (var id in ids) {
 	if (obj.canonicalSmiles() != ref.canonicalSmiles())
 		console.log("Error:" + obj.smiles())
 }
-bingo.close();
+
+console.log("Do search");
+for (var sm of smiles.concat(smiles2)){
+	console.log(sm);
+	var q = indigo.loadQueryMolecule(sm);
+	var search = bingo.searchSub(q);
+	found = [];
+	while (search.next()){
+		var id = search.getCurrentId()
+		console.log(id)
+		found.push(id);
+	}
+	should_find = [];
+    for (var id in ids) {
+        if (ids[id] == sm)
+            should_find.push(id)
+	}
+	if (found.toString() != should_find.toString())
+		console.log("Error!");
+}
+bingo.close()
 
