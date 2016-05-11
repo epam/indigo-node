@@ -16,6 +16,7 @@ var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
 var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
+var BingoObject = require(local('bingoObject'));
 var Indigo = require(local('indigo'));
 
 var Bingo = function (bingoId, indigo, options) {
@@ -125,6 +126,26 @@ Bingo.prototype.insert = function (indigoObject, index) {
 
 };
 
+/*
+ * 
+ * @method delete
+ * @return {number} 
+ */
+Bingo.prototype.delete = function (index) {
+	this.indigo._setSessionId();
+	return this.indigo._checkResult(this._lib.bingoDeleteRecord(this.id, index));
+};
+
+/*
+ * 
+ * @method searchSub
+ * @return {number} 
+ */
+Bingo.prototype.searchSub = function (query, options) {
+	options = options || '';
+	this.indigo._setSessionId();
+	return new BingoObject(this.indigo._checkResult(this._lib.bingoSearchSub(this.id, query.id, options)), this.indigo, this);
+};
 
 module.exports = Bingo;
 
