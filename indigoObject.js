@@ -98,6 +98,37 @@ IndigoObject.prototype.addProduct = function (molecule) {
 
 /*
  * 
+ * @method append
+ * @returns {number}  
+ */
+IndigoObject.prototype.append = function (object) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAppend(this.id, object.id));
+};
+
+/*
+ * 
+ * @method push
+ * @returns {number}  
+ */
+IndigoObject.prototype.push = function (object) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoAppend(this.id, object.id));
+};
+
+/*
+ * 
+ * @method sdfAppend
+ * @returns {number}  
+ */
+IndigoObject.prototype.sdfAppend = function (item) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSdfAppend(this.id, item.id));
+};
+
+
+/*
+ * 
  * @method arrayAdd
  * @returns {number}  
  */
@@ -105,7 +136,6 @@ IndigoObject.prototype.arrayAdd = function (object) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoArrayAdd(this.id, object.id));
 };
-
 /*
  * 
  * @method countReactants
@@ -700,6 +730,16 @@ IndigoObject.prototype.unfoldHydrogens = function () {
 IndigoObject.prototype.resetAtom = function (symbol) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoResetAtom(this.id, symbol));
+};
+
+/*
+ * 
+ * @method setName
+ * @returns {number}  
+ */
+IndigoObject.prototype.setName = function (name) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSetName(this.id, name));
 };
 
 /*

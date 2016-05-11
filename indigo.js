@@ -277,6 +277,19 @@ Indigo.prototype.writeBuffer = function () {
 	return new IndigoObject(this, id);
 };
 
+
+/*
+ * 
+ * 
+ * @method writeBuffer
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.writeFile = function (filename) {
+	this._setSessionId();
+	var id = this._checkResult(this._lib.indigoWriteFile(filename));
+	return new IndigoObject(this, id);
+};
+
 /*
  * 
  * 
@@ -291,10 +304,44 @@ Indigo.prototype.loadBuffer = function (buf) {
 /*
  * 
  * 
+ * @method createMolecule
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createMolecule = function () {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateMolecule()));
+};
+
+/*
+ * 
+ * 
+ * @method createQueryMolecule
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createQueryMolecule = function () {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateQueryMolecule()));
+};
+
+/*
+ * 
+ * 
  * @method createReaction
  * @return {object} a new indigo object
  */
 Indigo.prototype.createReaction = function () {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateReaction()));
+};
+
+
+/*
+ * 
+ * 
+ * @method createQueryReaction
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createQueryReaction = function () {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateReaction()));
 };
@@ -481,13 +528,39 @@ Indigo.prototype.iterateTautomers = function* (molecule, params) {
 /*
  * 
  * 
+ * @method createFileSaver
+ * @param {string} filename
+ * @param {string} format
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createFileSaver = function (filename, format) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateFileSaver(filename, format)));
+};
+
+/*
+ * 
+ * 
+ * @method createSaver
+ * @param {object} obj
+ * @param {string} format
+ * @return {object} a new indigo object
+ */
+Indigo.prototype.createSaver = function (obj, format) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateSaver(obj.id, format)));
+};
+
+/*
+ * 
+ * 
  * @method createArray
  * @return {object} a new indigo object
  */
 Indigo.prototype.createArray = function () {
 	this._setSessionId();
 	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateArray()));
-}
+};
 
 /*
  * Set Option 
