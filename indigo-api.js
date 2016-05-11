@@ -391,7 +391,7 @@ module.exports = {
 		// Estimation methods
 		"bingoEstimateRemainingResultsCount": ["int", ["int"]],
 		"bingoEstimateRemainingResultsCountError": ["int", ["int"]],
-		"bingoEstimateRemainingTime": ["int", ["float"]],
+		"bingoEstimateRemainingTime": ["int", ["int", float_ptr]],
 		// This method return IndigoObject that represents current object.
 		// After calling bingoNext this object automatically points to the next found result
 		"bingoGetObject": ["int", ["int"]],

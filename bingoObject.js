@@ -57,4 +57,59 @@ BingoObject.prototype.getCurrentId = function () {
 	return this.indigo._checkResult(this.bingo._lib.bingoGetCurrentId(this.id));
 };
 
+/*
+ * 
+ * @method getIndigoObject
+ * @returns {object} IndigoObject
+ */
+BingoObject.prototype.getIndigoObject = function () {
+	this.indigo._setSessionId();
+	return new IndigoObject(this.indigo, this.indigo._checkResult(this.bingo._lib.bingoGetObject(this.id)));
+};
+
+/*
+ * 
+ * @method getCurrentSimilarityValue
+ * @returns {number} 
+ */
+BingoObject.prototype.getCurrentSimilarityValue = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResult(this.bingo._lib.bingoGetCurrentSimilarityValue(this.id));
+};
+
+/*
+ * 
+ * @method estimateRemainingResultsCount
+ * @returns {number} 
+ */
+BingoObject.prototype.estimateRemainingResultsCount = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResult(this.bingo._lib.bingoEstimateRemainingResultsCount(this.id));
+};
+
+/*
+ * 
+ * @method estimateRemainingResultsCountError
+ * @returns {number} 
+ */
+BingoObject.prototype.estimateRemainingResultsCountError = function () {
+	this.indigo._setSessionId();
+	return this.indigo._checkResult(this.bingo._lib.bingoEstimateRemainingResultsCountError(this.id));
+};
+
+/*
+ * 
+ * @method estimateRemainingTime
+ * @returns {number} 
+ */
+BingoObject.prototype.estimateRemainingTime = function () {
+	this.indigo._setSessionId();
+	var value = this.indigo._out.afloat;
+	var res = this.indigo._checkResult(this.bingo._lib.bingoEstimateRemainingTime(this.id, value));
+	if (res === null)
+		return null;
+	else
+		return value.deref();
+};
+
 module.exports = BingoObject;
