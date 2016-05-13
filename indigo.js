@@ -16,6 +16,7 @@ var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
 var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
+var IndigoException = require(local('indigoException'));
 
 var Indigo = function (options) {
 	options = options || {};
@@ -119,11 +120,6 @@ Indigo.prototype.getLastError = function () {
 	return '';
 };
 
-Indigo.IndigoException = function (message) {
-	this.message = message;
-	this.name = "IndigoException";
-};
-
 /*
  * Check result
  * 
@@ -134,7 +130,7 @@ Indigo.prototype._checkResult = function (result) {
 	if (result < 0) {
 		var msg = this.getLastError();
 		if (this.exception)
-			throw new Indigo.IndigoException(msg);
+			throw new IndigoException(msg);
 		else
 			this.logger.error('res < 0[' + result + ']: ' + msg);
 	}
@@ -151,7 +147,7 @@ Indigo.prototype._checkResultFloat = function (result) {
 	if (result < -0.5) {
 		var msg = this.getLastError();
 		if (this.exception)
-			throw new Indigo.IndigoException(msg);
+			throw new IndigoException(msg);
 		else
 			this.logger.error('res < 0[' + result + ']: ' + msg);
 	}
@@ -168,7 +164,7 @@ Indigo.prototype._checkResultString = function (result) {
 	if (typeof result !== 'string') {
 		var msg = this.getLastError();
 		if (this.exception)
-			throw new Indigo.IndigoException(msg);
+			throw new IndigoException(msg);
 		else
 			if (msg) this.logger.error('Err: ' + msg);
 	}

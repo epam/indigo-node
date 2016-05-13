@@ -15,10 +15,11 @@ var ffi = require('ffi');
 var ref = require('ref');
 var ref_struct = require('ref-struct');
 var ArrayType = require('ref-array');
-var IntArray = ArrayType('int');
 var ByteArray = ArrayType('byte');
-var int_ptr = ref.refType('int');
+var IntArray = ArrayType('int');
+var FloatArray = ArrayType('float');
 var byte_ptr = ref.refType('byte');
+var int_ptr = ref.refType('int');
 var char_ptr = ref.refType('char');
 var float_ptr = ref.refType('float');
 var double_ptr = ref.refType('double');
@@ -245,7 +246,7 @@ module.exports = {
 		"indigoGetSubmolecule": ["int", ["int", "int", IntArray]],
 		"indigoRemoveAtoms": ["int", ["int", "int", IntArray]],
 		"indigoRemoveBonds": ["int", ["int", "int", IntArray]],
-		"indigoAlignAtoms": ["float", ["int", "int", int_ptr, float_ptr]],
+		"indigoAlignAtoms": ["float", ["int", "int", IntArray, FloatArray]],
 		"indigoAromatize": ["int", ["int"]],
 		"indigoDearomatize": ["int", ["int"]],
 		"indigoFoldHydrogens": ["int", ["int"]],

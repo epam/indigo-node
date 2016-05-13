@@ -16,6 +16,7 @@ var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
 var lib_api = require(local('indigo-api'));
 var IndigoObject = require(local('indigoObject'));
+var IndigoException = require(local('indigoException'));
 var BingoObject = require(local('bingoObject'));
 var Indigo = require(local('indigo'));
 
@@ -34,7 +35,7 @@ var Bingo = function (bingoId, indigo, options) {
 			this.exception = indigo.exception;
 	} else {
 		if (this.exception)
-			throw new Indigo.IndigoException("indigo isn't an instance of Indigo");
+			throw new IndigoException("indigo isn't an instance of Indigo");
 		else
 			this.logger.error("indigo isn't an instance of Indigo");
 	}

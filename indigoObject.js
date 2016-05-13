@@ -11,6 +11,9 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
+var path = require('path');
+var local = path.join.bind(path, __dirname);
+var IndigoException = require(local('indigoException'));
 
 IndigoObject = function (d, id, parent) {
 	this.id = id;
@@ -53,6 +56,35 @@ IndigoObject.prototype.close = function () {
 	return this.d._checkResult(this.d._lib.indigoClose(this.id));
 };
 
+/*
+ * 
+ * @method count
+ * @returns {number}  
+ */
+IndigoObject.prototype.count = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCount(this.id));
+};
+/*
+ * @method oneBitsList
+ * @returns {number}  
+ */
+IndigoObject.prototype.oneBitsList = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoOneBitsList(this.id));
+};
+
+/*
+ * 
+ * @method mdlct
+ * @returns {array}  
+ */
+IndigoObject.prototype.mdlct = function () {
+	this.d._setSessionId();
+	var buf = this.d.writeBuffer();
+	var res = this.d._checkResult(this.d._lib.indigoSaveMDLCT(this.id, buf.id));
+	return buf.toBuffer();
+};
 
 /*
  * has an next object
@@ -64,7 +96,6 @@ IndigoObject.prototype.hasNext = function () {
 	this.d._setSessionId();
 	return (this.d._checkResult(this.d._lib.indigoHasNext(this.id)) == 1)
 };
-
 
 /*
  * 
@@ -84,19 +115,6 @@ IndigoObject.prototype.index = function () {
 IndigoObject.prototype.layout = function () {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoLayout(this.id));
-};
-
-
-/*
- * 
- * @method mdlct
- * @returns {array}  
- */
-IndigoObject.prototype.mdlct = function () {
-	this.d._setSessionId();
-	var buf = this.d.writeBuffer();
-	var res = this.d._checkResult(this.d._lib.indigoSaveMDLCT(this.id, buf.id));
-	return buf.toBuffer();
 };
 
 /*
@@ -347,6 +365,24 @@ IndigoObject.prototype.xyz = function () {
 	
 	var xyz = xyz_ptr.deref();
 	return [xyz.x, xyz.y, xyz.z];
+};
+
+/*
+ * Align atoms
+ * 
+ * @method alignAtoms
+ * @returns {Array} the [x, y, z] coordinates
+ */
+IndigoObject.prototype.alignAtoms = function (atoms, xyz) {
+	this.d._setSessionId();
+	if (atoms.length * 3 != xyz.length) {
+		if (this.d.exception)
+			throw new IndigoException("alignAtoms(): xyz[] must be exactly 3 times bigger than atoms[]");
+		else
+			this.logger.error("alignAtoms(): xyz[] must be exactly 3 times bigger than atoms[]");
+	}
+	
+	return this.d._checkResultFloat(this.d._lib.indigoAlignAtoms(this.id, atoms.length, atoms, xyz));
 };
 
 /*
@@ -808,12 +844,42 @@ IndigoObject.prototype.bond = function () {
 
 /*
  * 
- * @method index
+ * @method getAtom
  * @returns {object}  
  */
-IndigoObject.prototype.index = function () {
+IndigoObject.prototype.getAtom = function (index) {
 	this.d._setSessionId();
-	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoGetAtom(this.id, index)));
+};
+
+/*
+ * 
+ * @method getBond
+ * @returns {object}  
+ */
+IndigoObject.prototype.getBond = function (index) {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoGetBond(this.id, index)));
+};
+
+/*
+ * 
+ * @method source
+ * @returns {object}  
+ */
+IndigoObject.prototype.source = function () {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoSource(this.id)));
+};
+
+/*
+ * 
+ * @method destination
+ * @returns {object}  
+ */
+IndigoObject.prototype.destination = function () {
+	this.d._setSessionId();
+	return new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoDestination(this.id)));
 };
 
 /*
@@ -1010,16 +1076,6 @@ IndigoObject.prototype.grossFormula = function () {
 	var gfid = this.d._checkResult(this.d._lib.indigoGrossFormula(this.id));
 	var gf = new IndigoObject(this.d, gfid);
 	return this.d._checkResultString(this.d._lib.indigoToString(gf.id));
-};
-
-/*
- * 
- * @method index
- * @returns {number}  
- */
-IndigoObject.prototype.index = function () {
-	this.d._setSessionId();
-	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
 };
 
 /*
