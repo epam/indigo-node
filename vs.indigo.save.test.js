@@ -83,9 +83,8 @@ var testMultipleSave = function (smifile, iterfunc, issmi){
 	var rdfiter = indigo.iterateRDFile(local("structures.rdf"));
 	var smiiter = indigo.iterateSmilesFile(local("structures.smi"));
 	var idx = 1;
-	while (sdfiter) {
+	while (sdf = sdfiter.next().value) {
 		cml = cmliter.next().value;
-		sdf = sdfiter.next().value;
 		rdf = rdfiter.next().value;
 		smi = smiiter.next().value;
 		
