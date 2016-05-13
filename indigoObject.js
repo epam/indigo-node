@@ -53,6 +53,29 @@ IndigoObject.prototype.close = function () {
 	return this.d._checkResult(this.d._lib.indigoClose(this.id));
 };
 
+
+/*
+ * has an next object
+ * 
+ * @method hasNext
+ * @returns {number}  
+ */
+IndigoObject.prototype.hasNext = function () {
+	this.d._setSessionId();
+	return (this.d._checkResult(this.d._lib.indigoHasNext(this.id)) == 1)
+};
+
+
+/*
+ * 
+ * @method index
+ * @returns {number}  
+ */
+IndigoObject.prototype.index = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoIndex(this.id));
+};
+
 /*
  * 
  * @method layout
@@ -126,6 +149,65 @@ IndigoObject.prototype.sdfAppend = function (item) {
 	return this.d._checkResult(this.d._lib.indigoSdfAppend(this.id, item.id));
 };
 
+/*
+ * 
+ * @method smilesAppend
+ * @returns {number}  
+ */
+IndigoObject.prototype.smilesAppend = function (item) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoSmilesAppend(this.id, item.id));
+};
+
+/*
+ * 
+ * @method rdfHeader
+ * @returns {number}  
+ */
+IndigoObject.prototype.rdfHeader = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoRdfHeader(this.id));
+};
+
+/*
+ * 
+ * @method rdfAppend
+ * @returns {number}  
+ */
+IndigoObject.prototype.rdfAppend = function (item) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoRdfAppend(this.id, item.id));
+};
+
+/*
+ * 
+ * @method cmlHeader
+ * @returns {number}  
+ */
+IndigoObject.prototype.cmlHeader = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCmlHeader(this.id));
+};
+
+/*
+ * 
+ * @method cmlAppend
+ * @returns {number}  
+ */
+IndigoObject.prototype.cmlAppend = function (item) {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCmlAppend(this.id, item.id));
+};
+
+/*
+ * 
+ * @method cmlFooter
+ * @returns {number}  
+ */
+IndigoObject.prototype.cmlFooter = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCmlFooter(this.id));
+};
 
 /*
  * 
@@ -136,6 +218,78 @@ IndigoObject.prototype.arrayAdd = function (object) {
 	this.d._setSessionId();
 	return this.d._checkResult(this.d._lib.indigoArrayAdd(this.id, object.id));
 };
+
+/*
+ * 
+ * @method topology
+ * @returns {number}  
+ */
+IndigoObject.prototype.topology = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoTopology(this.id));
+};
+
+/*
+ * 
+ * @method resetStereo
+ * @returns {number}  
+ */
+IndigoObject.prototype.resetStereo = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoResetStereo(this.id));
+};
+
+/*
+ * 
+ * @method invertStereo
+ * @returns {number}  
+ */
+IndigoObject.prototype.invertStereo = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoInvertStereo(this.id));
+};
+
+/*
+ * 
+ * @method markEitherCisTrans
+ * @returns {number}  
+ */
+IndigoObject.prototype.markEitherCisTrans = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoMarkEitherCisTrans(this.id));
+};
+
+/*
+ * 
+ * @method countAtoms
+ * @returns {number}  
+ */
+IndigoObject.prototype.countAtoms = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountAtoms(this.id));
+};
+
+/*
+ * 
+ * @method countBonds
+ * @returns {number}  
+ */
+IndigoObject.prototype.countBonds = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoCountBonds(this.id));
+};
+
+/*
+ * 
+ * @method bondOrder
+ * @returns {number}  
+ */
+IndigoObject.prototype.bondOrder = function () {
+	this.d._setSessionId();
+	return this.d._checkResult(this.d._lib.indigoBondOrder(this.id));
+};
+
+
 /*
  * 
  * @method countReactants

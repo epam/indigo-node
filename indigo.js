@@ -35,8 +35,44 @@ var Indigo = function (options) {
 	this.UNCHANGED = 2;
 	this.MADE_OR_BROKEN = 4;
 	this.ORDER_CHANGED = 8;
+	this.ABS = 1;
+	this.OR = 2;
+	this.AND = 3;
+	this.EITHER = 4;
+	this.UP = 5;
+	this.DOWN = 6;
+	this.CIS = 7;
+	this.TRANS = 8;
+	this.CHAIN = 9;
+	this.RING = 10;
+	this.ALLENE = 11;
+	
+	this.SINGLET = 101;
+	this.DOUBLET = 102;
+	this.TRIPLET = 103;
 };
 
+Indigo.NOT_CENTER = -1;
+Indigo.UNMARKED = 0;
+Indigo.CENTER = 1;
+Indigo.UNCHANGED = 2;
+Indigo.MADE_OR_BROKEN = 4;
+Indigo.ORDER_CHANGED = 8;
+Indigo.ABS = 1;
+Indigo.OR = 2;
+Indigo.AND = 3;
+Indigo.EITHER = 4;
+Indigo.UP = 5;
+Indigo.DOWN = 6;
+Indigo.CIS = 7;
+Indigo.TRANS = 8;
+Indigo.CHAIN = 9;
+Indigo.RING = 10;
+Indigo.ALLENE = 11;
+
+Indigo.SINGLET = 101;
+Indigo.DOUBLET = 102;
+Indigo.TRIPLET = 103;
 /*
  * Return Indigo version string.
  * 
