@@ -208,7 +208,7 @@ tests = [
 	[lmol('c1ccccc1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
 	[lmol('C1CCCCCC1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
 	[lmol('C1CCCCCC1.C1CCCCCC1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
-	[lmol('OC(=O)C1=CC=CC=C1'), lqmolf(local("fixtures/rgroups/c11100_3.mol"))],
+	[lmol('OC(=O)C1=CC=CC=C1'), lqmolf(local("fixtures/rgroup-c11100.mol"))],
 	[lmol('N'), lsmarts("N-[#1,#112]")],
 	[lmol('N'), lsmarts("N-[#1]")]
 ];
