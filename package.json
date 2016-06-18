@@ -1,7 +1,7 @@
 {
   "name": "indigo-node",
-  "version": "0.0.0",
-  "description": "Indigo nodejs bindings",
+  "version": "0.1.0",
+  "description": "Indigo nodejs ffi bindings",
   "main": "indigo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,7 +21,10 @@
     "molfile",
     "sdf"
   ],
-  "author": "Dmitry Sigaev",
+  "author": {
+    "name": "EPAM Life Sciences",
+    "url": "http://lifescience.opensource.epam.com"
+  },
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/epam/indigo-node/issues"
@@ -30,7 +33,6 @@
   "devDependencies": {},
   "dependencies": {
     "ffi": "^2.0.0",
-    "fs-extra": "^0.26.7",
     "ref": "^1.3.2",
     "ref-array": "^1.1.2",
     "ref-struct": "^1.0.2"
