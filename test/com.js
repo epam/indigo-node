@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
 
 var testMDLCT = function () {
@@ -29,17 +29,17 @@ var testMDLCT = function () {
 
 var testReactionMaking = function () {
 	var rxn = indigo.createReaction();
-	var r1 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/reactant1.mol"));
-	var r2 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/reactant2.mol"));
-	var p1 = indigo.loadMoleculeFromFile(local("../indigo-node/reactions/product1.mol"));
-	
+	var r1 = indigo.loadMoleculeFromFile(local("fixtures/reactant1.rxn"));
+	var r2 = indigo.loadMoleculeFromFile(local("fixtures/reactant2.rxn"));
+	var p1 = indigo.loadMoleculeFromFile(local("fixtures/product1.rxn"));
+
 	rxn.addReactant(r1);
 	rxn.addReactant(r2);
 	rxn.addProduct(p1);
-	
+
 	rxn.layout();
 	rxn.saveRxnfile("result.rxn");
-	
+
 	console.log(rxn.countReactants()+ " reactants");
 	console.log(rxn.countProducts()+ " products");
 	console.log(rxn.countMolecules()+ " total");
@@ -68,7 +68,7 @@ var componentSmiles = function (mol) {
 }
 
 var testCanonical = function () {
-	for(var m of indigo.iterateSDFile(local("../indigo-node/molecules/test.sdf")))
+	for(var m of indigo.iterateSDFile(local("fixtures/test.sdf")))
 		console.log(componentSmiles(m));
 };
 

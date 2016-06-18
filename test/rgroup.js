@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
 indigo.setOption("treat-x-as-pseudoatom", true)
 indigo.setOption("ignore-stereochemistry-errors", true)
@@ -41,7 +41,7 @@ var testRGroupDecomposition = function () {
 		rsite.removeConstraints("rsite");
 		rsite.addConstraintNot("atomic-number", "1");
 	}
-	for (var structure of indigo.iterateSDFile(local("../indigo-node/molecules/sugars.sdf")))
+	for (var structure of indigo.iterateSDFile(local("fixtures/sugars.sdf")))
 	{
 		var id = structure.getProperty("molregno");
 		var match = indigo.substructureMatcher(structure).match(query);

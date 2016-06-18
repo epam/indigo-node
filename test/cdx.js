@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
 
 indigo.setOption("molfile-saving-skip-date", true)
@@ -41,16 +41,16 @@ var readCdxAndPrintInfo = function (fname){
 }
 
 console.log("**** Read CDX from file ****");
-readCdxAndPrintInfo(local('../indigo-node/molecules/test-multi.cdx'));
+readCdxAndPrintInfo(local('fixtures/test-multi.cdx'));
 
-readCdxAndPrintInfo(local('../indigo-node/molecules/CDX3_4molecules_prop.cdx'));
+readCdxAndPrintInfo(local('fixtures/CDX3_4molecules_prop.cdx'));
 
 
 console.log("**** Read CDX with wrong empty objects ****");
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_0.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_1.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_2.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_3.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_4.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_5.cdx'));
-readCdxAndPrintInfo(local('../indigo-node/molecules/test_title_6.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_0.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_1.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_2.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_3.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_4.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_5.cdx'));
+readCdxAndPrintInfo(local('fixtures/test_title_6.cdx'));

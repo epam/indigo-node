@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -17,15 +17,16 @@ var assert = require('assert');
 var path = require('path');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
 
 console.log('indigo basic test');
 console.log('start:');
 
 var status = indigo.setOption("molfile-saving-skip-date", "1");
-console.log("****** Query reload ********")
-var q = indigo.loadQueryMoleculeFromFile(local("../indigo-node/molecules/q_atom_list.mol"));
+console.log("****** Query reload ********");
+
+var q = indigo.loadQueryMoleculeFromFile(local("fixtures/q_atom_list.mol"));
 var qmf1 = q.molfile();
 console.log(qmf1);
 var q2 = indigo.loadQueryMolecule(q.molfile());
@@ -115,7 +116,7 @@ for (var a of m2.iterateAtoms())
 console.log(" "+a.charge()+" "+a.valence());
 
 console.log("****** Unmarked stereobonds ********");
-var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/stereo.mol"));
+var m = indigo.loadMoleculeFromFile(local("fixtures/stereo.mol"));
 console.log(m.canonicalSmiles());
 m.clearStereocenters();
 console.log(m.canonicalSmiles());
@@ -153,14 +154,15 @@ console.log(m.smiles());
 console.log(m.normalize(""));
 console.log(m.smiles());
 
-console.log("****** R-group big index ********")
-var mols = ["molecules/r31.mol", "molecules/r32.mol", "molecules/r128.mol" ]
+console.log("****** R-group big index ********");
+var mols = ["r31.mol", "r32.mol", "r128.mol" ];
+
 for (var molfile of mols)
 {
 	for (var obj of [ {"loader":indigo.loadMoleculeFromFile, "type":"molecule"}, {"loader":indigo.loadQueryMoleculeFromFile, "type":"query"} ])
 	{
 		console.log(molfile + " " + obj.type + ":");
-		var m = obj.loader.call(indigo,local("../indigo-node/"+ molfile));
+		var m = obj.loader.call(indigo, local("fixtures" + molfile));
 		var str = m.molfile(); // check molfile generation
 		console.log("  " + m.smiles());
 	}
@@ -198,9 +200,9 @@ var q2 = indigo.loadQueryMolecule(q.smiles());
 console.log(q2.smiles());
 
 console.log("****** Large symmetric molecule ********");
-var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmetric.smi"));
+var m = indigo.loadMoleculeFromFile(local("fixtures/large-symmetric.smi"));
 console.log(m.smiles());
-var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/large-symmetric.mol"));
+var m = indigo.loadMoleculeFromFile(local("fixtures/large-symmetric.mol"));
 console.log(m.smiles());
 
 console.log("****** Symmetric stereocenters and cis-trans bonds ********");
@@ -221,7 +223,7 @@ m.removeBonds([1, 3, 4]);
 console.log(m.smiles());
 
 console.log("****** Overlapping stereocenters due to hydrogens folding bug fix check *****");
-var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/pubchem-150858.mol"));
+var m = indigo.loadMoleculeFromFile(local("fixtures/pubchem-150858.mol"));
 var cs = m.canonicalSmiles();
 console.log(cs);
 m.foldHydrogens();
@@ -240,7 +242,7 @@ if (cs != cs3)
 	console.log("Bug!");
 
 console.log("****** SMILES cis-trans check *****");
-var m = indigo.loadMoleculeFromFile(local("../indigo-node/molecules/016_26-large.mol"));
+var m = indigo.loadMoleculeFromFile(local("fixtures/016_26-large.mol"));
 console.log(m.smiles());
 console.log(m.canonicalSmiles());
 

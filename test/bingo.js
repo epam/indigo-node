@@ -18,9 +18,9 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo({ exception: true });
-var Bingo = require("../indigo-node/bingo");
+var Bingo = require("../bingo");
 
 var dbname = local('append-mol-db');
 var smiles = ["CCCC1CCCCC1CPC", "CCC1CCNCC1CPC"];

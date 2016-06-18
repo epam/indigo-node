@@ -18,9 +18,9 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
-var IndigoRenderer = require("../indigo-node/indigo_renderer");
+var IndigoRenderer = require("../indigo_renderer");
 var indigo_renderer = new IndigoRenderer(indigo);
 
 var testDearom = function ()
@@ -47,7 +47,7 @@ var cdxml = function () {
 	indigo.setOption("render-atom-ids-visible", "1");
 	arr = indigo.createArray();
 	var idx = 0;
-	for (var m of indigo.iterateSmilesFile(local("../indigo-node/molecules/pubchem_slice_10.smi"))) {
+	for (var m of indigo.iterateSmilesFile(local("fixtures/pubchem_slice_10.smi"))) {
 		console.log(m.smiles());
 		// Set title
 		m.setProperty("title", "Molecule:" + idx + "\nMass: " + m.molecularWeight() + "\nFormula: " + m.grossFormula());

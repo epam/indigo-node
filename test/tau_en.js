@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
 
 var testEnumTautomersForMolecule = function (molecule) {
@@ -49,13 +49,13 @@ console.log("This is the case when not all tautomers are found for the first tim
 testEnumTautomersForMolecule(indigo.loadMolecule('OC1N=C2C(=NC(N)=NC(=O)2)NC(O)=1'));
 
 console.log("Test tautomers1-small.sdf")
-testEnumTautomersForSDF(local('../indigo-node/molecules/tautomers1-small.sdf'));
+testEnumTautomersForSDF(local('fixtures/tautomers1-small.sdf'));
 
 console.log("Test tautomers2-small.sdf")
-testEnumTautomersForSDF(local('../indigo-node/molecules/tautomers2-small.sdf'));
+testEnumTautomersForSDF(local('fixtures/tautomers2-small.sdf'));
 
 console.log("Test tautomers1-large.sdf")
-testEnumTautomersForSDF(local('../indigo-node/molecules/tautomers1-large.sdf'));
+testEnumTautomersForSDF(local('fixtures/tautomers1-large.sdf'));
 
 console.log("Test tautomers2-large.sdf")
-testEnumTautomersForSDF(local('../indigo-node/molecules/tautomers2-large.sdf'));
+testEnumTautomersForSDF(local('fixtures/tautomers2-large.sdf'));

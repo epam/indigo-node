@@ -18,9 +18,9 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo();
-var IndigoRenderer = require("../indigo-node/indigo_renderer");
+var IndigoRenderer = require("../indigo_renderer");
 var renderer = new IndigoRenderer(indigo);
 
 var testAlignAtoms = function () {
@@ -29,7 +29,7 @@ var testAlignAtoms = function () {
 	var xyz = [];
 	var collection = indigo.createArray();
 	var refatoms = [];
-	for (var structure of indigo.iterateSDFile(local("../indigo-node/molecules/benzodiazepine.sdf.gz"))) {
+	for (var structure of indigo.iterateSDFile(local("fixtures/benzodiazepine.sdf.gz"))) {
 		var match = indigo.substructureMatcher(structure).match(query)
 		if (!match) {
 			console.log("structure not matched, this is unexpected");

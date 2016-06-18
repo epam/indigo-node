@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo({ exception: true });
 
 
@@ -38,7 +38,7 @@ var readSdfAndPrintInfo = function (fname) {
 	}
 };
 
-readSdfAndPrintInfo('../indigo-node/molecules/Compound_0000001_0000250.sdf.gz');
+readSdfAndPrintInfo('fixtures/Compound_0000001_0000250.sdf.gz');
 
 console.log("**** Save and load molecule names from SDF ****");
 sdf_file_name = local("sdf-names.sdf");
@@ -84,5 +84,5 @@ sdf.close();
 checkMolNames(names, sdf_file_name);
 
 console.log("**** Read SDF with invalid header ****");
-readSdfAndPrintInfo('../indigo-node/molecules/bad-header.sdf');
+readSdfAndPrintInfo('fixtures/bad-header.sdf');
 

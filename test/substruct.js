@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -18,12 +18,12 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo-node/indigo");
+var Indigo = require("../indigo");
 var indigo = new Indigo({ exception: true });
 var lyopset = {
 	"embedding-uniqueness": ["atoms", "bonds", "none"],
 	"midle": [6, 7],
-	"max-embeddings": [20, 0, 1, 5, 500, 10000, 50000], 
+	"max-embeddings": [20, 0, 1, 5, 500, 10000, 50000],
 	"*embeddings limit*": [0, 200],
 	"last": 3,
 	"lalast": 5
@@ -60,7 +60,7 @@ var createVolume = function (obj, level)
 			return { key: key, value: iter, array: [], level: 0 };
 		}
 	}
-} 
+}
 
 test = createVolume(lyopset);
 
@@ -70,27 +70,27 @@ var checkHasMatchMol = function (indigo, m, q) {
 	m.checkBadValence();
 	var matcher = indigo.substructureMatcher(m);
 	assert(matcher.match(q) != null);
-	
+
 	var m2 = indigo.unserialize(m.serialize());
-	var matcher2 = indigo.substructureMatcher(m2)
+	var matcher2 = indigo.substructureMatcher(m2);
 	assert(matcher2.match(q) != null);
 	q.optimize();
 	assert(matcher.match(q) != null);
-	assert(matcher2.match(q) != null)
+	assert(matcher2.match(q) != null);
 };
 
 var checkHasMatch = function (indigo, targetName, queryName) {
 	console.log(targetName + " " + queryName);
-	var q = indigo.loadQueryMoleculeFromFile(local("../indigo-node/"+queryName));
-	var m = indigo.loadMoleculeFromFile(local("../indigo-node/"+targetName));
+	var q = indigo.loadQueryMoleculeFromFile(local("fixtures/" + queryName));
+	var m = indigo.loadMoleculeFromFile(local("fixtures/" + targetName));
 	checkHasMatchMol(indigo, m, q);
 };
 
 console.log("***** Substructure with either and bidirectional mode *****");
 indigo.setOption("stereochemistry-bidirectional-mode", true);
-checkHasMatch(indigo, "molecules/either1.mol", "molecules/either1.mol");
-checkHasMatch(indigo, "molecules/either1.mol", "molecules/either2.mol");
-checkHasMatch(indigo, "molecules/either1.mol", "molecules/either1_query.mol");
+checkHasMatch(indigo, "either1.mol", "either1.mol");
+checkHasMatch(indigo, "either1.mol", "either2.mol");
+checkHasMatch(indigo, "either1.mol", "either1_query.mol");
 
 var mol = indigo.loadMolecule('C1C=CC=CC=1');
 mol.aromatize();
@@ -106,7 +106,7 @@ var FullTest = function (mol, q) {
 	//indigo.dbgBreakpoint();
 	var cnt = matcher.countMatches(q);
 	console.log("count = " + cnt);
-	
+
 	var testUnmappedAtoms = function (q, match, t) {
 		var unmapped = 0;
 		for (atom of q.iterateAtoms()) {
@@ -142,10 +142,10 @@ var FullTest = function (mol, q) {
 	}
 	var opset = {
 		"embedding-uniqueness": ["atoms", "bonds", "none"],
-		"max-embeddings": [20, 0, 1, 5, 500, 10000, 50000], 
+		"max-embeddings": [20, 0, 1, 5, 500, 10000, 50000],
 		"*embeddings limit*": [0, 200]
 	};
-	
+
 	var opt_combintations = createVolume(opset);
 
 	for (var opt_set of opt_combintations) {
@@ -171,7 +171,7 @@ var FullTest = function (mol, q) {
 var loadWithCheck = function (func) {
 	var wrapper = function (param) {
 		// try
-		console.log(func, param); 
+		console.log(func, param);
 		return func.call(this, param);
 	    // catch
 	}
@@ -199,16 +199,16 @@ tests = [
 	[lmol('c1cc2cc3ccc4cc5cc6cccc7cc8ccc9cc%10cc(c1)c2c1c3c4c2c5c(c67)c8c9c2c%101'), lqmol("*~*~*~*~*~*~*~*~*~*~*~*1~*~*~*C=C1")],
 	[lmol('c1cc2cc3ccc4cc5cc6cccc7cc8ccc9cc%10cc(c1)c2c1c3c4c2c5c(c67)c8c9c2c%101'), lqmol("*~*~*~*~*~*~*~*~*~*~*~*~1~*~*~*~*~*~1")],
 	[lmol('c1cc2cc3ccc4cc5cc6cccc7cc8ccc9cc%10cc(c1)c2c1c3c4c2c5c(c67)c8c9c2c%101'), lsmarts("*~*~*~*~*~*~*~*~*~*~*~[#1,#6]")],
-	[lmol('c1cc2concc2cn1'), lqmolf(local("../indigo-node/molecules/r1_2ap.mol"))],
-	[lmol('c1cc2cnocc2cn1'), lqmolf(local("../indigo-node/molecules/r1_2ap_aal.mol"))],
-	[lmolf(local("../indigo-node/molecules/r2_target.mol")), lqmolf(local("../indigo-node/molecules/r2.mol"))],
+	[lmol('c1cc2concc2cn1'), lqmolf(local("fixtures/r1_2ap.mol"))],
+	[lmol('c1cc2cnocc2cn1'), lqmolf(local("fixtures/r1_2ap_aal.mol"))],
+	[lmolf(local("fixtures/r2_target.mol")), lqmolf(local("fixtures/r2.mol"))],
 	[lmol('c1ccccc1'), lsmarts("[#6]cccc[#6,#7]")],
-	[lmol('c1ccccc1'), lqmolf(local("../indigo-node/molecules/q_rg_recurs.mol"))],
-	[lmol('c1ccccc1.c1ccccc1'), lqmolf(local("../indigo-node/molecules/q_rg_recurs.mol"))],
-	[lmol('c1ccccc1'), lqmolf(local("../indigo-node/molecules/q_rg_recurs2.mol"))],
-	[lmol('C1CCCCCC1'), lqmolf(local("../indigo-node/molecules/q_rg_recurs2.mol"))],
-	[lmol('C1CCCCCC1.C1CCCCCC1'), lqmolf(local("../indigo-node/molecules/q_rg_recurs2.mol"))],
-	[lmol('OC(=O)C1=CC=CC=C1'), lqmolf(local("../indigo-node/molecules/rgroups/c11100_3.mol"))],
+	[lmol('c1ccccc1'), lqmolf(local("fixtures/q_rg_recurs.mol"))],
+	[lmol('c1ccccc1.c1ccccc1'), lqmolf(local("fixtures/q_rg_recurs.mol"))],
+	[lmol('c1ccccc1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
+	[lmol('C1CCCCCC1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
+	[lmol('C1CCCCCC1.C1CCCCCC1'), lqmolf(local("fixtures/q_rg_recurs2.mol"))],
+	[lmol('OC(=O)C1=CC=CC=C1'), lqmolf(local("fixtures/rgroups/c11100_3.mol"))],
 	[lmol('N'), lsmarts("N-[#1,#112]")],
 	[lmol('N'), lsmarts("N-[#1]")]
 ];
