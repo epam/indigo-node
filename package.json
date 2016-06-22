@@ -4,7 +4,8 @@
   "description": "Indigo nodejs ffi bindings",
   "main": "indigo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test",
+    "clean": "rm -rf *.png *.rxn test/*db test/*.mol test/*.sdf test/*.cml test/*.cdxml test/*.png test/*.svg test/*.smi test/*.rdf"
   },
   "repository": {
     "type": "git",
