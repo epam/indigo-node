@@ -1,17 +1,19 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
+var ffi = require('ffi');
+
 var local = path.join.bind(path, __dirname);
 var config = require(local('configureIndigo'));
 var lib_api = require(local('indigo-api'));
@@ -24,6 +26,15 @@ var Indigo = function (options) {
 	this.libpath = options.libpath || libpath;
 	this.exception = options.exception || false;
 	this.logger = options.logger || console;
+
+	if (process.platform == 'linux') {
+		// Indigo must be loaded with `RTLD_GLOBAL` flag
+		// to make plugins work. See https://git.io/voPPW
+		var mode = ffi.DynamicLibrary.FLAGS.RTLD_GLOBAL |
+		           ffi.DynamicLibrary.FLAGS.RTLD_LAZY;
+		var exportSyms = new ffi.DynamicLibrary(libpath + ffi.LIB_EXT, mode);
+	}
+
 	this._lib = lib_api.Library(libpath, lib_api.api);
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
@@ -47,7 +58,7 @@ var Indigo = function (options) {
 	this.CHAIN = 9;
 	this.RING = 10;
 	this.ALLENE = 11;
-	
+
 	this.SINGLET = 101;
 	this.DOUBLET = 102;
 	this.TRIPLET = 103;
@@ -76,7 +87,7 @@ Indigo.DOUBLET = 102;
 Indigo.TRIPLET = 103;
 /*
  * Return Indigo version string.
- * 
+ *
  * @method getVersion
  * @return {String} Indigo version
  */
@@ -90,7 +101,7 @@ Indigo.prototype.getVersion = function () {
  * Switch to another session. The session, if was not allocated
  * previously, is allocated automatically and initialized with
  * empty set of objects and default options.
- * 
+ *
  * @method _setSessionId
  */
 Indigo.prototype._setSessionId = function () {
@@ -101,7 +112,7 @@ Indigo.prototype._setSessionId = function () {
  * Release session. The memory used by the released session
  * is not freed, but the number will be reused on
  * further allocations.
- * 
+ *
  * @method _releaseSessionId
  */
 Indigo.prototype._releaseSessionId = function () {
@@ -111,7 +122,7 @@ Indigo.prototype._releaseSessionId = function () {
 
 /*
  * Get the last error message
- * 
+ *
  * @method getLastError
  */
 Indigo.prototype.getLastError = function () {
@@ -122,7 +133,7 @@ Indigo.prototype.getLastError = function () {
 
 /*
  * Check result
- * 
+ *
  * @method _checkResult
  * @param {number} result
  */
@@ -139,7 +150,7 @@ Indigo.prototype._checkResult = function (result) {
 
 /*
  * Check result
- * 
+ *
  * @method _checkResultFloat
  * @param {number} result
  */
@@ -155,8 +166,8 @@ Indigo.prototype._checkResultFloat = function (result) {
 };
 
 /*
- * Check string result 
- * 
+ * Check string result
+ *
  * @method _checkResultString
  * @param {string} result
  */
@@ -173,7 +184,7 @@ Indigo.prototype._checkResultString = function (result) {
 
 /*
  * Count object currently allocated
- * 
+ *
  * @method countReferences
  * @return {number} count
  */
@@ -183,8 +194,8 @@ Indigo.prototype.countReferences = function () {
 };
 
 /*
- * Load molecule from string 
- * 
+ * Load molecule from string
+ *
  * @method loadMolecule
  * @param {string} string reprsantation of molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
  * @return {object} IndigoObject
@@ -195,8 +206,8 @@ Indigo.prototype.loadMolecule = function (string) {
 };
 
 /*
- * Load reaction from string 
- * 
+ * Load reaction from string
+ *
  * @method loadReaction
  * @param {string} string reprsantation of molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
  * @return {object} IndigoObject
@@ -207,8 +218,8 @@ Indigo.prototype.loadReaction = function (string) {
 };
 
 /*
- * Load query molecule from string 
- * 
+ * Load query molecule from string
+ *
  * @method loadQueryMolecule
  * @param {string} string reprsantation of query molecule or a specification in form of a line notation for describing the structure of chemical species using short ASCII strings.
  * @return {object} IndigoObject
@@ -219,8 +230,8 @@ Indigo.prototype.loadQueryMolecule = function (string) {
 };
 
 /*
- * Load query molecule from file 
- * 
+ * Load query molecule from file
+ *
  * @method loadQueryMoleculeFromFile
  * @param {string} filename of chemical format of molecule.
  * @return {object} IndigoObject
@@ -231,8 +242,8 @@ Indigo.prototype.loadQueryMoleculeFromFile = function (filename) {
 };
 
 /*
- * Load molecule from file 
- * 
+ * Load molecule from file
+ *
  * @method loadMoleculeFromFile
  * @param {string} filename of chemical format of molecule.
  * @return {object} IndigoObject
@@ -244,7 +255,7 @@ Indigo.prototype.loadMoleculeFromFile = function (filename) {
 
 /*
  * Load molecular pattern from SMARTS string format
- * 
+ *
  * @method loadSmarts
  * @param {string} a particular pattern (subgraph) in a molecule (graph)
  * @return {object} IndigoObject
@@ -256,7 +267,7 @@ Indigo.prototype.loadSmarts = function (string) {
 
 /*
  * Load molecular pattern from file which contains SMARTS string format
- * 
+ *
  * @method loadSmartsFromFile
  * @param {string} a particular pattern (subgraph) in a molecule (graph)
  * @return {object} IndigoObject
@@ -267,8 +278,8 @@ Indigo.prototype.loadSmartsFromFile = function (filename) {
 };
 
 /*
- *  Substructure matching 
- *  
+ *  Substructure matching
+ *
  * @method substructureMatcher
  * @param {object} target is IndigoObject
  * @param {string} 'mode' is reserved for future use; currently its value is ignored
@@ -283,10 +294,10 @@ Indigo.prototype.substructureMatcher = function (target, mode) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method unserialize
- * @param {array} 
+ * @param {array}
  * @return {object} a new indigo object
  */
 Indigo.prototype.unserialize = function (array) {
@@ -298,8 +309,8 @@ Indigo.prototype.unserialize = function (array) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method writeBuffer
  * @return {object} a new indigo object
  */
@@ -311,8 +322,8 @@ Indigo.prototype.writeBuffer = function () {
 
 
 /*
- * 
- * 
+ *
+ *
  * @method writeBuffer
  * @return {object} a new indigo object
  */
@@ -323,8 +334,8 @@ Indigo.prototype.writeFile = function (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method loadBuffer
  * @return {object} a new indigo object
  */
@@ -334,8 +345,8 @@ Indigo.prototype.loadBuffer = function (buf) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createMolecule
  * @return {object} a new indigo object
  */
@@ -345,8 +356,8 @@ Indigo.prototype.createMolecule = function () {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createQueryMolecule
  * @return {object} a new indigo object
  */
@@ -356,8 +367,8 @@ Indigo.prototype.createQueryMolecule = function () {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createReaction
  * @return {object} a new indigo object
  */
@@ -368,8 +379,8 @@ Indigo.prototype.createReaction = function () {
 
 
 /*
- * 
- * 
+ *
+ *
  * @method createQueryReaction
  * @return {object} a new indigo object
  */
@@ -379,10 +390,10 @@ Indigo.prototype.createQueryReaction = function () {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createSaver
- * @param {object} 
+ * @param {object}
  * @param {string} format
  * @return {object} a new indigo object
  */
@@ -392,10 +403,10 @@ Indigo.prototype.createSaver = function (obj, format) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method loadString
- * @param {string} 
+ * @param {string}
  * @return {object} a new indigo object
  */
 Indigo.prototype.loadString = function (string) {
@@ -404,10 +415,10 @@ Indigo.prototype.loadString = function (string) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateSDFile
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateSDFile = function* (filename) {
@@ -418,10 +429,10 @@ Indigo.prototype.iterateSDFile = function* (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateRDFile
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateRDFile = function* (filename) {
@@ -432,10 +443,10 @@ Indigo.prototype.iterateRDFile = function* (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateSmilesFile
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateSmilesFile = function* (filename) {
@@ -446,10 +457,10 @@ Indigo.prototype.iterateSmilesFile = function* (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateCMLFile
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateCMLFile = function* (filename) {
@@ -460,10 +471,10 @@ Indigo.prototype.iterateCMLFile = function* (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateCDXFile
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateCDXFile = function* (filename) {
@@ -474,10 +485,10 @@ Indigo.prototype.iterateCDXFile = function* (filename) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateSDF
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateSDF = function* (reader) {
@@ -488,10 +499,10 @@ Indigo.prototype.iterateSDF = function* (reader) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateSmiles
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateSmiles = function* (reader) {
@@ -502,10 +513,10 @@ Indigo.prototype.iterateSmiles = function* (reader) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateCML
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateCML = function* (reader) {
@@ -516,10 +527,10 @@ Indigo.prototype.iterateCML = function* (reader) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateRDF
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateRDF = function* (reader) {
@@ -530,10 +541,10 @@ Indigo.prototype.iterateRDF = function* (reader) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateCDX
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateCDX = function* (reader) {
@@ -544,10 +555,10 @@ Indigo.prototype.iterateCDX = function* (reader) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method iterateTautomers
- * @param {object} 
+ * @param {object}
  * @return {object} a new indigo object
  */
 Indigo.prototype.iterateTautomers = function* (molecule, params) {
@@ -558,8 +569,8 @@ Indigo.prototype.iterateTautomers = function* (molecule, params) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createFileSaver
  * @param {string} filename
  * @param {string} format
@@ -571,8 +582,8 @@ Indigo.prototype.createFileSaver = function (filename, format) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createSaver
  * @param {object} obj
  * @param {string} format
@@ -584,8 +595,8 @@ Indigo.prototype.createSaver = function (obj, format) {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method createArray
  * @return {object} a new indigo object
  */
@@ -595,10 +606,10 @@ Indigo.prototype.createArray = function () {
 };
 
 /*
- * Set Option 
- * 
+ * Set Option
+ *
  * @method setOption
- * @param {string} name of option.	
+ * @param {string} name of option.
  * @param {number or string or boolean} value of option.
  * @return {boolean} return true if option applies as successful
  */
