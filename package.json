@@ -1,16 +1,12 @@
 {
-  "name": "indigo-node",
+  "name": "indigo",
   "version": "0.1.0",
   "description": "Indigo nodejs ffi bindings",
-  "main": "indigo.js",
-  "scripts": {
-    "test": "node test",
-    "clean": "rm -rf *.png *.rxn test/*db test/*.mol test/*.sdf test/*.cml test/*.cdxml test/*.png test/*.svg test/*.smi test/*.rdf"
+  "author": {
+    "name": "EPAM Life Sciences",
+    "url": "http://lifescience.opensource.epam.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/epam/indigo-node.git"
-  },
+  "license": "GPL-3.0",
   "keywords": [
     "indigo",
     "bingo",
@@ -22,20 +18,27 @@
     "molfile",
     "sdf"
   ],
-  "author": {
-    "name": "EPAM Life Sciences",
-    "url": "http://lifescience.opensource.epam.com"
+  "homepage": "https://github.com/epam/indigo-node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epam/indigo-node.git"
   },
-  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/epam/indigo-node/issues"
   },
-  "homepage": "https://github.com/epam/indigo-node",
-  "devDependencies": {},
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "main": "indigo.js",
   "dependencies": {
     "ffi": "^2.0.0",
     "ref": "^1.3.2",
     "ref-array": "^1.1.2",
     "ref-struct": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test",
+    "clean": "rm -rf *.png *.rxn test/*db test/*.mol test/*.sdf test/*.cml test/*.cdxml test/*.png test/*.svg test/*.smi test/*.rdf"
   }
 }
