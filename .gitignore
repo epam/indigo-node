@@ -1,4 +1,2 @@
-/node_modules/
-/shared/
-/.idea/
-/molecules-full/
+/node_modules
+/lib

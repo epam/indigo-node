@@ -14,18 +14,27 @@
 var path = require('path');
 var ffi = require('ffi');
 
-var local = path.join.bind(path, __dirname);
-var config = require(local('configureIndigo'));
-var lib_api = require(local('indigo-api'));
-var IndigoObject = require(local('indigoObject'));
-var IndigoException = require(local('indigoException'));
+var config = require('./configureIndigo');
+var lib_api = require('./indigo-api');
+var IndigoObject = require('./indigoObject');
+var IndigoException = require('./indigoException');
 
-var Indigo = function (options) {
-	options = options || {};
-	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo']);
-	this.libpath = options.libpath || libpath;
-	this.exception = options.exception || false;
-	this.logger = options.logger || console;
+var Indigo = function (basepath) {
+	if (!basepath)
+		basepath = path.join(__dirname, 'lib');
+
+	var osMap = {
+		'linux': 'Linux',
+		'darwin': 'Mac',
+		'win32': 'Win'
+	};
+	if (!osMap[process.platform] ||
+	    ['x86', 'x64'].indexOf(process.arch) == -1)
+		throw IndigoException("Unknown platform " + process.platform +
+		                      " (" + process.arch + ")");
+
+	this.dllpath = path.join(basepath, osMap[process.platform], process.arch);
+	var libpath = path.join(this.dllpath, config[process.platform].libs['indigo']);
 
 	if (process.platform == 'linux') {
 		// Indigo must be loaded with `RTLD_GLOBAL` flag
@@ -35,7 +44,7 @@ var Indigo = function (options) {
 		var exportSyms = new ffi.DynamicLibrary(libpath + ffi.LIB_EXT, mode);
 	}
 
-	this._lib = lib_api.Library(libpath, lib_api.api);
+	this._lib = ffi.Library(libpath, lib_api.api);
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
 	this._sid = this._lib.indigoAllocSessionId();
@@ -138,13 +147,8 @@ Indigo.prototype.getLastError = function () {
  * @param {number} result
  */
 Indigo.prototype._checkResult = function (result) {
-	if (result < 0) {
-		var msg = this.getLastError();
-		if (this.exception)
-			throw new IndigoException(msg);
-		else
-			this.logger.error('res < 0[' + result + ']: ' + msg);
-	}
+	if (result < 0)
+		throw new IndigoException(this.getLastError());
 	return result;
 };
 
@@ -155,13 +159,8 @@ Indigo.prototype._checkResult = function (result) {
  * @param {number} result
  */
 Indigo.prototype._checkResultFloat = function (result) {
-	if (result < -0.5) {
-		var msg = this.getLastError();
-		if (this.exception)
-			throw new IndigoException(msg);
-		else
-			this.logger.error('res < 0[' + result + ']: ' + msg);
-	}
+	if (result < -0.5)
+		throw new IndigoException(this.getLastError());
 	return result;
 };
 
@@ -172,13 +171,8 @@ Indigo.prototype._checkResultFloat = function (result) {
  * @param {string} result
  */
 Indigo.prototype._checkResultString = function (result) {
-	if (typeof result !== 'string') {
-		var msg = this.getLastError();
-		if (this.exception)
-			throw new IndigoException(msg);
-		else
-			if (msg) this.logger.error('Err: ' + msg);
-	}
+	if (typeof result !== 'string')
+		throw new IndigoException(this.getLastError());
 	return result;
 };
 

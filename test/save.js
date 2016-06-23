@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -19,7 +19,7 @@ var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo");
-var indigo = new Indigo({ exception: true });
+var indigo = new Indigo();
 
 var testMultipleSave = function (smifile, iterfunc, issmi){
 	console.log("TESTING " + path.parse(smifile).name);
@@ -77,7 +77,7 @@ var testMultipleSave = function (smifile, iterfunc, issmi){
 	cmlout.close();
 	rdfout.close();
 	smiout.close();
-	
+
 	var cmliter = indigo.iterateCMLFile(local("structures.cml"));
 	var sdfiter = indigo.iterateSDFile(local("structures.sdf"));
 	var rdfiter = indigo.iterateRDFile(local("structures.rdf"));
@@ -87,7 +87,7 @@ var testMultipleSave = function (smifile, iterfunc, issmi){
 		cml = cmliter.next().value;
 		rdf = rdfiter.next().value;
 		smi = smiiter.next().value;
-		
+
 		console.log(sdf.index() + ' ' + sdf.name());
 		sdf.resetSymmetricCisTrans();
 		rdf.resetSymmetricCisTrans();
