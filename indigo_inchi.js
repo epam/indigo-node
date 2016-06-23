@@ -1,47 +1,32 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
-var local = path.join.bind(path, __dirname);
-var config = require(local('configureIndigo'));
-var lib_api = require(local('indigo-api'));
-var IndigoObject = require(local('indigoObject'));
-var IndigoException = require(local('indigoException'));
-var Indigo = require(local('indigo'));
+var config = require('./configureIndigo');
+var lib_api = require('./indigo-api');
+var IndigoObject = require('./indigoObject');
+var IndigoException = require('./indigoException');
+var Indigo = require('./indigo');
 
-var IndigoInchi = function (indigo, options) {
-	options = options || {};
-	var libpath = local('shared/' + process.platform + '/' + process.arch + '/'+ config[process.platform].libs['indigo-inchi']);
-	this.libpath = options.libpath || libpath;
-	this.exception = options.exception || false;
-	this.logger = options.logger || console;
+var IndigoInchi = function (indigo) {
+	this.indigo = indigo;
+	var libpath = path.join(indigo.dllpath, config[process.platform].libs['indigo-inchi']);
+
 	this._lib = lib_api.Library(libpath, lib_api.api_inchi);
-	if (indigo instanceof Indigo) {
-		this.indigo = indigo;
-		if (this.exception)
-			indigo.exception = this.exception;
-		else
-			this.exception = indigo.exception;
-	} else {
-		if (this.exception)
-			throw new IndigoException("indigo isn't an instance of Indigo");
-		else
-			this.logger.error("indigo isn't an instance of Indigo");
-	}
 };
 
 /*
- * 
+ *
  * @method version
  * @return {string} string of version
  */
@@ -51,7 +36,7 @@ IndigoInchi.prototype.version = function () {
 };
 
 /*
- * 
+ *
  * @method resetOptions
  * @return {boolean} return true if option applies as successful
  */
@@ -61,10 +46,10 @@ IndigoInchi.prototype.resetOptions = function () {
 };
 
 /*
- * 
- * 
+ *
+ *
  * @method loadMolecule
- * @param {string} 
+ * @param {string}
  * @return {object} a new indigo object
  */
 IndigoInchi.prototype.loadMolecule = function (inchi) {
@@ -73,9 +58,9 @@ IndigoInchi.prototype.loadMolecule = function (inchi) {
 };
 
 /*
- * 
+ *
  * @method getInchi
- * @param {object} 
+ * @param {object}
  * @return {string}
  */
 IndigoInchi.prototype.getInchi = function (molecule) {
@@ -84,7 +69,7 @@ IndigoInchi.prototype.getInchi = function (molecule) {
 };
 
 /*
- * 
+ *
  * @method getWarning
  * @return {string}
  */
@@ -94,17 +79,17 @@ IndigoInchi.prototype.getWarning = function () {
 };
 
 /*
- * 
+ *
  * @method getInchiKey
  * @return {string}
  */
 IndigoInchi.prototype.getInchiKey = function (inchi) {
-	this.indigo._setSessionId()
+	this.indigo._setSessionId();
 	return this.indigo._checkResultString(this._lib.indigoInchiGetInchiKey(inchi));
 };
 
 /*
- * 
+ *
  * @method getLog
  * @return {string}
  */
@@ -114,7 +99,7 @@ IndigoInchi.prototype.getLog = function () {
 };
 
 /*
- * 
+ *
  * @method getAuxInfo
  * @return {string}
  */
@@ -124,4 +109,3 @@ IndigoInchi.prototype.getAuxInfo = function () {
 };
 
 module.exports = IndigoInchi;
-

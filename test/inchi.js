@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -19,7 +19,7 @@ var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo");
-var indigo = new Indigo({ exception: true });
+var indigo = new Indigo();
 var IndigoInchi = require("../indigo_inchi");
 var indigo_inchi = new IndigoInchi(indigo);
 
@@ -78,7 +78,7 @@ try {
 catch (e) {
 	console.log("Error: %s\n", e.message);
 }
-	
+
 console.log("Arom/dearom");
 try {
 	var inchi2 = indigo_inchi.getInchi(m2);
