@@ -1,78 +1,61 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
-var local = path.join.bind(path, __dirname);
-var config = require(local('configureIndigo'));
-var lib_api = require(local('indigo-api'));
-var IndigoObject = require(local('indigoObject'));
-var IndigoException = require(local('indigoException'));
-var BingoObject = require(local('bingoObject'));
-var Indigo = require(local('indigo'));
+var config = require('./configureIndigo');
+var lib_api = require('./indigo-api');
+var IndigoObject = require('./indigoObject');
+var IndigoException = require('./indigoException');
+var BingoObject = require('./bingoObject');
+var Indigo = require('./indigo');
 
-var Bingo = function (bingoId, indigo, options) {
-	options = options || {};
+var Bingo = function (bingoId, indigo, lib) {
 	this.id = bingoId;
-	this.libpath = options.libpath;
-	this.exception = options.exception || false;
-	this.logger = options.logger || console;
-	this._lib = options.lib;
-	if (indigo instanceof Indigo) {
-		this.indigo = indigo;
-		if (this.exception)
-			indigo.exception = this.exception;
-		else
-			this.exception = indigo.exception;
-	} else {
-		if (this.exception)
-			throw new IndigoException("indigo isn't an instance of Indigo");
-		else
-			this.logger.error("indigo isn't an instance of Indigo");
-	}
+	this._lib = lib;
+	this.indigo = indigo;
 };
 
+Bingo._getLib = function (indigo) {
+	var libpath = path.join(indigo.dllpath, config[process.platform].libs['bingo']);
+
+	return lib_api.Library(libpath, lib_api.api_bingo);
+};
 /*
- * 
+ *
  * @method Bingo.createDatabaseFile
  * @return {object} Bingo
  */
-Bingo.createDatabaseFile = function (indigo, path, databaseType, opt) {
-	opt = opt || {};
+Bingo.createDatabaseFile = function (indigo, path, databaseType, options) {
+	options = options || '';
 	indigo._setSessionId();
-	var libpath = local('shared/' + process.platform + '/' + process.arch + '/' + config[process.platform].libs['bingo']);
-	opt.libpath = opt.libpath || libpath;
-	opt.options = opt.options || '';
-	opt.lib = lib_api.Library(opt.libpath, lib_api.api_bingo);
-	return new Bingo(indigo._checkResult(opt.lib.bingoCreateDatabaseFile(path, databaseType, opt.options)), indigo, opt);
+	var lib = Bingo._getLib(indigo);
+	return new Bingo(indigo._checkResult(lib.bingoCreateDatabaseFile(path, databaseType, options)), indigo, lib);
 };
 
 /*
- * 
+ *
  * @method Bingo.loadDatabaseFile
  * @return {object} Bingo
  */
-Bingo.loadDatabaseFile = function (indigo, path, opt) {
-	opt = opt || {};
+Bingo.loadDatabaseFile = function (indigo, path, options) {
+	options = options || '';
 	indigo._setSessionId();
-	var libpath = local('shared/' + process.platform + '/' + process.arch + '/' + config[process.platform].libs['bingo']);
-	opt.libpath = opt.libpath || libpath;
-	opt.options = opt.options || '';
-	opt.lib = lib_api.Library(opt.libpath, lib_api.api_bingo);
-	return new Bingo(indigo._checkResult(opt.lib.bingoLoadDatabaseFile(path, opt.options)), indigo, opt);
+	var lib = Bingo._getLib(indigo);
+	return new Bingo(indigo._checkResult(lib.bingoLoadDatabaseFile(path, options)), indigo, lib);
 };
 
 /*
- * 
+ *
  * @method close
  * @return {string} string of version
  */
@@ -84,7 +67,7 @@ Bingo.prototype.close = function () {
 };
 
 /*
- * 
+ *
  * @method version
  * @return {string} string of version
  */
@@ -94,9 +77,9 @@ Bingo.prototype.version = function () {
 };
 
 /*
- * 
+ *
  * @method insert
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.insert = function (indigoObject, index) {
 	this.indigo._setSessionId();
@@ -108,9 +91,9 @@ Bingo.prototype.insert = function (indigoObject, index) {
 };
 
 /*
- * 
+ *
  * @method delete
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.delete = function (index) {
 	this.indigo._setSessionId();
@@ -118,9 +101,9 @@ Bingo.prototype.delete = function (index) {
 };
 
 /*
- * 
+ *
  * @method searchSub
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.searchSub = function (query, options) {
 	options = options || '';
@@ -129,9 +112,9 @@ Bingo.prototype.searchSub = function (query, options) {
 };
 
 /*
- * 
+ *
  * @method searchExact
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.searchExact = function (query, options) {
 	options = options || '';
@@ -140,9 +123,9 @@ Bingo.prototype.searchExact = function (query, options) {
 };
 
 /*
- * 
+ *
  * @method searchSim
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.searchSim = function (query, minSim, maxSim, metric) {
 	metric = metric || 'tanimoto';
@@ -151,9 +134,9 @@ Bingo.prototype.searchSim = function (query, minSim, maxSim, metric) {
 };
 
 /*
- * 
+ *
  * @method searchMolFormula
- * @return {number} 
+ * @return {number}
  */
 Bingo.prototype.searchMolFormula = function (query, options) {
 	options = options || '';
@@ -162,9 +145,9 @@ Bingo.prototype.searchMolFormula = function (query, options) {
 };
 
 /*
- * 
+ *
  * @method optimize
- * @return {boolean} true if optimization have been done successfully 
+ * @return {boolean} true if optimization have been done successfully
  */
 Bingo.prototype.optimize = function () {
 	this.indigo._setSessionId();
@@ -172,9 +155,9 @@ Bingo.prototype.optimize = function () {
 };
 
 /*
- * 
+ *
  * @method getRecordById
- * @return {object} 
+ * @return {object}
  */
 Bingo.prototype.getRecordById = function (index) {
 	this.indigo._setSessionId();
@@ -182,4 +165,3 @@ Bingo.prototype.getRecordById = function (index) {
 };
 
 module.exports = Bingo;
-

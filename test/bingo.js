@@ -1,13 +1,13 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
@@ -19,7 +19,7 @@ var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo");
-var indigo = new Indigo({ exception: true });
+var indigo = new Indigo();
 var Bingo = require("../bingo");
 
 var dbname = local('append-mol-db');
@@ -54,7 +54,7 @@ for (var i = 0; i < entry; i++) {
 bingo.close();
 
 console.log("Validate");
-var bingo = Bingo.loadDatabaseFile(indigo, dbname, { options: "read_only:true" });
+var bingo = Bingo.loadDatabaseFile(indigo, dbname, "read_only:true");
 for (var id in ids) {
 	var obj = bingo.getRecordById(id);
 	var ref = indigo.loadMolecule(ids[id]);
@@ -82,4 +82,3 @@ for (var sm of smiles.concat(smiles2)){
 		console.log("Error!");
 }
 bingo.close()
-
