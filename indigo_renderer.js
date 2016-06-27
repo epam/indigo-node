@@ -12,7 +12,6 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
-var config = require('./configureIndigo');
 var lib_api = require('./indigo-api');
 var IndigoObject = require('./indigoObject');
 var IndigoException = require('./indigoException');
@@ -20,7 +19,8 @@ var Indigo = require('./indigo');
 
 var IndigoRenderer = function (indigo) {
 	this.indigo = indigo;
-	var libpath = path.join(indigo.dllpath, config[process.platform].libs['indigo-renderer']);
+	var libpath = path.join(indigo.dllpath,
+	                        process.platform != 'win32' ? 'libindigo-renderer' : 'indigo-renderer');
 	this._lib = lib_api.Library(libpath, lib_api.api_render);
 };
 

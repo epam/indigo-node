@@ -14,7 +14,6 @@
 var path = require('path');
 var ffi = require('ffi');
 
-var config = require('./configureIndigo');
 var lib_api = require('./indigo-api');
 var IndigoObject = require('./indigoObject');
 var IndigoException = require('./indigoException');
@@ -34,7 +33,8 @@ var Indigo = function (basepath) {
 		                      " (" + process.arch + ")");
 
 	this.dllpath = path.join(basepath, osMap[process.platform], process.arch);
-	var libpath = path.join(this.dllpath, config[process.platform].libs['indigo']);
+	var libpath = path.join(this.dllpath,
+	                        process.platform != 'win32' ? 'libindigo' : 'indigo');
 
 	if (process.platform == 'linux') {
 		// Indigo must be loaded with `RTLD_GLOBAL` flag
