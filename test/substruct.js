@@ -19,7 +19,7 @@ var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo");
-var indigo = new Indigo({ exception: true });
+var indigo = new Indigo();
 var lyopset = {
 	"embedding-uniqueness": ["atoms", "bonds", "none"],
 	"midle": [6, 7],

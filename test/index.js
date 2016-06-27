@@ -25,4 +25,3 @@ require('./tau_en');
 require('./cdx');
 require('./basic');
 require('./buffer_string_load_iterate');
-require('./logger');

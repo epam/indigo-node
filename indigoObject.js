@@ -1,21 +1,19 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
-var path = require('path');
-var local = path.join.bind(path, __dirname);
-var IndigoException = require(local('indigoException'));
+var IndigoException = require('./indigoException');
 
-IndigoObject = function (d, id, parent) {
+var IndigoObject = function (d, id, parent) {
 	this.id = id;
 	this.d = d;
 	this.parent = parent;
@@ -23,7 +21,7 @@ IndigoObject = function (d, id, parent) {
 
 /*
  * Free an object
- * 
+ *
  * @method dispose
  */
 IndigoObject.prototype.dispose = function () {
@@ -37,7 +35,7 @@ IndigoObject.prototype.dispose = function () {
 
 /*
  * Clone an object
- * 
+ *
  * @method clone
  */
 IndigoObject.prototype.clone = function () {
@@ -47,9 +45,9 @@ IndigoObject.prototype.clone = function () {
 
 /*
  * Close an object
- * 
+ *
  * @method close
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.close = function () {
 	this.d._setSessionId();
@@ -57,9 +55,9 @@ IndigoObject.prototype.close = function () {
 };
 
 /*
- * 
+ *
  * @method count
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.count = function () {
 	this.d._setSessionId();
@@ -67,7 +65,7 @@ IndigoObject.prototype.count = function () {
 };
 /*
  * @method oneBitsList
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.oneBitsList = function () {
 	this.d._setSessionId();
@@ -75,9 +73,9 @@ IndigoObject.prototype.oneBitsList = function () {
 };
 
 /*
- * 
+ *
  * @method mdlct
- * @returns {array}  
+ * @returns {array}
  */
 IndigoObject.prototype.mdlct = function () {
 	this.d._setSessionId();
@@ -88,9 +86,9 @@ IndigoObject.prototype.mdlct = function () {
 
 /*
  * has an next object
- * 
+ *
  * @method hasNext
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.hasNext = function () {
 	this.d._setSessionId();
@@ -98,9 +96,9 @@ IndigoObject.prototype.hasNext = function () {
 };
 
 /*
- * 
+ *
  * @method index
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.index = function () {
 	this.d._setSessionId();
@@ -108,9 +106,9 @@ IndigoObject.prototype.index = function () {
 };
 
 /*
- * 
+ *
  * @method layout
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.layout = function () {
 	this.d._setSessionId();
@@ -118,9 +116,9 @@ IndigoObject.prototype.layout = function () {
 };
 
 /*
- * 
+ *
  * @method addReactant
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.addReactant = function (molecule) {
 	this.d._setSessionId();
@@ -128,9 +126,9 @@ IndigoObject.prototype.addReactant = function (molecule) {
 };
 
 /*
- * 
+ *
  * @method addProduct
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.addProduct = function (molecule) {
 	this.d._setSessionId();
@@ -138,9 +136,9 @@ IndigoObject.prototype.addProduct = function (molecule) {
 };
 
 /*
- * 
+ *
  * @method append
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.append = function (object) {
 	this.d._setSessionId();
@@ -148,9 +146,9 @@ IndigoObject.prototype.append = function (object) {
 };
 
 /*
- * 
+ *
  * @method push
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.push = function (object) {
 	this.d._setSessionId();
@@ -158,9 +156,9 @@ IndigoObject.prototype.push = function (object) {
 };
 
 /*
- * 
+ *
  * @method sdfAppend
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.sdfAppend = function (item) {
 	this.d._setSessionId();
@@ -168,9 +166,9 @@ IndigoObject.prototype.sdfAppend = function (item) {
 };
 
 /*
- * 
+ *
  * @method smilesAppend
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.smilesAppend = function (item) {
 	this.d._setSessionId();
@@ -178,9 +176,9 @@ IndigoObject.prototype.smilesAppend = function (item) {
 };
 
 /*
- * 
+ *
  * @method rdfHeader
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.rdfHeader = function () {
 	this.d._setSessionId();
@@ -188,9 +186,9 @@ IndigoObject.prototype.rdfHeader = function () {
 };
 
 /*
- * 
+ *
  * @method rdfAppend
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.rdfAppend = function (item) {
 	this.d._setSessionId();
@@ -198,9 +196,9 @@ IndigoObject.prototype.rdfAppend = function (item) {
 };
 
 /*
- * 
+ *
  * @method cmlHeader
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.cmlHeader = function () {
 	this.d._setSessionId();
@@ -208,9 +206,9 @@ IndigoObject.prototype.cmlHeader = function () {
 };
 
 /*
- * 
+ *
  * @method cmlAppend
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.cmlAppend = function (item) {
 	this.d._setSessionId();
@@ -218,9 +216,9 @@ IndigoObject.prototype.cmlAppend = function (item) {
 };
 
 /*
- * 
+ *
  * @method cmlFooter
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.cmlFooter = function () {
 	this.d._setSessionId();
@@ -228,9 +226,9 @@ IndigoObject.prototype.cmlFooter = function () {
 };
 
 /*
- * 
+ *
  * @method arrayAdd
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.arrayAdd = function (object) {
 	this.d._setSessionId();
@@ -238,9 +236,9 @@ IndigoObject.prototype.arrayAdd = function (object) {
 };
 
 /*
- * 
+ *
  * @method topology
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.topology = function () {
 	this.d._setSessionId();
@@ -248,9 +246,9 @@ IndigoObject.prototype.topology = function () {
 };
 
 /*
- * 
+ *
  * @method resetStereo
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.resetStereo = function () {
 	this.d._setSessionId();
@@ -258,9 +256,9 @@ IndigoObject.prototype.resetStereo = function () {
 };
 
 /*
- * 
+ *
  * @method invertStereo
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.invertStereo = function () {
 	this.d._setSessionId();
@@ -268,9 +266,9 @@ IndigoObject.prototype.invertStereo = function () {
 };
 
 /*
- * 
+ *
  * @method markEitherCisTrans
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.markEitherCisTrans = function () {
 	this.d._setSessionId();
@@ -278,9 +276,9 @@ IndigoObject.prototype.markEitherCisTrans = function () {
 };
 
 /*
- * 
+ *
  * @method countAtoms
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countAtoms = function () {
 	this.d._setSessionId();
@@ -288,9 +286,9 @@ IndigoObject.prototype.countAtoms = function () {
 };
 
 /*
- * 
+ *
  * @method countBonds
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countBonds = function () {
 	this.d._setSessionId();
@@ -298,9 +296,9 @@ IndigoObject.prototype.countBonds = function () {
 };
 
 /*
- * 
+ *
  * @method bondOrder
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.bondOrder = function () {
 	this.d._setSessionId();
@@ -309,9 +307,9 @@ IndigoObject.prototype.bondOrder = function () {
 
 
 /*
- * 
+ *
  * @method countReactants
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countReactants = function () {
 	this.d._setSessionId();
@@ -319,9 +317,9 @@ IndigoObject.prototype.countReactants = function () {
 };
 
 /*
- * 
+ *
  * @method countProducts
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countProducts = function () {
 	this.d._setSessionId();
@@ -329,9 +327,9 @@ IndigoObject.prototype.countProducts = function () {
 };
 
 /*
- * 
+ *
  * @method countCatalysts
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countCatalysts = function () {
 	this.d._setSessionId();
@@ -339,9 +337,9 @@ IndigoObject.prototype.countCatalysts = function () {
 };
 
 /*
- * 
+ *
  * @method countMolecules
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countMolecules = function () {
 	this.d._setSessionId();
@@ -350,49 +348,43 @@ IndigoObject.prototype.countMolecules = function () {
 
 /*
  * Get a 3d coordinates of an atom
- * 
+ *
  * @method xyz
  * @returns {Array} the [x, y, z] coordinates
  */
 IndigoObject.prototype.xyz = function () {
 	this.d._setSessionId();
 	var xyz_ptr = this.d._lib.indigoXYZ(this.id); /* int atom */
-	if (xyz_ptr.length == 0) {
-		var msg = this.d.getLastError();
-		this.d.logger.error('xyz [fault]: ' + msg);
-		return [0.0, 0.0, 0.0];
-	}
-	
+	if (xyz_ptr.length == 0)
+		throw IndigoException(this.d.getLastError());
+
 	var xyz = xyz_ptr.deref();
 	return [xyz.x, xyz.y, xyz.z];
 };
 
 /*
  * Align atoms
- * 
+ *
  * @method alignAtoms
  * @returns {Array} the [x, y, z] coordinates
  */
 IndigoObject.prototype.alignAtoms = function (atoms, xyz) {
 	this.d._setSessionId();
 	if (atoms.length * 3 != xyz.length) {
-		if (this.d.exception)
-			throw new IndigoException("alignAtoms(): xyz[] must be exactly 3 times bigger than atoms[]");
-		else
-			this.logger.error("alignAtoms(): xyz[] must be exactly 3 times bigger than atoms[]");
+		throw new IndigoException("alignAtoms(): xyz[] must be exactly 3 times bigger than atoms[]");
 	}
-	
+
 	return this.d._checkResultFloat(this.d._lib.indigoAlignAtoms(this.id, atoms.length, atoms, xyz));
 };
 
 /*
  * Set a 3d coordinates of an atom
- * 
+ *
  * @method setXYZ
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
- * @returns {number} 
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @returns {number}
  */
 IndigoObject.prototype.setXYZ = function (x, y, z) {
 	this.d._setSessionId();
@@ -400,9 +392,9 @@ IndigoObject.prototype.setXYZ = function (x, y, z) {
 };
 
 /*
- * 
+ *
  * @method atomicNumber
- * @returns {number} 
+ * @returns {number}
  */
 IndigoObject.prototype.atomicNumber = function () {
 	this.d._setSessionId();
@@ -411,10 +403,10 @@ IndigoObject.prototype.atomicNumber = function () {
 
 /*
  * Set
- * 
+ *
  * @method setAttachmentPoint
- * @param {number} order 
- * @returns {number} 
+ * @param {number} order
+ * @returns {number}
  */
 IndigoObject.prototype.setAttachmentPoint = function (order) {
 	this.d._setSessionId();
@@ -423,9 +415,9 @@ IndigoObject.prototype.setAttachmentPoint = function (order) {
 
 /*
  * Clear
- * 
+ *
  * @method clearAttachmentPoints
- * @returns {number} 
+ * @returns {number}
  */
 IndigoObject.prototype.clearAttachmentPoints = function () {
 	this.d._setSessionId();
@@ -434,9 +426,9 @@ IndigoObject.prototype.clearAttachmentPoints = function () {
 
 /*
  * Count
- * 
+ *
  * @method countComponents
- * @returns {number} 
+ * @returns {number}
  */
 IndigoObject.prototype.countComponents = function () {
 	this.d._setSessionId();
@@ -444,9 +436,9 @@ IndigoObject.prototype.countComponents = function () {
 };
 
 /*
- * 
+ *
  * @method componentIndex
- * @returns {number} 
+ * @returns {number}
  */
 IndigoObject.prototype.componentIndex = function () {
 	this.d._setSessionId();
@@ -454,9 +446,9 @@ IndigoObject.prototype.componentIndex = function () {
 };
 
 /*
- * 
+ *
  * @method iterateReactants
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateReactants = function* () {
 	this.d._setSessionId();
@@ -466,9 +458,9 @@ IndigoObject.prototype.iterateReactants = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateProducts
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateProducts = function* () {
 	this.d._setSessionId();
@@ -478,9 +470,9 @@ IndigoObject.prototype.iterateProducts = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateCatalysts
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateCatalysts = function* () {
 	this.d._setSessionId();
@@ -490,9 +482,9 @@ IndigoObject.prototype.iterateCatalysts = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateMolecules
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateMolecules = function* () {
 	this.d._setSessionId();
@@ -502,9 +494,9 @@ IndigoObject.prototype.iterateMolecules = function* () {
 };
 
 /*
- * 
+ *
  * @method molecularWeight
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.molecularWeight = function () {
 	this.d._setSessionId();
@@ -512,9 +504,9 @@ IndigoObject.prototype.molecularWeight = function () {
 };
 
 /*
- * 
+ *
  * @method mostAbundantMass
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.mostAbundantMass = function () {
 	this.d._setSessionId();
@@ -522,9 +514,9 @@ IndigoObject.prototype.mostAbundantMass = function () {
 };
 
 /*
- * 
+ *
  * @method monoisotopicMass
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.monoisotopicMass = function () {
 	this.d._setSessionId();
@@ -532,9 +524,9 @@ IndigoObject.prototype.monoisotopicMass = function () {
 };
 
 /*
- * 
+ *
  * @method iterateComponents
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateComponents = function* () {
 	this.d._setSessionId();
@@ -544,9 +536,9 @@ IndigoObject.prototype.iterateComponents = function* () {
 };
 
 /*
- * 
+ *
  * @method component
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.component = function (index) {
 	this.d._setSessionId();
@@ -555,7 +547,7 @@ IndigoObject.prototype.component = function (index) {
 
 /*
  * Generate molfile from IndigoObject
- * 
+ *
  * @method molfile
  * @returns {string} string reprsantation of molfile
  */
@@ -565,10 +557,10 @@ IndigoObject.prototype.molfile = function () {
 };
 
 /*
- * 
+ *
  * @method match
  * @param {object} query
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.match = function (query) {
 	this.d._setSessionId();
@@ -580,10 +572,10 @@ IndigoObject.prototype.match = function (query) {
 };
 
 /*
- * 
+ *
  * @method countMatches
  * @param {object} query
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countMatches = function (query) {
 	this.d._setSessionId();
@@ -591,10 +583,10 @@ IndigoObject.prototype.countMatches = function (query) {
 };
 
 /*
- * 
+ *
  * @method countMatchesWithLimit
  * @param {object} query
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.countMatchesWithLimit = function (query, embeddings_limit) {
 	this.d._setSessionId();
@@ -603,9 +595,9 @@ IndigoObject.prototype.countMatchesWithLimit = function (query, embeddings_limit
 };
 
 /*
- * 
+ *
  * @method iterateMatches
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateMatches = function* (query) {
 	this.d._setSessionId();
@@ -615,9 +607,9 @@ IndigoObject.prototype.iterateMatches = function* (query) {
 };
 
 /*
- * 
+ *
  * @method highlightedTarget
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.highlightedTarget = function () {
 	this.d._setSessionId();
@@ -625,10 +617,10 @@ IndigoObject.prototype.highlightedTarget = function () {
 };
 
 /*
- * 
+ *
  * @method mapAtom
  * @param {object} atom
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.mapAtom = function (atom) {
 	this.d._setSessionId();
@@ -640,10 +632,10 @@ IndigoObject.prototype.mapAtom = function (atom) {
 };
 
 /*
- * 
+ *
  * @method mapBond
  * @param {object} bond
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.mapBond = function (bond) {
 	this.d._setSessionId();
@@ -655,10 +647,10 @@ IndigoObject.prototype.mapBond = function (bond) {
 };
 
 /*
- * 
+ *
  * @method mapMolecule
  * @param {object} molecule
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.mapMolecule = function (molecule) {
 	this.d._setSessionId();
@@ -670,9 +662,9 @@ IndigoObject.prototype.mapMolecule = function (molecule) {
 };
 
 /*
- * 
+ *
  * @method smiles
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.smiles = function () {
 	this.d._setSessionId();
@@ -680,9 +672,9 @@ IndigoObject.prototype.smiles = function () {
 };
 
 /*
- * 
+ *
  * @method _next
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype._next = function () {
 	this.d._setSessionId();
@@ -691,9 +683,9 @@ IndigoObject.prototype._next = function () {
 };
 
 /*
- * 
+ *
  * @method hasProperty
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.hasProperty = function (property) {
 	this.d._setSessionId();
@@ -701,9 +693,9 @@ IndigoObject.prototype.hasProperty = function (property) {
 };
 
 /*
- * 
+ *
  * @method getProperty
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.getProperty = function (property) {
 	this.d._setSessionId();
@@ -711,9 +703,9 @@ IndigoObject.prototype.getProperty = function (property) {
 };
 
 /*
- * 
+ *
  * @method setProperty
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.setProperty = function (property, value) {
 	this.d._setSessionId();
@@ -721,9 +713,9 @@ IndigoObject.prototype.setProperty = function (property, value) {
 };
 
 /*
- * 
+ *
  * @method removeProperty
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.removeProperty = function (property) {
 	this.d._setSessionId();
@@ -731,9 +723,9 @@ IndigoObject.prototype.removeProperty = function (property) {
 };
 
 /*
- * 
+ *
  * @method iterateProperties
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateProperties = function* () {
 	this.d._setSessionId();
@@ -743,9 +735,9 @@ IndigoObject.prototype.iterateProperties = function* () {
 };
 
 /*
- * 
+ *
  * @method clearProperties
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.clearProperties = function () {
 	this.d._setSessionId();
@@ -753,9 +745,9 @@ IndigoObject.prototype.clearProperties = function () {
 };
 
 /*
- * 
+ *
  * @method checkBadValence
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.checkBadValence = function () {
 	this.d._setSessionId();
@@ -763,9 +755,9 @@ IndigoObject.prototype.checkBadValence = function () {
 };
 
 /*
- * 
+ *
  * @method checkAmbiguousH
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.checkAmbiguousH = function () {
 	this.d._setSessionId();
@@ -773,9 +765,9 @@ IndigoObject.prototype.checkAmbiguousH = function () {
 };
 
 /*
- * 
+ *
  * @method iterateAtoms
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateAtoms = function* () {
 	this.d._setSessionId();
@@ -785,9 +777,9 @@ IndigoObject.prototype.iterateAtoms = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateBonds
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateBonds = function* () {
 	this.d._setSessionId();
@@ -797,9 +789,9 @@ IndigoObject.prototype.iterateBonds = function* () {
 };
 
 /*
- * 
+ *
  * @method iteratePseudoatoms
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iteratePseudoatoms = function* () {
 	this.d._setSessionId();
@@ -809,9 +801,9 @@ IndigoObject.prototype.iteratePseudoatoms = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateRSites
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateRSites = function* () {
 	this.d._setSessionId();
@@ -821,9 +813,9 @@ IndigoObject.prototype.iterateRSites = function* () {
 };
 
 /*
- * 
+ *
  * @method iterateNeighbors
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.iterateNeighbors = function* () {
 	this.d._setSessionId();
@@ -833,9 +825,9 @@ IndigoObject.prototype.iterateNeighbors = function* () {
 };
 
 /*
- * 
+ *
  * @method bond
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.bond = function () {
 	this.d._setSessionId();
@@ -843,9 +835,9 @@ IndigoObject.prototype.bond = function () {
 };
 
 /*
- * 
+ *
  * @method getAtom
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.getAtom = function (index) {
 	this.d._setSessionId();
@@ -853,9 +845,9 @@ IndigoObject.prototype.getAtom = function (index) {
 };
 
 /*
- * 
+ *
  * @method getBond
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.getBond = function (index) {
 	this.d._setSessionId();
@@ -863,9 +855,9 @@ IndigoObject.prototype.getBond = function (index) {
 };
 
 /*
- * 
+ *
  * @method source
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.source = function () {
 	this.d._setSessionId();
@@ -873,9 +865,9 @@ IndigoObject.prototype.source = function () {
 };
 
 /*
- * 
+ *
  * @method destination
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.destination = function () {
 	this.d._setSessionId();
@@ -883,9 +875,9 @@ IndigoObject.prototype.destination = function () {
 };
 
 /*
- * 
+ *
  * @method removeConstraints
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.removeConstraints = function (type) {
 	this.d._setSessionId();
@@ -893,9 +885,9 @@ IndigoObject.prototype.removeConstraints = function (type) {
 };
 
 /*
- * 
+ *
  * @method addConstraint
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.addConstraint = function (type, value) {
 	this.d._setSessionId();
@@ -903,9 +895,9 @@ IndigoObject.prototype.addConstraint = function (type, value) {
 };
 
 /*
- * 
+ *
  * @method addConstraintNot
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.addConstraintNot = function (type, value) {
 	this.d._setSessionId();
@@ -913,9 +905,9 @@ IndigoObject.prototype.addConstraintNot = function (type, value) {
 };
 
 /*
- * 
+ *
  * @method addConstraintOr
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.addConstraintOr = function (type, value) {
 	this.d._setSessionId();
@@ -923,9 +915,9 @@ IndigoObject.prototype.addConstraintOr = function (type, value) {
 };
 
 /*
- * 
+ *
  * @method canonicalSmiles
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.canonicalSmiles = function () {
 	this.d._setSessionId();
@@ -933,9 +925,9 @@ IndigoObject.prototype.canonicalSmiles = function () {
 };
 
 /*
- * 
+ *
  * @method unfoldHydrogens
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.unfoldHydrogens = function () {
 	this.d._setSessionId();
@@ -943,9 +935,9 @@ IndigoObject.prototype.unfoldHydrogens = function () {
 };
 
 /*
- * 
+ *
  * @method resetAtom
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.resetAtom = function (symbol) {
 	this.d._setSessionId();
@@ -953,9 +945,9 @@ IndigoObject.prototype.resetAtom = function (symbol) {
 };
 
 /*
- * 
+ *
  * @method setName
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.setName = function (name) {
 	this.d._setSessionId();
@@ -963,9 +955,9 @@ IndigoObject.prototype.setName = function (name) {
 };
 
 /*
- * 
+ *
  * @method serialize
- * @returns {Array}  
+ * @returns {Array}
  */
 IndigoObject.prototype.serialize = function () {
 	this.d._setSessionId();
@@ -981,9 +973,9 @@ IndigoObject.prototype.serialize = function () {
 };
 
 /*
- * 
+ *
  * @method reactingCenter
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.reactingCenter = function (reaction_bond) {
 	this.d._setSessionId();
@@ -999,9 +991,9 @@ IndigoObject.prototype.reactingCenter = function (reaction_bond) {
 };
 
 /*
- * 
+ *
  * @method setReactingCenter
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.setReactingCenter = function (reaction_bond, rc) {
 	this.d._setSessionId();
@@ -1012,9 +1004,9 @@ IndigoObject.prototype.setReactingCenter = function (reaction_bond, rc) {
 };
 
 /*
- * 
+ *
  * @method clearAAM
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.clearAAM = function () {
 	this.d._setSessionId();
@@ -1022,9 +1014,9 @@ IndigoObject.prototype.clearAAM = function () {
 };
 
 /*
- * 
+ *
  * @method correctReactingCenters
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.correctReactingCenters = function () {
 	this.d._setSessionId();
@@ -1032,9 +1024,9 @@ IndigoObject.prototype.correctReactingCenters = function () {
 };
 
 /*
- * 
+ *
  * @method charge
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.charge = function () {
 	this.d._setSessionId();
@@ -1047,9 +1039,9 @@ IndigoObject.prototype.charge = function () {
 };
 
 /*
- * 
+ *
  * @method valence
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.valence = function () {
 	this.d._setSessionId();
@@ -1057,9 +1049,9 @@ IndigoObject.prototype.valence = function () {
 };
 
 /*
- * 
+ *
  * @method clearStereocenters
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.clearStereocenters = function () {
 	this.d._setSessionId(); /* only molecules and reactions have stereocenters */
@@ -1067,9 +1059,9 @@ IndigoObject.prototype.clearStereocenters = function () {
 };
 
 /*
- * 
+ *
  * @method grossFormula
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.grossFormula = function () {
 	this.d._setSessionId();
@@ -1079,9 +1071,9 @@ IndigoObject.prototype.grossFormula = function () {
 };
 
 /*
- * 
+ *
  * @method name
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.name = function () {
 	this.d._setSessionId();
@@ -1089,9 +1081,9 @@ IndigoObject.prototype.name = function () {
 };
 
 /*
- * 
+ *
  * @method rawData
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.rawData = function () {
 	this.d._setSessionId();
@@ -1099,9 +1091,9 @@ IndigoObject.prototype.rawData = function () {
 };
 
 /*
- * 
+ *
  * @method saveRxnfile
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.saveRxnfile = function (filename) {
 	this.d._setSessionId();
@@ -1109,9 +1101,9 @@ IndigoObject.prototype.saveRxnfile = function (filename) {
 };
 
 /*
- * 
+ *
  * @method rxnfile
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.rxnfile = function () {
 	this.d._setSessionId();
@@ -1119,9 +1111,9 @@ IndigoObject.prototype.rxnfile = function () {
 };
 
 /*
- * 
+ *
  * @method optimize
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.optimize = function (options) {
 	this.d._setSessionId();
@@ -1132,9 +1124,9 @@ IndigoObject.prototype.optimize = function (options) {
 };
 
 /*
- * 
+ *
  * @method normalize
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.normalize = function (options) {
 	this.d._setSessionId();
@@ -1145,9 +1137,9 @@ IndigoObject.prototype.normalize = function (options) {
 };
 
 /*
- * 
+ *
  * @method standardize
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.standardize = function () {
 	this.d._setSessionId();
@@ -1155,9 +1147,9 @@ IndigoObject.prototype.standardize = function () {
 };
 
 /*
- * 
+ *
  * @method automap
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.automap = function (mode) {
 	this.d._setSessionId();
@@ -1168,9 +1160,9 @@ IndigoObject.prototype.automap = function (mode) {
 };
 
 /*
- * 
+ *
  * @method aromatize
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.aromatize = function () {
 	this.d._setSessionId();
@@ -1179,9 +1171,9 @@ IndigoObject.prototype.aromatize = function () {
 
 
 /*
- * 
+ *
  * @method dearomatize
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.dearomatize = function () {
 	this.d._setSessionId();
@@ -1189,9 +1181,9 @@ IndigoObject.prototype.dearomatize = function () {
 };
 
 /*
- * 
+ *
  * @method symbol
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.symbol = function () {
 	this.d._setSessionId();
@@ -1199,9 +1191,9 @@ IndigoObject.prototype.symbol = function () {
 };
 
 /*
- * 
+ *
  * @method resetSymmetricCisTrans
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.resetSymmetricCisTrans = function () {
 	this.d._setSessionId();
@@ -1209,9 +1201,9 @@ IndigoObject.prototype.resetSymmetricCisTrans = function () {
 };
 
 /*
- * 
+ *
  * @method resetSymmetricStereocenters
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.resetSymmetricStereocenters = function () {
 	this.d._setSessionId();
@@ -1219,9 +1211,9 @@ IndigoObject.prototype.resetSymmetricStereocenters = function () {
 };
 
 /*
- * 
+ *
  * @method addDataSGroup
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.addDataSGroup = function (atoms, bonds, description, data) {
 	this.d._setSessionId();
@@ -1229,9 +1221,9 @@ IndigoObject.prototype.addDataSGroup = function (atoms, bonds, description, data
 };
 
 /*
- * 
+ *
  * @method addSuperatom
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.addSuperatom = function (atoms, name) {
 	this.d._setSessionId();
@@ -1239,9 +1231,9 @@ IndigoObject.prototype.addSuperatom = function (atoms, name) {
 };
 
 /*
- * 
+ *
  * @method createSubmolecule
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.createSubmolecule = function (vertices) {
 	this.d._setSessionId();
@@ -1249,9 +1241,9 @@ IndigoObject.prototype.createSubmolecule = function (vertices) {
 };
 
 /*
- * 
+ *
  * @method createEdgeSubmolecule
- * @returns {object}  
+ * @returns {object}
  */
 IndigoObject.prototype.createEdgeSubmolecule = function (vertices, edges) {
 	this.d._setSessionId();
@@ -1259,9 +1251,9 @@ IndigoObject.prototype.createEdgeSubmolecule = function (vertices, edges) {
 };
 
 /*
- * 
+ *
  * @method getSubmolecule
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.getSubmolecule = function (vertices) {
 	this.d._setSessionId();
@@ -1269,9 +1261,9 @@ IndigoObject.prototype.getSubmolecule = function (vertices) {
 };
 
 /*
- * 
+ *
  * @method removeAtoms
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.removeAtoms = function (atoms) {
 	this.d._setSessionId();
@@ -1279,9 +1271,9 @@ IndigoObject.prototype.removeAtoms = function (atoms) {
 };
 
 /*
- * 
+ *
  * @method removeBonds
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.removeBonds = function (bonds) {
 	this.d._setSessionId();
@@ -1289,9 +1281,9 @@ IndigoObject.prototype.removeBonds = function (bonds) {
 };
 
 /*
- * 
+ *
  * @method foldHydrogens
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.foldHydrogens = function () {
 	this.d._setSessionId();
@@ -1299,9 +1291,9 @@ IndigoObject.prototype.foldHydrogens = function () {
 };
 
 /*
- * 
+ *
  * @method markStereobonds
- * @returns {number}  
+ * @returns {number}
  */
 IndigoObject.prototype.markStereobonds = function () {
 	this.d._setSessionId();
@@ -1309,9 +1301,9 @@ IndigoObject.prototype.markStereobonds = function () {
 };
 
 /*
- * 
+ *
  * @method toString
- * @returns {string}  
+ * @returns {string}
  */
 IndigoObject.prototype.toString = function () {
 	this.d._setSessionId();
@@ -1319,7 +1311,7 @@ IndigoObject.prototype.toString = function () {
 };
 
 /*
- * 
+ *
  * @method toBuffer
  * @returns {Array}
  */
@@ -1330,7 +1322,7 @@ IndigoObject.prototype.toBuffer = function () {
 	var status = this.d._checkResult(this.d._lib.indigoToBuffer(this.id, pointer, size));
 	var buf = this.d._out.read(pointer, 0, size.deref());
 	var res = [];
-	for (i = 0; i < size.deref(); i++) {
+	for (var i = 0; i < size.deref(); i++) {
 		res.push(buf[i]);
 	}
 	return res;

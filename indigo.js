@@ -630,7 +630,7 @@ Indigo.prototype.setOption = function (option, value1, value2, value3) {
 				ret = this._checkResult(this._lib.indigoSetOptionBool(option, value1_b));
 				break;
 			default:
-				this.logger.error("bad option");
+				throw IndigoException("bad option");
 		}
 	}
 	else {
@@ -638,13 +638,13 @@ Indigo.prototype.setOption = function (option, value1, value2, value3) {
 			if ((/^[0-9]+$/.test(String(value1))) && (/^[0-9]+$/.test(String(value2))))
 				ret = this._checkResult(this._lib.indigoSetOptionXY(option, value1, value2));
 			else
-				this.logger.error("bad option");
+				throw IndigoException("bad option");
 		}
 		if (typeof value1 === 'number' && typeof value2 === 'number' && typeof value3 === 'number') {
 			if (!(/^[0-9]+$/.test(String(value1))) && !(/^[0-9]+$/.test(String(value2))) && !(/^[0-9]+$/.test(String(value3))))
 				ret = this._checkResult(this._lib.indigoSetOptionColor(option, value1, value2, value3));
 			else
-				this.logger.error("bad option");
+				throw IndigoException("bad option");
 		}
 	}
 	return (ret === 1);
