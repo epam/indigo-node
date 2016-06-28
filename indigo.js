@@ -48,8 +48,6 @@ var Indigo = function (basepath) {
 	}
 
 	var xyz = refStruct({ x: 'float', y: 'float', z: 'float' });
-	var qword = ('win32' == process.platform) ? 'uint64' : 'ulonglong';
-
 	this._lib = ffi.Library(libpath, {
 		"indigoSetOption" : ["int", ["string", "string"]],
 		"indigoSetOptionInt" : ["int", ["string", "int"]],
@@ -59,9 +57,9 @@ var Indigo = function (basepath) {
 		"indigoSetOptionXY" : ["int", ["string", "int", "int"]],
 		"indigoDbgBreakpoint": ["void", []],
 		"indigoVersion": ["string", []],
-		"indigoAllocSessionId": [qword, []],
-		"indigoSetSessionId": ["void", [qword]],
-		"indigoReleaseSessionId": ["void", [qword]],
+		"indigoAllocSessionId": ['uint64', []],
+		"indigoSetSessionId": ["void", ['uint64']],
+		"indigoReleaseSessionId": ["void", ['uint64']],
 		"indigoGetLastError": ["string", []],
 		"indigoFree": ["int", ["int"]],
 		"indigoCountReferences": ["int", []],
