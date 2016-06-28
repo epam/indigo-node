@@ -11,6 +11,7 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
+var ref = require('ref');
 var IndigoException = require('./indigoException');
 
 var IndigoObject = function (d, id, parent) {
@@ -92,7 +93,7 @@ IndigoObject.prototype.mdlct = function () {
  */
 IndigoObject.prototype.hasNext = function () {
 	this.d._setSessionId();
-	return (this.d._checkResult(this.d._lib.indigoHasNext(this.id)) == 1)
+	return (this.d._checkResult(this.d._lib.indigoHasNext(this.id)) == 1);
 };
 
 /*
@@ -354,11 +355,11 @@ IndigoObject.prototype.countMolecules = function () {
  */
 IndigoObject.prototype.xyz = function () {
 	this.d._setSessionId();
-	var xyz_ptr = this.d._lib.indigoXYZ(this.id); /* int atom */
-	if (xyz_ptr.length == 0)
+	var xyzPtr = this.d._lib.indigoXYZ(this.id); /* int atom */
+	if (xyzPtr.length == 0)
 		throw IndigoException(this.d.getLastError());
 
-	var xyz = xyz_ptr.deref();
+	var xyz = xyzPtr.deref();
 	return [xyz.x, xyz.y, xyz.z];
 };
 
@@ -961,12 +962,12 @@ IndigoObject.prototype.setName = function (name) {
  */
 IndigoObject.prototype.serialize = function () {
 	this.d._setSessionId();
-	var size = this.d._out.aint; // allocate a 4-byte (32-bit) chunk for the output value
-	var pointer = this.d._out.apbyte;
+	var size = ref.alloc('int'); // allocate a 4-byte (32-bit) chunk for the output value
+	var pointer = ref.alloc(ref.refType('byte'));
 	var status = this.d._checkResult(this.d._lib.indigoSerialize(this.id, pointer, size));
-	var buf = this.d._out.read(pointer, 0, size.deref());
+	var buf = ref.readPointer(pointer, 0, size.deref());
 	var res = [];
-	for (i = 0; i < size.deref(); i++) {
+	for (var i = 0; i < size.deref(); i++) {
 		res.push(buf[i]);
 	}
 	return res;
@@ -982,7 +983,7 @@ IndigoObject.prototype.reactingCenter = function (reaction_bond) {
 	if (reaction_bond === undefined || reaction_bond === null) {
 		return 0;
 	}
-	var value = this.d._out.aint;
+	var value = ref.alloc('int');
 	var res = this.d._checkResult(this.d._lib.indigoGetReactingCenter(this.id, reaction_bond.id, value));
 	if (res === null)
 		return null;
@@ -1030,7 +1031,7 @@ IndigoObject.prototype.correctReactingCenters = function () {
  */
 IndigoObject.prototype.charge = function () {
 	this.d._setSessionId();
-	var value = this.d._out.aint;
+	var value = ref.alloc('int');
 	var res = this.d._checkResult(this.d._lib.indigoGetCharge(this.id, value));
 	if (res === null)
 		return null;
@@ -1154,7 +1155,7 @@ IndigoObject.prototype.standardize = function () {
 IndigoObject.prototype.automap = function (mode) {
 	this.d._setSessionId();
 	if (mode === undefined || mode === null) {
-		options = '';
+		var options = '';
 	}
 	return this.d._checkResult(this.d._lib.indigoAutomap(this.id, mode));
 };
@@ -1317,10 +1318,10 @@ IndigoObject.prototype.toString = function () {
  */
 IndigoObject.prototype.toBuffer = function () {
 	this.d._setSessionId();
-	var size = this.d._out.aint;
-	var pointer = this.d._out.apbyte;
+	var size = ref.alloc('int');
+	var pointer = ref.alloc(ref.refType('byte'));
 	var status = this.d._checkResult(this.d._lib.indigoToBuffer(this.id, pointer, size));
-	var buf = this.d._out.read(pointer, 0, size.deref());
+	var buf = ref.readPointer(pointer, 0, size.deref());
 	var res = [];
 	for (var i = 0; i < size.deref(); i++) {
 		res.push(buf[i]);

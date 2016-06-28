@@ -369,16 +369,6 @@ var Indigo = function (basepath) {
 	// Allocate a new session. Each session has its own
 	// set of objects created and options set up.
 	this._sid = this._lib.indigoAllocSessionId();
-	this._out = {
-		"aint": ref.alloc('int'),
-		"afloat": ref.alloc('float'),
-		"apbyte": ref.alloc(ref.refType('byte')),
-		"read": ref.readPointer,
-		"alloc": ref.alloc
-	};
-	this._type = {
-		"byte_ptr": ref.refType('byte')
-	};
 	this.NOT_CENTER = -1;
 	this.UNMARKED = 0;
 	this.CENTER = 1;
@@ -626,7 +616,7 @@ Indigo.prototype.substructureMatcher = function (target, mode) {
 Indigo.prototype.unserialize = function (array) {
 	this._setSessionId();
 	var buf = new Buffer(array);
-	var pointer = this._out.alloc(this._type.byte_ptr, buf);
+	var pointer = ref.alloc(ref.refType('byte'), buf);
 	var res = this._lib.indigoUnserialize(pointer.deref(), buf.length);
 	return new IndigoObject(this, this._checkResult(res));
 };
