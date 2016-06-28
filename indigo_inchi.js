@@ -12,7 +12,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
-var lib_api = require('./indigo-api');
+var ffi = require('ffi');
+
 var IndigoObject = require('./indigoObject');
 var IndigoException = require('./indigoException');
 var Indigo = require('./indigo');
@@ -22,7 +23,16 @@ var IndigoInchi = function (indigo) {
 	var libpath = path.join(indigo.dllpath,
 	                        process.platform != 'win32' ? 'libindigo-inchi' : 'indigo-inchi');
 
-	this._lib = lib_api.Library(libpath, lib_api.api_inchi);
+	this._lib = ffi.Library(libpath, {
+		"indigoInchiVersion": ["string", []],
+		"indigoInchiResetOptions": ["int", []],
+		"indigoInchiLoadMolecule": ["int", ["string"]],
+		"indigoInchiGetInchi": ["string", ["int"]],
+		"indigoInchiGetInchiKey": ["string", ["string"]],
+		"indigoInchiGetWarning": ["string", []],
+		"indigoInchiGetLog": ["string", []],
+		"indigoInchiGetAuxInfo": [" string", []]
+	});
 };
 
 /*

@@ -12,7 +12,9 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 var path = require('path');
-var lib_api = require('./indigo-api');
+var ffi = require('ffi');
+var ref = require('ref');
+
 var IndigoObject = require('./indigoObject');
 var IndigoException = require('./indigoException');
 var BingoObject = require('./bingoObject');
@@ -28,7 +30,36 @@ Bingo._getLib = function (indigo) {
 	var libpath = path.join(indigo.dllpath,
 	                        process.platform != 'win32' ? 'libbingo' : 'bingo');
 
-	return lib_api.Library(libpath, lib_api.api_bingo);
+	return ffi.Library(libpath, {
+		"bingoVersion": ["string", []], // options = "id: <property-name>"
+		"bingoCreateDatabaseFile": ["int", ["string", "string", "string"]],
+		"bingoLoadDatabaseFile": ["int", ["string", "string"]],
+		"bingoCloseDatabase": ["int", ["int"]],
+		// Record insertion/deletion
+		"bingoInsertRecordObj": ["int", ["int", "int"]],
+		"bingoInsertRecordObjWithId": ["int", ["int", "int", "int"]],
+		"bingoDeleteRecord": ["int", ["int", "int"]],
+		"bingoGetRecordObj": ["int", ["int", "int"]],
+		"bingoOptimize": ["int", ["int"]],
+		// Search methods that returns search object
+		// Search object is an iterator
+		"bingoSearchSub": ["int", ["int", "int", "string"]],
+		"bingoSearchExact": ["int", ["int", "int", "string"]],
+		"bingoSearchMolFormula": ["int", ["int", "string", "string"]],
+		"bingoSearchSim": ["int", ["int", "int", "float", "float", "string"]],
+		// Search object methods
+		"bingoNext": ["int", ["int"]],
+		"bingoGetCurrentId": ["int", ["int"]],
+		"bingoGetCurrentSimilarityValue": ["float", ["int"]],
+		// Estimation methods
+		"bingoEstimateRemainingResultsCount": ["int", ["int"]],
+		"bingoEstimateRemainingResultsCountError": ["int", ["int"]],
+		"bingoEstimateRemainingTime": ["int", ["int", ref.refType('float')]],
+		// This method return IndigoObject that represents current object.
+		// After calling bingoNext this object automatically points to the next found result
+		"bingoGetObject": ["int", ["int"]],
+		"bingoEndSearch": ["int", ["int"]]
+	});
 };
 /*
  *
