@@ -1,18 +1,21 @@
 /****************************************************************************
  * Copyright (C) 2015-2016 EPAM Systems
- * 
+ *
  * This file is part of Indigo-Node binding.
- * 
+ *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
  * packaging of this file.
- * 
+ *
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 
-BingoObject = function (id, indigo, bingo) {
+var ref = require('ref');
+var IndigoObject = require('./indigoObject');
+
+var BingoObject = function (id, indigo, bingo) {
 	this.id = id;
 	this.indigo = indigo;
 	this.bingo = bingo;
@@ -20,9 +23,9 @@ BingoObject = function (id, indigo, bingo) {
 
 /*
  * Close an object
- * 
+ *
  * @method close
- * @returns {number}  
+ * @returns {number}
  */
 BingoObject.prototype.close = function () {
 	this.indigo._setSessionId();
@@ -37,9 +40,9 @@ BingoObject.prototype.close = function () {
 
 /*
  * next
- * 
+ *
  * @method next
- * @returns {boolean}  
+ * @returns {boolean}
  */
 BingoObject.prototype.next = function () {
 	this.indigo._setSessionId();
@@ -48,7 +51,7 @@ BingoObject.prototype.next = function () {
 
 /*
  * next
- * 
+ *
  * @method getCurrentId
  * @returns {number} id
  */
@@ -58,7 +61,7 @@ BingoObject.prototype.getCurrentId = function () {
 };
 
 /*
- * 
+ *
  * @method getIndigoObject
  * @returns {object} IndigoObject
  */
@@ -68,9 +71,9 @@ BingoObject.prototype.getIndigoObject = function () {
 };
 
 /*
- * 
+ *
  * @method getCurrentSimilarityValue
- * @returns {number} 
+ * @returns {number}
  */
 BingoObject.prototype.getCurrentSimilarityValue = function () {
 	this.indigo._setSessionId();
@@ -78,9 +81,9 @@ BingoObject.prototype.getCurrentSimilarityValue = function () {
 };
 
 /*
- * 
+ *
  * @method estimateRemainingResultsCount
- * @returns {number} 
+ * @returns {number}
  */
 BingoObject.prototype.estimateRemainingResultsCount = function () {
 	this.indigo._setSessionId();
@@ -88,9 +91,9 @@ BingoObject.prototype.estimateRemainingResultsCount = function () {
 };
 
 /*
- * 
+ *
  * @method estimateRemainingResultsCountError
- * @returns {number} 
+ * @returns {number}
  */
 BingoObject.prototype.estimateRemainingResultsCountError = function () {
 	this.indigo._setSessionId();
@@ -98,13 +101,13 @@ BingoObject.prototype.estimateRemainingResultsCountError = function () {
 };
 
 /*
- * 
+ *
  * @method estimateRemainingTime
- * @returns {number} 
+ * @returns {number}
  */
 BingoObject.prototype.estimateRemainingTime = function () {
 	this.indigo._setSessionId();
-	var value = this.indigo._out.afloat;
+	var value = ref.alloc('float');
 	var res = this.indigo._checkResult(this.bingo._lib.bingoEstimateRemainingTime(this.id, value));
 	if (res === null)
 		return null;
