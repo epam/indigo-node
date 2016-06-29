@@ -918,6 +918,17 @@ Indigo.prototype.createArray = function () {
 	return new IndigoObject(this, this._checkResult(this._lib.indigoCreateArray()));
 };
 
+
+Indigo.prototype.loadQueryReaction = function (string) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryReactionFromString(string)));
+};
+
+Indigo.prototype.loadQueryReactionFromFile = function (filename) {
+	this._setSessionId();
+	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryReactionFromFile(filename)));
+};
+
 /*
  * Set Option
  *
