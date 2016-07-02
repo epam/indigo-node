@@ -20,7 +20,7 @@ var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo");
 var indigo = new Indigo();
-var Bingo = require("../bingo");
+var Bingo = require("../bingo").Bingo;
 
 var dbname = local('append-mol-db');
 var smiles = ["CCCC1CCCCC1CPC", "CCC1CCNCC1CPC"];

@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 EPAM Systems
  *
  * This file is part of Indigo-Node binding.
- *
+G *
  * This file may be distributed and/or modified under the terms of the
  * GNU General Public License version 3 as published by the Free Software
  * Foundation and appearing in the file LICENSE.md  included in the
@@ -16,9 +16,14 @@ var ffi = require('ffi');
 var ref = require('ref');
 
 var IndigoObject = require('./indigoObject');
-var IndigoException = require('./indigoException');
-var BingoObject = require('./bingoObject');
-var Indigo = require('./indigo');
+
+var BingoException = function (message) {
+	this.message = message;
+	this.name = "BingoException";
+	this.stack = (new Error).stack;
+};
+
+BingoException.prototype = new Error;
 
 var Bingo = function (bingoId, indigo, lib) {
 	this.id = bingoId;
@@ -61,6 +66,20 @@ Bingo._getLib = function (indigo) {
 		"bingoEndSearch": ["int", ["int"]]
 	});
 };
+
+
+Bingo._checkResult = function (indigo, result) {
+	if (result < 0)
+		throw new BingoException(indigo.getLastError());
+	return result;
+};
+
+Bingo._checkResultString = function (indigo, result) {
+	if (typeof result !== 'string')
+		throw new BingoException(indigo.getLastError());
+	return result;
+};
+
 /*
  *
  * @method Bingo.createDatabaseFile
@@ -70,7 +89,7 @@ Bingo.createDatabaseFile = function (indigo, path, databaseType, options) {
 	options = options || '';
 	indigo._setSessionId();
 	var lib = Bingo._getLib(indigo);
-	return new Bingo(indigo._checkResult(lib.bingoCreateDatabaseFile(path, databaseType, options)), indigo, lib);
+	return new Bingo(Bingo._checkResult(indigo, lib.bingoCreateDatabaseFile(path, databaseType, options)), indigo, lib);
 };
 
 /*
@@ -82,18 +101,13 @@ Bingo.loadDatabaseFile = function (indigo, path, options) {
 	options = options || '';
 	indigo._setSessionId();
 	var lib = Bingo._getLib(indigo);
-	return new Bingo(indigo._checkResult(lib.bingoLoadDatabaseFile(path, options)), indigo, lib);
+	return new Bingo(Bingo._checkResult(indigo, lib.bingoLoadDatabaseFile(path, options)), indigo, lib);
 };
 
-/*
- *
- * @method close
- * @return {string} string of version
- */
 Bingo.prototype.close = function () {
 	this.indigo._setSessionId();
 	if (this.id >= 0)
-		this.indigo._checkResult(this._lib.bingoCloseDatabase(this.id));
+		Bingo._checkResult(this.indigo, this._lib.bingoCloseDatabase(this.id));
 	this.id = -1;
 };
 
@@ -104,7 +118,7 @@ Bingo.prototype.close = function () {
  */
 Bingo.prototype.version = function () {
 	this.indigo._setSessionId();
-	return this._lib.bingoVersion();
+	return Bingo._checkResultString(this.indigo, this._lib.bingoVersion());
 };
 
 /*
@@ -115,9 +129,9 @@ Bingo.prototype.version = function () {
 Bingo.prototype.insert = function (indigoObject, index) {
 	this.indigo._setSessionId();
 	if (index === undefined)
-		return this.indigo._checkResult(this._lib.bingoInsertRecordObj(this.id, indigoObject.id));
+		return Bingo._checkResult(this.indigo, this._lib.bingoInsertRecordObj(this.id, indigoObject.id));
 	else
-		return this.indigo._checkResult(this._lib.bingoInsertRecordObjWithId(this.id, indigoObject.id, index));
+		return Bingo._checkResult(this.indigo, this._lib.bingoInsertRecordObjWithId(this.id, indigoObject.id, index));
 
 };
 
@@ -128,7 +142,7 @@ Bingo.prototype.insert = function (indigoObject, index) {
  */
 Bingo.prototype.delete = function (index) {
 	this.indigo._setSessionId();
-	return this.indigo._checkResult(this._lib.bingoDeleteRecord(this.id, index));
+	return Bingo._checkResult(this.indigo, this._lib.bingoDeleteRecord(this.id, index));
 };
 
 /*
@@ -139,7 +153,7 @@ Bingo.prototype.delete = function (index) {
 Bingo.prototype.searchSub = function (query, options) {
 	options = options || '';
 	this.indigo._setSessionId();
-	return new BingoObject(this.indigo._checkResult(this._lib.bingoSearchSub(this.id, query.id, options)), this.indigo, this);
+	return new BingoObject(Bingo._checkResult(this.indigo, this._lib.bingoSearchSub(this.id, query.id, options)), this.indigo, this);
 };
 
 /*
@@ -150,7 +164,7 @@ Bingo.prototype.searchSub = function (query, options) {
 Bingo.prototype.searchExact = function (query, options) {
 	options = options || '';
 	this.indigo._setSessionId();
-	return new BingoObject(this.indigo._checkResult(this._lib.bingoSearchExact(this.id, query.id, options)), this.indigo, this);
+	return new BingoObject(Bingo._checkResult(this.indigo, this._lib.bingoSearchExact(this.id, query.id, options)), this.indigo, this);
 };
 
 /*
@@ -161,7 +175,7 @@ Bingo.prototype.searchExact = function (query, options) {
 Bingo.prototype.searchSim = function (query, minSim, maxSim, metric) {
 	metric = metric || 'tanimoto';
 	this.indigo._setSessionId();
-	return new BingoObject(this.indigo._checkResult(this._lib.bingoSearchSim(this.id, query.id, minSim, maxSim, metric)), this.indigo, this);
+	return new BingoObject(Bingo._checkResult(this.indigo, this._lib.bingoSearchSim(this.id, query.id, minSim, maxSim, metric)), this.indigo, this);
 };
 
 /*
@@ -172,7 +186,7 @@ Bingo.prototype.searchSim = function (query, minSim, maxSim, metric) {
 Bingo.prototype.searchMolFormula = function (query, options) {
 	options = options || '';
 	this.indigo._setSessionId();
-	return new BingoObject(this.indigo._checkResult(this._lib.bingoSearchMolFormula(this.id, query, options)), this.indigo, this);
+	return new BingoObject(Bingo._checkResult(this.indigo, this._lib.bingoSearchMolFormula(this.id, query, options)), this.indigo, this);
 };
 
 /*
@@ -182,7 +196,7 @@ Bingo.prototype.searchMolFormula = function (query, options) {
  */
 Bingo.prototype.optimize = function () {
 	this.indigo._setSessionId();
-	return (this._lib.bingoOptimize(this.id) == 0);
+	return Bingo._checkResult(this.indigo, this._lib.bingoOptimize(this.id));
 };
 
 /*
@@ -190,9 +204,110 @@ Bingo.prototype.optimize = function () {
  * @method getRecordById
  * @return {object}
  */
-Bingo.prototype.getRecordById = function (index) {
+Bingo.prototype.getRecordById = function (id) {
 	this.indigo._setSessionId();
-	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.bingoGetRecordObj(this.id, index)));
+	return new IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this._lib.bingoGetRecordObj(this.id, id)));
 };
 
-module.exports = Bingo;
+var BingoObject = function (id, indigo, bingo) {
+	this.id = id;
+	this.indigo = indigo;
+	this.bingo = bingo;
+};
+
+/*
+ * Close an object
+ *
+ * @method close
+ * @returns {number}
+ */
+BingoObject.prototype.close = function () {
+	this.indigo._setSessionId();
+	var res;
+	if (this.id >= 0) {
+		res = Bingo._checkResult(this.indigo, this.bingo._lib.bingoEndSearch(this.id));
+		this.id = -1;
+	}
+	return true;
+};
+
+
+/*
+ * next
+ *
+ * @method next
+ * @returns {boolean}
+ */
+BingoObject.prototype.next = function () {
+	this.indigo._setSessionId();
+	return (Bingo._checkResult(this.indigo, this.bingo._lib.bingoNext(this.id)) == 1);
+};
+
+/*
+ * next
+ *
+ * @method getCurrentId
+ * @returns {number} id
+ */
+BingoObject.prototype.getCurrentId = function () {
+	this.indigo._setSessionId();
+	return Bingo._checkResult(this.indigo, this.bingo._lib.bingoGetCurrentId(this.id));
+};
+
+/*
+ *
+ * @method getIndigoObject
+ * @returns {object} IndigoObject
+ */
+BingoObject.prototype.getIndigoObject = function () {
+	this.indigo._setSessionId();
+	return new IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this.bingo._lib.bingoGetObject(this.id)));
+};
+
+/*
+ *
+ * @method getCurrentSimilarityValue
+ * @returns {number}
+ */
+BingoObject.prototype.getCurrentSimilarityValue = function () {
+	this.indigo._setSessionId();
+	return Bingo._checkResult(this.indigo, this.bingo._lib.bingoGetCurrentSimilarityValue(this.id));
+};
+
+/*
+ *
+ * @method estimateRemainingResultsCount
+ * @returns {number}
+ */
+BingoObject.prototype.estimateRemainingResultsCount = function () {
+	this.indigo._setSessionId();
+	return Bingo._checkResult(this.indigo, this.bingo._lib.bingoEstimateRemainingResultsCount(this.id));
+};
+
+/*
+ *
+ * @method estimateRemainingResultsCountError
+ * @returns {number}
+ */
+BingoObject.prototype.estimateRemainingResultsCountError = function () {
+	this.indigo._setSessionId();
+	return Bingo._checkResult(this.indigo, this.bingo._lib.bingoEstimateRemainingResultsCountError(this.id));
+};
+
+/*
+ *
+ * @method estimateRemainingTime
+ * @returns {number}
+ */
+BingoObject.prototype.estimateRemainingTime = function () {
+	this.indigo._setSessionId();
+	var value = ref.alloc('float');
+	Bingo._checkResult(this.indigo, this.bingo._lib.bingoEstimateRemainingTime(this.id, value));
+	return value.deref();
+};
+
+module.exports = {
+	Bingo: Bingo,
+	BingoObject: BingoObject,
+	BingoException: BingoException
+};
