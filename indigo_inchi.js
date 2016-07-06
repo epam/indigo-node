@@ -14,9 +14,7 @@
 var path = require('path');
 var ffi = require('ffi');
 
-var IndigoObject = require('./indigoObject');
-var IndigoException = require('./indigoException');
-var Indigo = require('./indigo');
+var indigo = require('./indigo');
 
 var IndigoInchi = function (indigo) {
 	this.indigo = indigo;
@@ -64,7 +62,7 @@ IndigoInchi.prototype.resetOptions = function () {
  */
 IndigoInchi.prototype.loadMolecule = function (inchi) {
 	this.indigo._setSessionId();
-	return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)));
+	return new indigo.IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)));
 };
 
 /*

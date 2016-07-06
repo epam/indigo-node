@@ -15,7 +15,7 @@ var path = require('path');
 var ffi = require('ffi');
 var ref = require('ref');
 
-var IndigoObject = require('./indigoObject');
+var indigo = require('./indigo');
 
 var BingoException = function (message) {
 	this.message = message;
@@ -206,7 +206,7 @@ Bingo.prototype.optimize = function () {
  */
 Bingo.prototype.getRecordById = function (id) {
 	this.indigo._setSessionId();
-	return new IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this._lib.bingoGetRecordObj(this.id, id)));
+	return new indigo.IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this._lib.bingoGetRecordObj(this.id, id)));
 };
 
 var BingoObject = function (id, indigo, bingo) {
@@ -261,7 +261,7 @@ BingoObject.prototype.getCurrentId = function () {
  */
 BingoObject.prototype.getIndigoObject = function () {
 	this.indigo._setSessionId();
-	return new IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this.bingo._lib.bingoGetObject(this.id)));
+	return new indigo.IndigoObject(this.indigo, Bingo._checkResult(this.indigo, this.bingo._lib.bingoGetObject(this.id)));
 };
 
 /*

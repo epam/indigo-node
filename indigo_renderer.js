@@ -16,9 +16,7 @@ var path = require('path');
 var ffi = require('ffi');
 var refArray = require('ref-array');
 
-var IndigoObject = require('./indigoObject');
-var IndigoException = require('./indigoException');
-var Indigo = require('./indigo');
+var indigo = require('./indigo');
 
 var IndigoRenderer = function (indigo) {
 	this.indigo = indigo;
@@ -86,7 +84,7 @@ IndigoRenderer.prototype.renderGridToFile = function (objects, refatoms, ncolumn
 	var arr = null;
 	if (refatoms) {
 		if (refatoms.length != objects.count())
-			throw new IndigoException("renderGridToFile(): refatoms[] size must be equal to the number of objects");
+			throw new indigo.IndigoException("renderGridToFile(): refatoms[] size must be equal to the number of objects");
 		// TODO: check python conformance
 		arr = refatoms;
 	}
@@ -105,7 +103,7 @@ IndigoRenderer.prototype.renderGridToBuffer = function (objects, refatoms, ncolu
 	var arr = null;
 	if (refatoms) {
 		if (refatoms.length != objects.count())
-			throw new IndigoException("renderGridToBuffer(): refatoms[] size must be equal to the number of objects");
+			throw new indigo.IndigoException("renderGridToBuffer(): refatoms[] size must be equal to the number of objects");
 
 		// TODO: check python conformance
 		arr = refatoms;
