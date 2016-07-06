@@ -18,11 +18,10 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo");
-var indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
 var Bingo = require("../bingo").Bingo;
 
-
+var indigo = new Indigo();
 
 var searchSub = function (bingo, q, options) {
 	console.log("** searchSub(%s) **", q.smiles());

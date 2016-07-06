@@ -18,9 +18,10 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo");
-var indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
 var IndigoInchi = require("../indigo_inchi");
+
+var indigo = new Indigo();
 var indigo_inchi = new IndigoInchi(indigo);
 
 console.log(indigo_inchi.version());

@@ -18,7 +18,7 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo");
+var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
 
 var testMDLCT = function () {

@@ -18,10 +18,11 @@ var path = require('path');
 var fs = require('fs');
 var local = path.join.bind(path, __dirname);
 
-var Indigo = require("../indigo");
+var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
-indigo.setOption("treat-x-as-pseudoatom", true)
-indigo.setOption("ignore-stereochemistry-errors", true)
+
+indigo.setOption("treat-x-as-pseudoatom", true);
+indigo.setOption("ignore-stereochemistry-errors", true);
 
 var testRSite = function () {
 	var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
