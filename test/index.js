@@ -11,17 +11,17 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
-require('./renderer_align');
-require('./save');
-require('./sdf');
-require('./bingo_basic');
-require('./bingo');
-require('./inchi');
-require('./renderer');
-require('./substruct');
-require('./com');
-require('./rgroup');
-require('./tau_en');
-require('./cdx');
+// require('./renderer_align');
+// require('./save');
+// require('./sdf');
+// require('./bingo_basic');
+// require('./bingo');
+// require('./inchi');
+// require('./renderer');
+// require('./substruct');
+// require('./com');
+// require('./rgroup');
+// require('./tau_en');
+// require('./cdx');
 require('./basic');
-require('./buffer_string_load_iterate');
+// require('./buffer_string_load_iterate');
