@@ -13,6 +13,8 @@
  ***************************************************************************/
 
 /* declaration of modules  */
+var test = require('tape');
+
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
@@ -21,54 +23,78 @@ var local = path.join.bind(path, __dirname);
 var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
 
-var data = fs.readFileSync(local("fixtures/stereo_parity.sdf"));
-console.log(data.toString());
+test('SDF load string and buffer', function (t) {
+	t.plan(3);
+	var data = fs.readFileSync(local("fixtures/stereo_parity.sdf"));
+	t.doesNotThrow(() => data.toString(), String, 'should be string');
 
-console.log("*** SDF loadString ***");
-for (var m of indigo.iterateSDF(indigo.loadString(data.toString()))) {
-	console.log(m.smiles());
-}
+	var str1 = '', str2 = '';
+	t.doesNotThrow(() => {
+		// *** SDF loadString ***
+		for (var m of indigo.iterateSDF(indigo.loadString(data.toString()))) {
+			str1 += m.smiles();
+		}
+		// *** SDF loadBuffer ***
+		for (var m of indigo.iterateSDF(indigo.loadBuffer(data))) {
+			str2 += m.smiles();
+		}
+	});
+	t.equals(str1, str2, 'loadString and loadBuffer should be equal');
+});
 
-console.log("*** SDF loadBuffer ***");
-for (var m of indigo.iterateSDF(indigo.loadBuffer(data))) {
-	console.log(m.smiles());
-}
+test('SMILES load string and buffer', function (t) {
+	t.plan(3);
+	var data = fs.readFileSync(local("fixtures/helma.smi"));
+	t.doesNotThrow(() => data.toString(), String, 'should be string');
 
-var data = fs.readFileSync(local("fixtures/helma.smi"));
-console.log(data.toString());
+	var str1 = '', str2 = '';
+	t.doesNotThrow(() => {
+		// *** SDF loadString ***
+		for (var m of indigo.iterateSmiles(indigo.loadString(data.toString()))) {
+			str1 += m.smiles();
+		}
+		// *** SDF loadBuffer ***
+		for (var m of indigo.iterateSmiles(indigo.loadBuffer(data))) {
+			str2 += m.smiles();
+		}
+	});
+	t.equals(str1, str2, 'loadString and loadBuffer should be equal');
+});
 
-console.log("*** SMILES loadString ***");
-for (var m of indigo.iterateSmiles(indigo.loadString(data.toString()))) {
-	console.log(m.smiles());
-}
+test('CML load string and buffer', function (t) {
+	t.plan(3);
+	var data = fs.readFileSync(local("fixtures/tetrahedral-all.cml"));
+	t.doesNotThrow(() => data.toString(), String, 'should be string');
 
-console.log("*** SMILES loadBuffer ***");
-for (var m of indigo.iterateSmiles(indigo.loadBuffer(data))) {
-	console.log(m.smiles());
-}
+	var str1 = '', str2 = '';
+	t.doesNotThrow(() => {
+		// *** SDF loadString ***
+		for (var m of indigo.iterateCML(indigo.loadString(data.toString()))) {
+			str1 += m.smiles();
+		}
+		// *** SDF loadBuffer ***
+		for (var m of indigo.iterateCML(indigo.loadBuffer(data))) {
+			str2 += m.smiles();
+		}
+	});
+	t.equals(str1, str2, 'loadString and loadBuffer should be equal');
+});
 
-var data = fs.readFileSync(local("fixtures/tetrahedral-all.cml"));
-console.log(data.toString());
+test('RDF load string and buffer', function (t) {
+	t.plan(3);
+	var data = fs.readFileSync(local("fixtures/reactions.rdf"));
+	t.doesNotThrow(() => data.toString(), String, 'should be string');
 
-console.log("*** CML loadString ***");
-for (var m of indigo.iterateCML(indigo.loadString(data.toString()))) {
-	console.log(m.smiles());
-}
-
-console.log("*** CML loadBuffer ***");
-for (var m of indigo.iterateCML(indigo.loadBuffer(data))) {
-	console.log(m.smiles());
-}
-
-var data = fs.readFileSync(local("fixtures/reactions.rdf"));
-console.log(data.toString());
-
-console.log("*** RDF loadString ***");
-for (var m of indigo.iterateRDF(indigo.loadString(data.toString()))) {
-	console.log(m.smiles());
-}
-
-console.log("*** RDF loadBuffer ***");
-for (var m of indigo.iterateRDF(indigo.loadBuffer(data))) {
-	console.log(m.smiles());
-}
+	var str1 = '', str2 = '';
+	t.doesNotThrow(() => {
+		// *** SDF loadString ***
+		for (var m of indigo.iterateRDF(indigo.loadString(data.toString()))) {
+			str1 += m.smiles();
+		}
+		// *** SDF loadBuffer ***
+		for (var m of indigo.iterateRDF(indigo.loadBuffer(data))) {
+			str2 += m.smiles();
+		}
+	});
+	t.equals(str1, str2, 'loadString and loadBuffer should be equal');
+});

@@ -13,6 +13,8 @@
  ***************************************************************************/
 
 /* declaration of modules  */
+var test = require('tape');
+
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
@@ -25,32 +27,33 @@ indigo.setOption("molfile-saving-skip-date", true)
 
 var readCdxAndPrintInfo = function (fname){
 	var data = fs.readFileSync(fname);
-	for (var m of indigo.iterateCDX(indigo.loadBuffer(data)))
-	{
-		console.log("*****");
-		console.log("Smiles:");
-		console.log(m.smiles());
-		console.log("Molfile:");
-		console.log(m.molfile());
-//		console.log("Rawdata:");
-//		console.log(m.rawData());
-		console.log("Properties:");
+	var str = [];
+	for (var m of indigo.iterateCDX(indigo.loadBuffer(data))) {
+		str += "*****";
+		str += "Smiles:";
+		str += m.smiles();
+		str += "Molfile:";
+		str += m.molfile();
+		str += "Properties:";
 		for (var prop of m.iterateProperties())
-			console.log(prop.name() +' : ' + prop.rawData());
+			str += prop.name() +' : ' + prop.rawData();
 	}
-}
+	return str;
+};
 
-console.log("**** Read CDX from file ****");
-readCdxAndPrintInfo(local('fixtures/test-multi.cdx'));
+test('Read CDX from file', function (t) {
+	t.plan(2);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test-multi.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/CDX3_4molecules_prop.cdx')), String);
+});
 
-readCdxAndPrintInfo(local('fixtures/CDX3_4molecules_prop.cdx'));
-
-
-console.log("**** Read CDX with wrong empty objects ****");
-readCdxAndPrintInfo(local('fixtures/test_title_0.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_1.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_2.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_3.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_4.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_5.cdx'));
-readCdxAndPrintInfo(local('fixtures/test_title_6.cdx'));
+test('Read CDX with wrong empty objects', function (t) {
+	t.plan(7);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_0.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_1.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_2.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_3.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_4.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_5.cdx')), String);
+	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test_title_6.cdx')), String);
+});

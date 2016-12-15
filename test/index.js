@@ -22,6 +22,6 @@ require('./bingo');
 // require('./com');
 // require('./rgroup');
 // require('./tau_en');
-// require('./cdx');
+require('./cdx');
 require('./basic');
-// require('./buffer_string_load_iterate');
+require('./buffer_string_load_iterate');
