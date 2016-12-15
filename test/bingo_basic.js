@@ -13,6 +13,9 @@
  ***************************************************************************/
 
 /* declaration of modules  */
+var test = require('tape');
+var tmp = require('tmp');
+
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
@@ -20,101 +23,91 @@ var local = path.join.bind(path, __dirname);
 
 var Indigo = require("../indigo").Indigo;
 var Bingo = require("../bingo").Bingo;
+var BingoException = require("../bingo").BingoException;
 
 var indigo = new Indigo();
 
 var searchSub = function (bingo, q, options) {
-	console.log("** searchSub(%s) **", q.smiles());
+	var resultIds = [];
 	var result = bingo.searchSub(q, options);
 	while (result.next())
-		console.log(result.getCurrentId());
+		resultIds.push(result.getCurrentId());
+	return resultIds;
 };
 
 var searchExact = function (bingo, q, options) {
-	console.log("** searchExact(%s) **", q.smiles());
 	var result = bingo.searchExact(q, options);
+	var resultIds = [];
 	while (result.next())
-		console.log(result.getCurrentId());
+		resultIds.push(result.getCurrentId());
+	return resultIds;
 };
 
 
 var searchSim = function (bingo, q, minSim, maxSim, metric) {
-	console.log("** searchSim(%s) **", q.smiles());
 	var result = bingo.searchSim(q, minSim, maxSim, metric);
-	console.log("%d %d %d", result.estimateRemainingResultsCount(), result.estimateRemainingResultsCountError(), result.estimateRemainingTime());
+	console.log("Search sim: %d %d %d", result.estimateRemainingResultsCount(), result.estimateRemainingResultsCountError(), result.estimateRemainingTime());
 	while (result.next()) {
-		console.log(result.getCurrentId());
-		console.log(result.getCurrentSimilarityValue());
+		console.log(result.getCurrentId(), result.getCurrentSimilarityValue());
 		try {
 			var rm = result.getIndigoObject();
-			console.log(rm.smiles());
-		}
-		catch (e) {
+		} catch (e) {
 			console.log("BingoException: %s", e.message);
 		}
 	}
 	result.close();
-}
+};
 
-console.log("*** Creating temporary database ****");
-var bingo = Bingo.createDatabaseFile(indigo, local('tempdb'), 'molecule');
-console.log(bingo.version());
-var m = indigo.loadMolecule('C1CCCCC1');
-bingo.insert(m);
-var m = indigo.loadMolecule('C1CCNCC1');
-bingo.insert(m);
-var insertedIndex = bingo.insert(m, 100);
-console.log("Inserted index: %d", insertedIndex);
-bingo.optimize();
-console.log("Index optimized");
-var qm = indigo.loadQueryMolecule('C');
-searchSub(bingo, qm);
-bingo.delete(insertedIndex);
-searchSub(bingo, qm);
+var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
-console.log("*** Deleting record with incorrect index ***");
-try {
-	bingo.delete(31459);
-}
-catch (e) {
-	console.log("BingoException: %s", e.message);
-}
+test('Creating temporary database', function (t) {
+	console.log('\n#### - Bingo-basic test - ####\n');
 
-bingo.close();
+	t.plan(5);
+	var bingo = Bingo.createDatabaseFile(indigo, tmpDir.name, 'molecule');
+	t.ok(bingo.id >= 0, 'bd should be created');
+	bingo.insert(indigo.loadMolecule('C1CCCCC1'));
+	bingo.insert(indigo.loadMolecule('C1CCNCC1'));
+	var insertedIndex = bingo.insert(indigo.loadMolecule('C1CCNCC1'), 100);
+	t.equal(insertedIndex, 100, 'should be right id');
+	bingo.optimize();
+	var qm = indigo.loadQueryMolecule('C');
+	t.deepEquals(searchSub(bingo, qm), [0, 1, 100]);
+	bingo.delete(insertedIndex);
+	t.deepEquals(searchSub(bingo, qm), [0, 1]);
 
-console.log("*** Loading existing database ****");
-var bingo = Bingo.loadDatabaseFile(indigo, local('tempdb'));
-var m = indigo.loadMolecule('C1CCCCC1');
-searchSim(bingo, m, 0.9, 1, 'tanimoto');
-searchSim(bingo, m, 0.9, 1, 'tversky');
-searchSim(bingo, m, 0.9, 1, 'tversky 0.1 0.9');
-searchSim(bingo, m, 0.9, 1, 'tversky 0.9 0.1');
-searchSim(bingo, m, 0.9, 1, 'euclid-sub');
+	t.throws(() => bingo.delete(31459), BingoException, 'delete: should be exception, incorrect index');
+	bingo.close();
+});
 
-try {
-	console.log("*** Loading non-existent database ***");
-	var bingo = Bingo.loadDatabaseFile(indigo, 'idonotexist', 'molecule');
-}
-catch (e) {
-	console.log("BingoException: %s", e.message);
-}
+test('Loading existing database', function (t) {
+	t.plan(2);
+	var loadBingo = Bingo.loadDatabaseFile(indigo, tmpDir.name);
+	var m = indigo.loadMolecule('C1CCCCC1');
+	searchSim(loadBingo, m, 0.9, 1, 'tanimoto');
+	searchSim(loadBingo, m, 0.9, 1, 'tversky');
+	searchSim(loadBingo, m, 0.9, 1, 'tversky 0.1 0.9');
+	searchSim(loadBingo, m, 0.9, 1, 'tversky 0.9 0.1');
+	searchSim(loadBingo, m, 0.9, 1, 'euclid-sub');
 
-console.log("*** Using closed database ***");
-bingo.close();
-try {
-	var m = indigo.loadMolecule('C');
-	bingo.insert(m);
-}
-catch (e) {
-	console.log("BingoException: %s, name: %s", e.message, e.name);
-}
+	t.throws(() => Bingo.loadDatabaseFile(indigo, 'idonotexist', 'molecule'), BingoException, 'should be exception, non-exist');
+	loadBingo.close();
 
-console.log("*** Simple exact search ****");
-var bingo = Bingo.createDatabaseFile(indigo, local('tempdb'), 'molecule');
-var mol1 = indigo.loadMolecule("ICCCCOC(=O)C1=CC([N+]([O-])=O)=C([N+]([O-])=O)C=C1");
-var mol2 = indigo.loadMolecule("CCCC");
-bingo.insert(mol1);
-bingo.insert(mol2);
-searchExact(bingo, mol1);
-searchExact(bingo, mol2);
-bingo.close()
+	t.throws(() => loadBingo.insert(m), BingoException, 'should be exception, closed BD');
+});
+
+test('Simple exact search', function (t) {
+	t.plan(2);
+	var bingo = Bingo.createDatabaseFile(indigo, tmpDir.name, 'molecule');
+	var mol1 = indigo.loadMolecule("ICCCCOC(=O)C1=CC([N+]([O-])=O)=C([N+]([O-])=O)C=C1");
+	var mol2 = indigo.loadMolecule("CCCC");
+	bingo.insert(mol1);
+	bingo.insert(mol2);
+	t.deepEquals(searchExact(bingo, mol1), [0]);
+	t.deepEquals(searchExact(bingo, mol2), [1]);
+
+	bingo.close();
+	tmpDir.removeCallback();
+});
+
+

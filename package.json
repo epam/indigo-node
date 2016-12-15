@@ -34,10 +34,12 @@
     "ffi": "^2.0.0",
     "ref": "^1.3.2",
     "ref-array": "^1.1.2",
-    "ref-struct": "^1.0.2",
-    "tape": "^4.6.3"
+    "ref-struct": "^1.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.6.3",
+    "tmp": "0.0.31"
+  },
   "scripts": {
     "test": "node test",
     "clean": "rm -rf *.png *.rxn test/*db test/*.mol test/*.sdf test/*.cml test/*.cdxml test/*.png test/*.svg test/*.smi test/*.rdf"

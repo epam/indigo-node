@@ -14,7 +14,7 @@
 // require('./renderer_align');
 // require('./save');
 // require('./sdf');
-// require('./bingo_basic');
+require('./bingo_basic');
 // require('./bingo');
 // require('./inchi');
 // require('./renderer');

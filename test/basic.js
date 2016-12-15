@@ -23,11 +23,11 @@ var Indigo = require("../indigo").Indigo;
 var IndigoException = require("../indigo").IndigoException;
 var indigo = new Indigo();
 
-console.log('Indigo basic test');
-
 var status = indigo.setOption("molfile-saving-skip-date", "1");
 
 test('Query reload', function (t) {
+    console.log('\n#### - Indigo basic test - ####\n');
+
 	t.plan(2);
 
 	var q = indigo.loadQueryMoleculeFromFile(local("fixtures/q_atom_list.mol"));
