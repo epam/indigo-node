@@ -42,6 +42,7 @@ var readCdxAndPrintInfo = function (fname){
 };
 
 test('Read CDX from file', function (t) {
+	console.log('\n#### - CDX test - ####\n');
 	t.plan(2);
 	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/test-multi.cdx')), String);
 	t.doesNotThrow(() => readCdxAndPrintInfo(local('fixtures/CDX3_4molecules_prop.cdx')), String);

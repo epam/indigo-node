@@ -19,7 +19,7 @@ require('./bingo');
 // require('./inchi');
 // require('./renderer');
 // require('./substruct');
-// require('./com');
+require('./com');
 // require('./rgroup');
 // require('./tau_en');
 require('./cdx');
