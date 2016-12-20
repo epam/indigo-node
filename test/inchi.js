@@ -13,102 +13,90 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var local = path.join.bind(path, __dirname);
+let test = require('tape');
 
-var Indigo = require("../indigo").Indigo;
-var IndigoInchi = require("../indigo_inchi");
+let assert = require('assert');
+let path = require('path');
+let fs = require('fs');
 
-var indigo = new Indigo();
-var indigo_inchi = new IndigoInchi(indigo);
+let Indigo = require("../indigo").Indigo;
+let IndigoInchi = require("../indigo_inchi");
+
+let indigo = new Indigo();
+let indigo_inchi = new IndigoInchi(indigo);
 
 console.log(indigo_inchi.version());
 
-console.log("*** Basic *** ");
-var m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2");
-console.log(m.canonicalSmiles());
-console.log(indigo_inchi.getInchi(m));
-console.log(indigo_inchi.getWarning());
+test('Basic', function (t) {
+	t.plan(2);
+    let m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2");
+    m.canonicalSmiles();
+    t.equals(indigo_inchi.getInchi(m), "InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2", 'check inchi');
+    t.equals(indigo_inchi.getWarning(), "Omitted undefined stereo", 'check warnings');
+});
 
-console.log("*** Error handling *** ");
-var m = indigo.loadMolecule("B1=CB=c2cc3B=CC=c3cc12");
-try {
-	console.log(indigo_inchi.getInchi(m));
-}
-catch (e) {
-	console.log("Error: %s\n", e.message);
-}
+test('Error handling', function (t) {
+	t.plan(1);
+    let m = indigo.loadMolecule("B1=CB=c2cc3B=CC=c3cc12");
+    t.doesNotThrow(() => indigo_inchi.getInchi(m), String, 'get inchi w/o throw');
+});
 
-console.log("*** Options *** ");
-var testOpt = function (m, opt){
-	try {
-		indigo.setOption("inchi-options", opt);
-		console.log(indigo_inchi.getInchi(m));
-	}
-	catch (e) {
-		console.log("Error: %s\n", e.message);
-	}
-}
+test('Options', function (t) {
+    let testOpt = function (m, opt){
+        indigo.setOption("inchi-options", opt);
+        if (opt == "/invalid -option")
+    		t.throws(() => indigo_inchi.getInchi(m), Error, 'check invalid option error');
+        else
+        	t.doesNotThrow(() => indigo_inchi.getInchi(m), String, 'check inchi')
+    };
+	t.plan(7);
+    let m = indigo.loadMolecule("CC1CC(C)OC(C)N1");
+    testOpt(m, "");
+    testOpt(m, "/SUU");
+    testOpt(m, "-SUU");
+    testOpt(m, "/DoNotAddH /SUU /SLUUD");
+    testOpt(m, "-DoNotAddH -SUU -SLUUD");
+    testOpt(m, "/DoNotAddH -SUU -SLUUD");
+    testOpt(m, "/invalid -option");
+});
 
-m = indigo.loadMolecule("CC1CC(C)OC(C)N1");
-testOpt(m, "");
-testOpt(m, "/SUU");
-testOpt(m, "-SUU");
-testOpt(m, "/DoNotAddH /SUU /SLUUD");
-testOpt(m, "-DoNotAddH -SUU -SLUUD");
-testOpt(m, "/DoNotAddH -SUU -SLUUD");
-testOpt(m, "/invalid -option");
+test('Some molecules', function (t) {
+    t.plan(2);
+    indigo.setOption("inchi-options", "");
+    let input = "InChI=1S/C6H5.C2H4O2.Hg/c1-2-4-6-5-3-1;1-2(3)4;/h1-5H;1H3,(H,3,4);";
+    let m2 = indigo_inchi.loadMolecule(input);
+    // aromatize
+    indigo_inchi.getInchi(m2);
+    m2.aromatize();
+    t.equals(indigo_inchi.getInchi(m2), input);
 
+    // aromatize + dearomatize
+    indigo_inchi.getInchi(m2);
+    m2.aromatize();
+    m2.dearomatize();
+    t.equals(indigo_inchi.getInchi(m2), input);
+});
 
-console.log("*** Some molecules *** ");
-indigo.setOption("inchi-options", "");
-input = "InChI=1S/C6H5.C2H4O2.Hg/c1-2-4-6-5-3-1;1-2(3)4;/h1-5H;1H3,(H,3,4);"
-console.log(input);
-var m2 = indigo_inchi.loadMolecule(input);
+test('Non-unqiue dearomatization', function (t) {
+	t.plan(1);
+    let m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+    t.throws(() => indigo_inchi.getInchi(m), Error);
+});
 
-console.log("Arom");
-try {
-	var inchi2 = indigo_inchi.getInchi(m2);
-	console.log(inchi2);
-	m2.aromatize();
-	var inchi2 = indigo_inchi.getInchi(m2);
-	console.log(inchi2);
-}
-catch (e) {
-	console.log("Error: %s\n", e.message);
-}
+test('Aux info', function (t) {
+    let m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+	t.plan(3);
 
-console.log("Arom/dearom");
-try {
-	var inchi2 = indigo_inchi.getInchi(m2);
-	console.log(inchi2);
-	m2.aromatize();
-	m2.dearomatize();
-	var inchi2 = indigo_inchi.getInchi(m2);
-	console.log(inchi2);
-}
-catch (e) {
-	console.log("Error: %s\n", e.message);
-}
+    let correctInchi = "InChI=1S/C6H7N5/c1-3-4-5(11-10-3)6(7)9-2-8-4/h2H,7H2,1H3,(H,8,9)";
+    let correctAux = "AuxInfo=1/1/N:1,9,2,11,5,6,7,10,8,3,4/rA:11CCNNCCNNCNC/rB:s1;s2;d3;s4;d5;s6;s6;d8;s9;d2s5s10;/rC:;;;;;;;;;;;";
+    let correctSmiles = "CC1=C2NC=NC(N)=C2N=N1";
 
-console.log("*** Non-unqiue dearomatization ***");
-try {
-	var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
-	var inchi = indigo_inchi.getInchi(m);
-	console.log(inchi);
-}
-catch (e) {
-	console.log("Error: %s\n", e.message);
-}
+    m.dearomatize();
+    let inchi = indigo_inchi.getInchi(m);
+    t.equals(inchi, correctInchi, 'check inchi');
+    let aux = indigo_inchi.getAuxInfo();
+    t.equals(aux, correctAux, 'check aux');
+    let m2 = indigo_inchi.loadMolecule(aux);
+    t.equals(m2.smiles(), correctSmiles, 'check smiles');
+});
 
-console.log("*** Aux info ***");
-var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
-m.dearomatize();
-var inchi = indigo_inchi.getInchi(m);
-var aux = indigo_inchi.getAuxInfo();
-console.log(inchi);
-console.log(aux);
-var m2 = indigo_inchi.loadMolecule(aux);
-console.log(m2.smiles());

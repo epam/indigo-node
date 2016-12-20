@@ -16,7 +16,7 @@
 // require('./sdf');
 require('./bingo_basic');
 require('./bingo');
-// require('./inchi');
+require('./inchi');
 // require('./renderer');
 // require('./substruct');
 require('./com');
