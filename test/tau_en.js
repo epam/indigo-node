@@ -13,49 +13,58 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var local = path.join.bind(path, __dirname);
+let test = require('tape');
 
-var Indigo = require("../indigo").Indigo;
-var indigo = new Indigo();
+let assert = require('assert');
+let path = require('path');
+let fs = require('fs');
+let local = path.join.bind(path, __dirname);
 
-var testEnumTautomersForMolecule = function (molecule) {
-	var iter = indigo.iterateTautomers(molecule, 'INCHI');
-	var lst = [];
-	for (var mol of iter)
-	{
-		var prod = mol.clone();
+let Indigo = require("../indigo").Indigo;
+let indigo = new Indigo();
+
+let testEnumTautomersForMolecule = function (molecule) {
+	let iter = indigo.iterateTautomers(molecule, 'INCHI');
+	let lst = [];
+	for (let mol of iter) {
+		let prod = mol.clone();
 		lst.push(prod.canonicalSmiles());
 	}
 	lst.sort();
-	console.log(lst);
 };
 
-var testEnumTautomersForSDF = function (sdf_file) {
-	var data = fs.readFileSync(sdf_file);
-	for (var molecule of indigo.iterateSDF(indigo.loadBuffer(data)))
-	{
-		console.log(molecule.smiles());
+let testEnumTautomersForSDF = function (sdf_file) {
+	let data = fs.readFileSync(sdf_file);
+	for (let molecule of indigo.iterateSDF(indigo.loadBuffer(data))) {
 		molecule.dearomatize();
 		testEnumTautomersForMolecule(molecule);
 		molecule.aromatize();
 		testEnumTautomersForMolecule(molecule);
 	}
-}
+};
 
-console.log("This is the case when not all tautomers are found for the first time and the algorithm requires the second attempt:")
-testEnumTautomersForMolecule(indigo.loadMolecule('OC1N=C2C(=NC(N)=NC(=O)2)NC(O)=1'));
+test('This is the case when not all tautomers are found for the first time and the algorithm requires the second attempt:', function (t) {
+    console.log('\n#### - TAU_EN test - ####\n');
+	t.plan(1);
+	t.doesNotThrow(() => testEnumTautomersForMolecule(indigo.loadMolecule('OC1N=C2C(=NC(N)=NC(=O)2)NC(O)=1')), Array);
+});
 
-console.log("Test tautomers1-small.sdf")
-testEnumTautomersForSDF(local('fixtures/tautomers1-small.sdf'));
+test('Test tautomers1-small.sdf:', function (t) {
+    t.plan(1);
+    t.doesNotThrow(() => testEnumTautomersForSDF(local('fixtures/tautomers1-small.sdf')), Array);
+});
 
-console.log("Test tautomers2-small.sdf")
-testEnumTautomersForSDF(local('fixtures/tautomers2-small.sdf'));
+test('Test tautomers2-small.sdf:', function (t) {
+    t.plan(1);
+    t.doesNotThrow(() => testEnumTautomersForSDF(local('fixtures/tautomers2-small.sdf')), Array);
+});
 
-console.log("Test tautomers1-large.sdf")
-testEnumTautomersForSDF(local('fixtures/tautomers1-large.sdf'));
+test('Test tautomers1-large.sdf:', function (t) {
+    t.plan(1);
+    t.doesNotThrow(() => testEnumTautomersForSDF(local('fixtures/tautomers1-large.sdf')), Array);
+});
 
-console.log("Test tautomers2-large.sdf")
-testEnumTautomersForSDF(local('fixtures/tautomers2-large.sdf'));
+test('Test tautomers2-large.sdf:', function (t) {
+    t.plan(1);
+    t.doesNotThrow(() => testEnumTautomersForSDF(local('fixtures/tautomers2-large.sdf')), Array);
+});

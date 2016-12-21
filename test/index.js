@@ -13,7 +13,7 @@
  ***************************************************************************/
 // require('./renderer_align');
 // require('./save');
-// require('./sdf');
+require('./sdf');
 require('./bingo_basic');
 require('./bingo');
 require('./inchi');
@@ -21,7 +21,7 @@ require('./inchi');
 // require('./substruct');
 require('./com');
 // require('./rgroup');
-// require('./tau_en');
+require('./tau_en');
 require('./cdx');
 require('./basic');
 require('./buffer_string_load_iterate');
