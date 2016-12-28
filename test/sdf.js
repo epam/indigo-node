@@ -60,7 +60,7 @@ let checkMolNames = function (/*test*/t, sdf_file_name) {
 test('Save and load molecule names from SDF', function (t) {
 	t.plan(30);
 
-    let sdf_file_name = tmpDir.name +"\\sdf-names.sdf";
+    let sdf_file_name = tmpDir.name +"/sdf-names.sdf";
     let saver = indigo.createFileSaver(sdf_file_name, "sdf");
 
     for (let name of names) {
@@ -75,7 +75,7 @@ test('Save and load molecule names from SDF', function (t) {
 test('Use sdfAppend', function (t) {
     t.plan(30);
 
-    let sdf_file_name = tmpDir.name + "\\sdf-names-2.sdf";
+    let sdf_file_name = tmpDir.name + "/sdf-names-2.sdf";
     let sdf = indigo.writeFile(sdf_file_name);
 
     for (let name of names) {

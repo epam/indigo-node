@@ -13,67 +13,71 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var local = path.join.bind(path, __dirname);
+let test = require('tape');
+let tmp = require('tmp');
 
-var Indigo = require("../indigo").Indigo;
-var IndigoRenderer = require("../indigo_renderer");
+let assert = require('assert');
+let path = require('path');
+let fs = require('fs');
+let local = path.join.bind(path, __dirname);
 
-var indigo = new Indigo();
-var indigo_renderer = new IndigoRenderer(indigo);
+let Indigo = require("../indigo").Indigo;
+let IndigoRenderer = require("../indigo_renderer");
 
-var testDearom = function ()
-{
-	indigo.setOption("render-output-format", "png");
-	indigo.setOption("render-background-color", "255,255,255");
-	indigo.setOption("render-atom-ids-visible", "1");
+let indigo = new Indigo();
+let indigo_renderer = new IndigoRenderer(indigo);
 
-	m = indigo.loadMolecule("c1ccsc1");
-	cnt0 = indigo.countReferences();
-	buf = indigo_renderer.renderToBuffer(m);
-	cnt1 = indigo.countReferences();
+let tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
-	var status = indigo_renderer.renderToFile(m, "m.png");
-	if (status) console.log("m.png have been created");
-	m.dearomatize();
-	console.log(m.smiles());
-}
-var cdxml = function () {
-	var status = indigo_renderer.renderReset();
-	if (status) console.log("renderer have been reseted");
-	indigo.setOption("render-output-format", "png");
-	indigo.setOption("render-background-color", "255,255,255");
-	indigo.setOption("render-atom-ids-visible", "1");
-	arr = indigo.createArray();
-	var idx = 0;
-	for (var m of indigo.iterateSmilesFile(local("fixtures/pubchem_slice_10.smi"))) {
-		console.log(m.smiles());
-		// Set title
-		m.setProperty("title", "Molecule:" + idx + "\nMass: " + m.molecularWeight() + "\nFormula: " + m.grossFormula());
-		//Add to the array
-		arr.arrayAdd(m);
-		idx++;
-	}
-	// Set required options
-	indigo.setOption("render-grid-title-property", "title");
-	indigo.setOption("render-comment", "Comment:\nSet of molecules");
-	// Render
-	options_align = ["left", "right", "center", "center-left", "center-right"];
-	for (var alignment of options_align) {
-		indigo.setOption("render-grid-title-alignment", alignment);
-		indigo_renderer.renderGridToFile(arr, null, 3, local("cdxml-test-"+alignment+".cdxml"));
-	}
-	options_length = [0, 10, 50, 100, 200];
-	for (var length of options_length) {
-		indigo.setOption("render-bond-length", length);
-		indigo_renderer.renderGridToFile(arr, null, 3, local("cdxml-test-len"+length+".cdxml"));
-	}
-	indigo.setOption("render-output-format", "cdxml")
-	buf = indigo_renderer.renderGridToBuffer(arr, null, 3)
-	console.log(buf.length > 100);
-}
+test('Dearomotize', function (t) {
+    console.log('\n#### - Renderer test - ####\n');
+	t.plan(2);
+    indigo.setOption("render-output-format", "png");
+    indigo.setOption("render-background-color", "255,255,255");
+    indigo.setOption("render-atom-ids-visible", "1");
 
-cdxml();
-testDearom();
+    let m = indigo.loadMolecule("c1ccsc1");
+    indigo.countReferences();
+    indigo_renderer.renderToBuffer(m);
+    indigo.countReferences();
+
+    let status = indigo_renderer.renderToFile(m, "m.png");
+    t.ok(status, 'm.png must be created');
+    m.dearomatize();
+    t.equal(m.smiles(), 'C1=CSC=C1');
+});
+
+test('cdxml', function (t) {
+	t.plan(2);
+    let status = indigo_renderer.renderReset();
+    t.ok(status, 'renderer must been reseted');
+    indigo.setOption("render-output-format", "png");
+    indigo.setOption("render-background-color", "255,255,255");
+    indigo.setOption("render-atom-ids-visible", "1");
+    let arr = indigo.createArray();
+    let idx = 0;
+    for (let m of indigo.iterateSmilesFile(local("fixtures/pubchem_slice_10.smi"))) {
+        // Set title
+        m.setProperty("title", "Molecule:" + idx + "\nMass: " + m.molecularWeight() + "\nFormula: " + m.grossFormula());
+        //Add to the array
+        arr.arrayAdd(m);
+        idx++;
+    }
+    // Set required options
+    indigo.setOption("render-grid-title-property", "title");
+    indigo.setOption("render-comment", "Comment:\nSet of molecules");
+    // Render
+    let options_align = ["left", "right", "center", "center-left", "center-right"];
+    for (let alignment of options_align) {
+        indigo.setOption("render-grid-title-alignment", alignment);
+        indigo_renderer.renderGridToFile(arr, null, 3, tmpDir.name + "/cdxml-test-"+alignment+".cdxml");
+    }
+    let options_length = [0, 10, 50, 100, 200];
+    for (let length of options_length) {
+        indigo.setOption("render-bond-length", length);
+        indigo_renderer.renderGridToFile(arr, null, 3, tmpDir.name + "/cdxml-test-len"+length+".cdxml");
+    }
+    indigo.setOption("render-output-format", "cdxml")
+    let buf = indigo_renderer.renderGridToBuffer(arr, null, 3)
+    t.ok(buf.length > 100);
+});

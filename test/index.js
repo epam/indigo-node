@@ -11,13 +11,13 @@
  * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
-// require('./renderer_align');
+require('./renderer_align');
 // require('./save');
 require('./sdf');
 require('./bingo_basic');
 require('./bingo');
 require('./inchi');
-// require('./renderer');
+require('./renderer');
 // require('./substruct');
 require('./com');
 // require('./rgroup');
