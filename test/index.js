@@ -12,7 +12,7 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  ***************************************************************************/
 require('./renderer_align');
-// require('./save');
+require('./save');
 require('./sdf');
 require('./bingo_basic');
 require('./bingo');
