@@ -91,7 +91,7 @@ test('Test reaction making', function(t) {
 		[506.5006408691406, 506.1576843261719, 506.1576843261719, 'C1C=C(C2(O)OC(=O)C(C3C=C4OCOC4=CC=3)=C2CC2C=C(OC)C(OC)=C(OC)C=2)C=CC=1OC']
 	];
 	var result = [];
-	for(item of rxn.iterateReactants()) {
+	for(var item of rxn.iterateReactants()) {
 		var ar = [];
 		ar.push(item.molecularWeight());
 		ar.push(item.mostAbundantMass());
@@ -111,7 +111,7 @@ test('Test MDLCT', function (t) {
 
 var componentSmiles = function (mol) {
 	if (mol.countComponents() > 1) {
-		items = [];
+		var items = [];
 		for (var comp of mol.iterateComponents())
 		{
 			var item = comp.clone().canonicalSmiles();
@@ -119,9 +119,9 @@ var componentSmiles = function (mol) {
 			if (ext > 0) item = item.substring(0,ext);
 			items.push(item);
 		}
-		return items.sort().join('.')
+		return items.sort().join('.');
 	}
-	return mol.canonicalSmiles()
+	return mol.canonicalSmiles();
 };
 
 test('Test Canonical', function (t) {

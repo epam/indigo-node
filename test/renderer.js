@@ -13,21 +13,21 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
-let tmp = require('tmp');
+var test = require('tape');
+var tmp = require('tmp');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let IndigoRenderer = require("../indigo_renderer");
+var Indigo = require("../indigo").Indigo;
+var IndigoRenderer = require("../indigo_renderer");
 
-let indigo = new Indigo();
-let indigo_renderer = new IndigoRenderer(indigo);
+var indigo = new Indigo();
+var indigo_renderer = new IndigoRenderer(indigo);
 
-let tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Dearomotize', function (t) {
     console.log('\n#### - Renderer test - ####\n');
@@ -36,12 +36,12 @@ test('Dearomotize', function (t) {
     indigo.setOption("render-background-color", "255,255,255");
     indigo.setOption("render-atom-ids-visible", "1");
 
-    let m = indigo.loadMolecule("c1ccsc1");
+    var m = indigo.loadMolecule("c1ccsc1");
     indigo.countReferences();
     indigo_renderer.renderToBuffer(m);
     indigo.countReferences();
 
-    let status = indigo_renderer.renderToFile(m, "m.png");
+    var status = indigo_renderer.renderToFile(m, "m.png");
     t.ok(status, 'm.png must be created');
     m.dearomatize();
     t.equal(m.smiles(), 'C1=CSC=C1');
@@ -49,14 +49,14 @@ test('Dearomotize', function (t) {
 
 test('cdxml', function (t) {
 	t.plan(2);
-    let status = indigo_renderer.renderReset();
+    var status = indigo_renderer.renderReset();
     t.ok(status, 'renderer must been reseted');
     indigo.setOption("render-output-format", "png");
     indigo.setOption("render-background-color", "255,255,255");
     indigo.setOption("render-atom-ids-visible", "1");
-    let arr = indigo.createArray();
-    let idx = 0;
-    for (let m of indigo.iterateSmilesFile(local("fixtures/pubchem_slice_10.smi"))) {
+    var arr = indigo.createArray();
+    var idx = 0;
+    for (var m of indigo.iterateSmilesFile(local("fixtures/pubchem_slice_10.smi"))) {
         // Set title
         m.setProperty("title", "Molecule:" + idx + "\nMass: " + m.molecularWeight() + "\nFormula: " + m.grossFormula());
         //Add to the array
@@ -67,17 +67,17 @@ test('cdxml', function (t) {
     indigo.setOption("render-grid-title-property", "title");
     indigo.setOption("render-comment", "Comment:\nSet of molecules");
     // Render
-    let options_align = ["left", "right", "center", "center-left", "center-right"];
-    for (let alignment of options_align) {
+    var options_align = ["left", "right", "center", "center-left", "center-right"];
+    for (var alignment of options_align) {
         indigo.setOption("render-grid-title-alignment", alignment);
         indigo_renderer.renderGridToFile(arr, null, 3, tmpDir.name + "/cdxml-test-"+alignment+".cdxml");
     }
-    let options_length = [0, 10, 50, 100, 200];
-    for (let length of options_length) {
+    var options_length = [0, 10, 50, 100, 200];
+    for (var length of options_length) {
         indigo.setOption("render-bond-length", length);
         indigo_renderer.renderGridToFile(arr, null, 3, tmpDir.name + "/cdxml-test-len"+length+".cdxml");
     }
-    indigo.setOption("render-output-format", "cdxml")
-    let buf = indigo_renderer.renderGridToBuffer(arr, null, 3)
+	indigo.setOption("render-output-format", "cdxml");
+	var buf = indigo_renderer.renderGridToBuffer(arr, null, 3);
     t.ok(buf.length > 100);
 });

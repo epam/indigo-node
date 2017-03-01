@@ -13,49 +13,49 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
-let tmp = require('tmp');
+var test = require('tape');
+var tmp = require('tmp');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let IndigoRenderer = require("../indigo_renderer");
+var Indigo = require("../indigo").Indigo;
+var IndigoRenderer = require("../indigo_renderer");
 
-let indigo = new Indigo();
-let renderer = new IndigoRenderer(indigo);
-let tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var indigo = new Indigo();
+var renderer = new IndigoRenderer(indigo);
+var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Align Atoms', function (t) {
     console.log('\n#### - Align Atoms - ####\n');
     t.plan(3);
-    let query = indigo.loadSmarts("[#7]1~[#6]~[#6]~[#7]~[#6]~[#6]2~[#6]~[#6]~[#6]~[#6]~[#6]~1~2");
-    let sdfout;
+    var query = indigo.loadSmarts("[#7]1~[#6]~[#6]~[#7]~[#6]~[#6]2~[#6]~[#6]~[#6]~[#6]~[#6]~1~2");
+    var sdfout;
     t.doesNotThrow(() => sdfout = indigo.writeFile(tmpDir + "/aligned.sdf"), Object);
 
-    let xyz = [];
-    let collection = indigo.createArray();
-    let refatoms = [];
+    var xyz = [];
+    var collection = indigo.createArray();
+    var refatoms = [];
 
     t.doesNotThrow(() => {
-        for (let structure of indigo.iterateSDFile(local("fixtures/benzodiazepine.sdf.gz"))) {
-            let match = indigo.substructureMatcher(structure).match(query);
+        for (var structure of indigo.iterateSDFile(local("fixtures/benzodiazepine.sdf.gz"))) {
+            var match = indigo.substructureMatcher(structure).match(query);
             if (!match) {
                 console.log("structure not matched, this is unexpected");
                 return;
             }
             if (!structure.index()) {
-                for (let atom of query.iterateAtoms()) {
+                for (var atom of query.iterateAtoms()) {
                     xyz =xyz.concat(match.mapAtom(atom).xyz());
                 }
             } else {
-                let atoms = [];
-                for (let atom of query.iterateAtoms()) {
+                var atoms = [];
+                for (var atom of query.iterateAtoms()) {
                     atoms.push(match.mapAtom(atom).index());
                 }
-                let x = structure.alignAtoms(atoms, xyz);
+                var x = structure.alignAtoms(atoms, xyz);
                 console.log('%d', x);
             }
             structure.foldHydrogens();
@@ -88,7 +88,7 @@ test('Align Atoms', function (t) {
         indigo.setOption("render-output-format", "png");
         renderer.renderGridToFile(collection, refatoms, 4, tmpDir.name + "/grid1.png");
         //	console.log(checkImageSimilarity('grid1.png'));
-    }, undefined, 'check render-output format')
+    }, undefined, 'check render-output format');
 
 
     indigo.setOption("render-grid-title-property", "title");
@@ -97,10 +97,10 @@ test('Align Atoms', function (t) {
     indigo.setOption("render-output-format", "png");
 
     t.doesNotThrow(() => {
-        let options_align = ["left", "right", "center", "center-left", "center-right"];
-        for (let alignment of options_align) {
+        var options_align = ["left", "right", "center", "center-left", "center-right"];
+        for (var alignment of options_align) {
             indigo.setOption("render-grid-title-alignment", alignment);
-            let fname = "grid-" + alignment + ".png";
+            var fname = "grid-" + alignment + ".png";
             renderer.renderGridToFile(collection, null, 4, tmpDir.name + "/" + fname);
         }
     }, undefined, 'check render-grid');

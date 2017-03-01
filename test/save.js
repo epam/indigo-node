@@ -13,30 +13,30 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
-let tmp = require('tmp');
+var test = require('tape');
+var tmp = require('tmp');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
+var indigo = new Indigo();
 
-let tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
-let testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
+var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
 	console.log("TESTING " + path.parse(smifile).name);
-	let sdfout = indigo.writeFile(tmpDir.name + ("/structures.sdf"));
-	let cmlout = indigo.writeFile(tmpDir.name + ("/structures.cml"));
-	let rdfout = indigo.writeFile(tmpDir.name + ("/structures.rdf"));
-	let smiout = indigo.writeFile(tmpDir.name + ("/structures.smi"));
+	var sdfout = indigo.writeFile(tmpDir.name + ("/structures.sdf"));
+	var cmlout = indigo.writeFile(tmpDir.name + ("/structures.cml"));
+	var rdfout = indigo.writeFile(tmpDir.name + ("/structures.rdf"));
+	var smiout = indigo.writeFile(tmpDir.name + ("/structures.smi"));
 	rdfout.rdfHeader();
 	cmlout.cmlHeader();
 	t.doesNotThrow(() => {
-        for (let item of iterfunc(smifile)) {
-            let exc = false;
+        for (var item of iterfunc(smifile)) {
+            var exc = false;
             try {
                 item.countAtoms();
                 item.smiles();
@@ -47,7 +47,7 @@ let testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
             }
             if (!exc) {
                 // item.clearCisTrans();
-                for (let bond of item.iterateBonds()) {
+                for (var bond of item.iterateBonds()) {
                     if ((bond.topology() == Indigo.RING) && (bond.bondOrder() == 2)) {
                         bond.resetStereo();
                     }
@@ -86,25 +86,25 @@ let testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
     rdfout.close();
     smiout.close();
 
-	let cmliter = indigo.iterateCMLFile(local("structures.cml"));
-	let sdfiter = indigo.iterateSDFile(local("structures.sdf"));
-	let rdfiter = indigo.iterateRDFile(local("structures.rdf"));
-	let smiiter = indigo.iterateSmilesFile(local("structures.smi"));
-	let idx = 1;
-	let sdf;
+	var cmliter = indigo.iterateCMLFile(local("structures.cml"));
+	var sdfiter = indigo.iterateSDFile(local("structures.sdf"));
+	var rdfiter = indigo.iterateRDFile(local("structures.rdf"));
+	var smiiter = indigo.iterateSmilesFile(local("structures.smi"));
+	var idx = 1;
+	var sdf;
     t.doesNotThrow(() => {
         while (sdf = sdfiter.next().value) {
-            let cml = cmliter.next().value;
-            let rdf = rdfiter.next().value;
-            let smi = smiiter.next().value;
+            var cml = cmliter.next().value;
+            var rdf = rdfiter.next().value;
+            var smi = smiiter.next().value;
 
             sdf.resetSymmetricCisTrans();
             rdf.resetSymmetricCisTrans();
             try {
-                let cs1 = sdf.canonicalSmiles();
-                let cs2 = rdf.canonicalSmiles();
-                let cs3 = smi.canonicalSmiles();
-                let cs4 = cml.canonicalSmiles();
+                var cs1 = sdf.canonicalSmiles();
+                var cs2 = rdf.canonicalSmiles();
+                var cs3 = smi.canonicalSmiles();
+                var cs4 = cml.canonicalSmiles();
                 if (cs2 != cs1 || cs3 != cs1 || cs4 != cs1)
                     console.log("MISMATCH");
             }
@@ -126,4 +126,3 @@ test('\n#### - SAVE test - ####\n', function (t) {
 
     tmpDir.removeCallback();
 });
-

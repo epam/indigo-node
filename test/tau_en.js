@@ -13,29 +13,29 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
+var test = require('tape');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
+var indigo = new Indigo();
 
-let testEnumTautomersForMolecule = function (molecule) {
-	let iter = indigo.iterateTautomers(molecule, 'INCHI');
-	let lst = [];
-	for (let mol of iter) {
-		let prod = mol.clone();
+var testEnumTautomersForMolecule = function (molecule) {
+	var iter = indigo.iterateTautomers(molecule, 'INCHI');
+	var lst = [];
+	for (var mol of iter) {
+		var prod = mol.clone();
 		lst.push(prod.canonicalSmiles());
 	}
 	lst.sort();
 };
 
-let testEnumTautomersForSDF = function (sdf_file) {
-	let data = fs.readFileSync(sdf_file);
-	for (let molecule of indigo.iterateSDF(indigo.loadBuffer(data))) {
+var testEnumTautomersForSDF = function (sdf_file) {
+	var data = fs.readFileSync(sdf_file);
+	for (var molecule of indigo.iterateSDF(indigo.loadBuffer(data))) {
 		molecule.dearomatize();
 		testEnumTautomersForMolecule(molecule);
 		molecule.aromatize();

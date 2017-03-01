@@ -13,15 +13,15 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
+var test = require('tape');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
+var indigo = new Indigo();
 
 indigo.setOption("treat-x-as-pseudoatom", true);
 indigo.setOption("ignore-stereochemistry-errors", true);
@@ -29,8 +29,8 @@ indigo.setOption("ignore-stereochemistry-errors", true);
 test('testRsite', function (t) {
     console.log('\n#### - Rgroup test - ####\n');
 	t.plan(1);
-    let query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
-    for (let rsite of query.iterateRSites()) {
+    var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
+    for (var rsite of query.iterateRSites()) {
         rsite.removeConstraints("rsite");
         rsite.addConstraint("atomic-number", "12");
     }
@@ -40,21 +40,21 @@ test('testRsite', function (t) {
 test('testRGroupDecomposition', function (t) {
 	t.plan(1);
 	t.doesNotThrow(() => {
-        let query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
-        for (let rsite of query.iterateRSites()) {
+        var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
+        for (var rsite of query.iterateRSites()) {
             rsite.removeConstraints("rsite");
             rsite.addConstraintNot("atomic-number", "1");
         }
-        for (let structure of indigo.iterateSDFile(local("fixtures/sugars.sdf.gz"))) {
-            let id = structure.getProperty("molregno");
-            let match = indigo.substructureMatcher(structure).match(query);
+        for (var structure of indigo.iterateSDFile(local("fixtures/sugars.sdf.gz"))) {
+            var id = structure.getProperty("molregno");
+            var match = indigo.substructureMatcher(structure).match(query);
             if (!match)
                 continue;
 
-            let to_remove = [];
-            let mapped_rsites = [];
-            for (let qatom of query.iterateAtoms()) {
-                let tatom = match.mapAtom(qatom);
+            var to_remove = [];
+            var mapped_rsites = [];
+            for (var qatom of query.iterateAtoms()) {
+                var tatom = match.mapAtom(qatom);
                 if (qatom.atomicNumber() == 0) {
                     tatom.setAttachmentPoint(1);
                     mapped_rsites.push(tatom);
@@ -62,10 +62,10 @@ test('testRGroupDecomposition', function (t) {
                     to_remove.push(tatom.index());
             }
             structure.removeAtoms(to_remove);
-            for (let tatom of mapped_rsites) {
+            for (var tatom of mapped_rsites) {
                 if (structure.component(tatom.componentIndex()).clone().smiles() == '')
                 	throw Error("!");
             }
         }
-	})
+	});
 });

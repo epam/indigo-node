@@ -13,24 +13,24 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
+var test = require('tape');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
 
-let Indigo = require("../indigo").Indigo;
-let IndigoInchi = require("../indigo_inchi");
+var Indigo = require("../indigo").Indigo;
+var IndigoInchi = require("../indigo_inchi");
 
-let indigo = new Indigo();
-let indigo_inchi = new IndigoInchi(indigo);
+var indigo = new Indigo();
+var indigo_inchi = new IndigoInchi(indigo);
 
 console.log(indigo_inchi.version());
 
 test('Basic', function (t) {
     console.log('\n#### - InChi test - ####\n');
 	t.plan(2);
-    let m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2");
+    var m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2");
     m.canonicalSmiles();
     t.equals(indigo_inchi.getInchi(m), "InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2", 'check inchi');
     t.equals(indigo_inchi.getWarning(), "Omitted undefined stereo", 'check warnings');
@@ -38,12 +38,12 @@ test('Basic', function (t) {
 
 test('Error handling', function (t) {
 	t.plan(1);
-    let m = indigo.loadMolecule("B1=CB=c2cc3B=CC=c3cc12");
+    var m = indigo.loadMolecule("B1=CB=c2cc3B=CC=c3cc12");
     t.doesNotThrow(() => indigo_inchi.getInchi(m), String, 'get inchi w/o throw');
 });
 
 test('Options', function (t) {
-    let testOpt = function (m, opt){
+    var testOpt = function (m, opt){
         indigo.setOption("inchi-options", opt);
         if (opt == "/invalid -option")
     		t.throws(() => indigo_inchi.getInchi(m), Error, 'check invalid option error');
@@ -51,7 +51,7 @@ test('Options', function (t) {
         	t.doesNotThrow(() => indigo_inchi.getInchi(m), String, 'check inchi')
     };
 	t.plan(7);
-    let m = indigo.loadMolecule("CC1CC(C)OC(C)N1");
+    var m = indigo.loadMolecule("CC1CC(C)OC(C)N1");
     testOpt(m, "");
     testOpt(m, "/SUU");
     testOpt(m, "-SUU");
@@ -64,8 +64,8 @@ test('Options', function (t) {
 test('Some molecules', function (t) {
     t.plan(2);
     indigo.setOption("inchi-options", "");
-    let input = "InChI=1S/C6H5.C2H4O2.Hg/c1-2-4-6-5-3-1;1-2(3)4;/h1-5H;1H3,(H,3,4);";
-    let m2 = indigo_inchi.loadMolecule(input);
+    var input = "InChI=1S/C6H5.C2H4O2.Hg/c1-2-4-6-5-3-1;1-2(3)4;/h1-5H;1H3,(H,3,4);";
+    var m2 = indigo_inchi.loadMolecule(input);
     // aromatize
     indigo_inchi.getInchi(m2);
     m2.aromatize();
@@ -80,24 +80,23 @@ test('Some molecules', function (t) {
 
 test('Non-unqiue dearomatization', function (t) {
 	t.plan(1);
-    let m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+    var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
     t.throws(() => indigo_inchi.getInchi(m), Error);
 });
 
 test('Aux info', function (t) {
-    let m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
+    var m = indigo.loadMolecule("Cc1nnc2c(N)ncnc12");
 	t.plan(3);
 
-    let correctInchi = "InChI=1S/C6H7N5/c1-3-4-5(11-10-3)6(7)9-2-8-4/h2H,7H2,1H3,(H,8,9)";
-    let correctAux = "AuxInfo=1/1/N:1,9,2,11,5,6,7,10,8,3,4/rA:11CCNNCCNNCNC/rB:s1;s2;d3;s4;d5;s6;s6;d8;s9;d2s5s10;/rC:;;;;;;;;;;;";
-    let correctSmiles = "CC1=C2NC=NC(N)=C2N=N1";
+    var correctInchi = "InChI=1S/C6H7N5/c1-3-4-5(11-10-3)6(7)9-2-8-4/h2H,7H2,1H3,(H,8,9)";
+    var correctAux = "AuxInfo=1/1/N:1,9,2,11,5,6,7,10,8,3,4/rA:11CCNNCCNNCNC/rB:s1;s2;d3;s4;d5;s6;s6;d8;s9;d2s5s10;/rC:;;;;;;;;;;;";
+    var correctSmiles = "CC1=C2NC=NC(N)=C2N=N1";
 
     m.dearomatize();
-    let inchi = indigo_inchi.getInchi(m);
+    var inchi = indigo_inchi.getInchi(m);
     t.equals(inchi, correctInchi, 'check inchi');
-    let aux = indigo_inchi.getAuxInfo();
+    var aux = indigo_inchi.getAuxInfo();
     t.equals(aux, correctAux, 'check aux');
-    let m2 = indigo_inchi.loadMolecule(aux);
+    var m2 = indigo_inchi.loadMolecule(aux);
     t.equals(m2.smiles(), correctSmiles, 'check smiles');
 });
-

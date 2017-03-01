@@ -13,25 +13,25 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-let test = require('tape');
-let tmp = require('tmp');
+var test = require('tape');
+var tmp = require('tmp');
 
-let assert = require('assert');
-let path = require('path');
-let fs = require('fs');
-let local = path.join.bind(path, __dirname);
+var assert = require('assert');
+var path = require('path');
+var fs = require('fs');
+var local = path.join.bind(path, __dirname);
 
-let Indigo = require("../indigo").Indigo;
-let indigo = new Indigo();
+var Indigo = require("../indigo").Indigo;
+var indigo = new Indigo();
 
-let tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
-let readSdfAndPrintInfo = function (fname) {
-    for (let m of indigo.iterateSDFile(local(fname))) {
+var readSdfAndPrintInfo = function (fname) {
+    for (var m of indigo.iterateSDFile(local(fname))) {
         m.smiles();
         m.molfile();
         m.rawData();
-        for (let prop of m.iterateProperties())
+        for (var prop of m.iterateProperties())
             prop.rawData();
     }
 };
@@ -42,16 +42,16 @@ test('Read SDF.GZ', function (t) {
 	t.throws(() => readSdfAndPrintInfo('fixtures/sugars.sdf.gz'), null);
 });
 
-let names = [];
-for (let i = 0; i < 10; i++) {
+var names = [];
+for (var i = 0; i < 10; i++) {
     names.push(i.toString());
     names.push("Name"+ i);
     names.push("Much longer name"+ i);
 }
 
-let checkMolNames = function (/*test*/t, sdf_file_name) {
-    let i = 0;
-    for (let m of indigo.iterateSDFile(sdf_file_name)) {
+var checkMolNames = function (/*test*/t, sdf_file_name) {
+    var i = 0;
+    for (var m of indigo.iterateSDFile(sdf_file_name)) {
         t.equals(m.name(), names[i], 'Names should be the same');
         i++;
     }
@@ -60,11 +60,11 @@ let checkMolNames = function (/*test*/t, sdf_file_name) {
 test('Save and load molecule names from SDF', function (t) {
 	t.plan(30);
 
-    let sdf_file_name = tmpDir.name +"/sdf-names.sdf";
-    let saver = indigo.createFileSaver(sdf_file_name, "sdf");
+    var sdf_file_name = tmpDir.name +"/sdf-names.sdf";
+    var saver = indigo.createFileSaver(sdf_file_name, "sdf");
 
-    for (let name of names) {
-        let m = indigo.createMolecule();
+    for (var name of names) {
+        var m = indigo.createMolecule();
         m.setName(name);
         saver.append(m);
     }
@@ -75,11 +75,11 @@ test('Save and load molecule names from SDF', function (t) {
 test('Use sdfAppend', function (t) {
     t.plan(30);
 
-    let sdf_file_name = tmpDir.name + "/sdf-names-2.sdf";
-    let sdf = indigo.writeFile(sdf_file_name);
+    var sdf_file_name = tmpDir.name + "/sdf-names-2.sdf";
+    var sdf = indigo.writeFile(sdf_file_name);
 
-    for (let name of names) {
-        let m = indigo.createMolecule();
+    for (var name of names) {
+        var m = indigo.createMolecule();
         m.setName(name);
         sdf.sdfAppend(m)
     }
