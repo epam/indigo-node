@@ -30,7 +30,7 @@ var indigo_renderer = new IndigoRenderer(indigo);
 var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Dearomotize', function (t) {
-    console.log('\n#### - Renderer test - ####\n');
+    // console.log('\n#### - Renderer test - ####\n');
 	t.plan(2);
     indigo.setOption("render-output-format", "png");
     indigo.setOption("render-background-color", "255,255,255");

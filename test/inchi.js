@@ -25,10 +25,10 @@ var IndigoInchi = require("../indigo_inchi");
 var indigo = new Indigo();
 var indigo_inchi = new IndigoInchi(indigo);
 
-console.log(indigo_inchi.version());
+// console.log(indigo_inchi.version());
 
 test('Basic', function (t) {
-    console.log('\n#### - InChi test - ####\n');
+    // console.log('\n#### - InChi test - ####\n');
 	t.plan(2);
     var m = indigo_inchi.loadMolecule("InChI=1S/C10H20N2O2/c11-7-1-5-2-8(12)10(14)4-6(5)3-9(7)13/h5-10,13-14H,1-4,11-12H2");
     m.canonicalSmiles();

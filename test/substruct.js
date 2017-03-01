@@ -63,7 +63,7 @@ var createVolume = function (obj, level) {
 };
 
 test('CreateVolume', function (t) {
-    console.log('\n#### - Substruct test - ####\n');
+    // console.log('\n#### - Substruct test - ####\n');
     t.plan(1);
     t.doesNotThrow(() => createVolume(lyopset), Array, 'check create volume');
 });

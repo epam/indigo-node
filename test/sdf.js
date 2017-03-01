@@ -37,7 +37,7 @@ var readSdfAndPrintInfo = function (fname) {
 };
 
 test('Read SDF.GZ', function (t) {
-    console.log('\n#### - CDF test - ####\n');
+    // console.log('\n#### - CDF test - ####\n');
     t.plan(1);
 	t.throws(() => readSdfAndPrintInfo('fixtures/sugars.sdf.gz'), null);
 });

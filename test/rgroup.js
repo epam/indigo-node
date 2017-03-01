@@ -27,7 +27,7 @@ indigo.setOption("treat-x-as-pseudoatom", true);
 indigo.setOption("ignore-stereochemistry-errors", true);
 
 test('testRsite', function (t) {
-    console.log('\n#### - Rgroup test - ####\n');
+    // console.log('\n#### - Rgroup test - ####\n');
 	t.plan(1);
     var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
     for (var rsite of query.iterateRSites()) {

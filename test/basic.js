@@ -26,7 +26,7 @@ var indigo = new Indigo();
 var status = indigo.setOption("molfile-saving-skip-date", "1");
 
 test('Query reload', function (t) {
-    console.log('\n#### - Indigo basic test - ####\n');
+    // console.log('\n#### - Indigo basic test - ####\n');
 
 	t.plan(2);
 

@@ -44,7 +44,7 @@ var testEnumTautomersForSDF = function (sdf_file) {
 };
 
 test('This is the case when not all tautomers are found for the first time and the algorithm requires the second attempt:', function (t) {
-    console.log('\n#### - TAU_EN test - ####\n');
+    // console.log('\n#### - TAU_EN test - ####\n');
 	t.plan(1);
 	t.doesNotThrow(() => testEnumTautomersForMolecule(indigo.loadMolecule('OC1N=C2C(=NC(N)=NC(=O)2)NC(O)=1')), Array);
 });

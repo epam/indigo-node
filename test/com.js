@@ -24,7 +24,7 @@ var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
 
 test('Test 1', function (t) {
-    console.log('\n#### - Com test - ####\n');
+    // console.log('\n#### - Com test - ####\n');
 	t.plan(2);
 	var rxn = indigo.createReaction();
 	rxn.addProduct(indigo.loadMolecule("CCCC"));

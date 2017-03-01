@@ -46,13 +46,13 @@ var searchExact = function (bingo, q, options) {
 
 var searchSim = function (bingo, q, minSim, maxSim, metric) {
 	var result = bingo.searchSim(q, minSim, maxSim, metric);
-	console.log("Search sim: %d %d %d", result.estimateRemainingResultsCount(), result.estimateRemainingResultsCountError(), result.estimateRemainingTime());
+	// console.log("Search sim: %d %d %d", result.estimateRemainingResultsCount(), result.estimateRemainingResultsCountError(), result.estimateRemainingTime());
 	while (result.next()) {
-		console.log(result.getCurrentId(), result.getCurrentSimilarityValue());
+		//console.log(result.getCurrentId(), result.getCurrentSimilarityValue());
 		try {
 			var rm = result.getIndigoObject();
 		} catch (e) {
-			console.log("BingoException: %s", e.message);
+			//console.log("BingoException: %s", e.message);
 		}
 	}
 	result.close();
@@ -61,7 +61,7 @@ var searchSim = function (bingo, q, minSim, maxSim, metric) {
 var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Creating temporary database', function (t) {
-	console.log('\n#### - Bingo-basic test - ####\n');
+	//console.log('\n#### - Bingo-basic test - ####\n');
 
 	t.plan(5);
 	var bingo = Bingo.createDatabaseFile(indigo, tmpDir.name, 'molecule');
@@ -109,5 +109,3 @@ test('Simple exact search', function (t) {
 	bingo.close();
 	tmpDir.removeCallback();
 });
-
-

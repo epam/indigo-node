@@ -29,7 +29,7 @@ var renderer = new IndigoRenderer(indigo);
 var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Align Atoms', function (t) {
-    console.log('\n#### - Align Atoms - ####\n');
+    // console.log('\n#### - Align Atoms - ####\n');
     t.plan(3);
     var query = indigo.loadSmarts("[#7]1~[#6]~[#6]~[#7]~[#6]~[#6]2~[#6]~[#6]~[#6]~[#6]~[#6]~1~2");
     var sdfout;
@@ -43,7 +43,7 @@ test('Align Atoms', function (t) {
         for (var structure of indigo.iterateSDFile(local("fixtures/benzodiazepine.sdf.gz"))) {
             var match = indigo.substructureMatcher(structure).match(query);
             if (!match) {
-                console.log("structure not matched, this is unexpected");
+                // console.log("structure not matched, this is unexpected");
                 return;
             }
             if (!structure.index()) {
@@ -56,7 +56,7 @@ test('Align Atoms', function (t) {
                     atoms.push(match.mapAtom(atom).index());
                 }
                 var x = structure.alignAtoms(atoms, xyz);
-                console.log('%d', x);
+                // console.log('%d', x);
             }
             structure.foldHydrogens();
             sdfout.sdfAppend(structure);

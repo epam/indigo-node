@@ -34,7 +34,7 @@ var entry = 10;
 var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 test('Create database', function (t) {
-	console.log('\n#### - Bingo database test - ####\n');
+	// console.log('\n#### - Bingo database test - ####\n');
 
 	t.plan(2);
 	var bingo = Bingo.createDatabaseFile(indigo, tmpDir.name, 'molecule');
@@ -46,7 +46,7 @@ test('Create database', function (t) {
 		}
 	}
 	t.doesNotThrow(() => bingo.optimize, 0, 'should be more or equal to zero');
-	bingo.close()
+	bingo.close();
 });
 
 test('Append to the database', function (t) {
@@ -86,13 +86,13 @@ test('Validate and search', function(t) {
 		var search = bingo.searchSub(q);
 		var found = [];
 		while (search.next()){
-			var id = search.getCurrentId()
+			var id = search.getCurrentId();
 			found.push(id);
 		}
 		var should_find = [];
 		for (var id in ids) {
 			if (ids[id] == sm)
-				should_find.push(id)
+				should_find.push(id);
 		}
 		t.equals(found.toString(), should_find.toString());
 	}
@@ -100,4 +100,3 @@ test('Validate and search', function(t) {
 
 	tmpDir.removeCallback();
 });
-

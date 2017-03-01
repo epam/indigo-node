@@ -27,7 +27,7 @@ var indigo = new Indigo();
 var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
 
 var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
-	console.log("TESTING " + path.parse(smifile).name);
+	// console.log("TESTING " + path.parse(smifile).name);
 	var sdfout = indigo.writeFile(tmpDir.name + ("/structures.sdf"));
 	var cmlout = indigo.writeFile(tmpDir.name + ("/structures.cml"));
 	var rdfout = indigo.writeFile(tmpDir.name + ("/structures.rdf"));
@@ -55,7 +55,7 @@ var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
                 try {
                     item.markEitherCisTrans();
                 } catch (e) {
-                    console.log(item.index() + ' (while markEitherCisTrans) : ' + e.message);
+                    // console.log(item.index() + ' (while markEitherCisTrans) : ' + e.message);
                     if (issmi)
                         throw new Error(item.rawData());
                     continue;
@@ -105,11 +105,12 @@ var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
                 var cs2 = rdf.canonicalSmiles();
                 var cs3 = smi.canonicalSmiles();
                 var cs4 = cml.canonicalSmiles();
-                if (cs2 != cs1 || cs3 != cs1 || cs4 != cs1)
-                    console.log("MISMATCH");
+	            if (cs2 != cs1 || cs3 != cs1 || cs4 != cs1)
+		            return;
+                    // console.log("MISMATCH");
             }
             catch (e) {
-                console.log(e.message);
+                // console.log(e.message);
                 continue;
             }
             idx += 1;
