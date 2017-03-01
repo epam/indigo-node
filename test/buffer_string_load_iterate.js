@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var test = require('tape');
+var test = require('tap').test;
 
 var assert = require('assert');
 var path = require('path');

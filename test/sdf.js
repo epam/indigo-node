@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var test = require('tape');
+var test = require('tap').test;
 var tmp = require('tmp');
 
 var assert = require('assert');

@@ -37,11 +37,10 @@
     "ref-struct": "^1.0.2"
   },
   "devDependencies": {
-    "tape": "^4.6.3",
+    "tap": "10.2.2",
     "tmp": "0.0.31"
   },
   "scripts": {
-    "test": "node test",
-    "clean": "rm -rf *.png *.rxn test/*db test/*.mol test/*.sdf test/*.cml test/*.cdxml test/*.png test/*.svg test/*.smi test/*.rdf"
+    "test": "tap test/*.js"
   }
 }

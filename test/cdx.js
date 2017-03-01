@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 /* declaration of modules  */
-var test = require('tape');
+var test = require('tap').test;
 
 var assert = require('assert');
 var path = require('path');
@@ -23,7 +23,7 @@ var local = path.join.bind(path, __dirname);
 var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
 
-indigo.setOption("molfile-saving-skip-date", true)
+indigo.setOption("molfile-saving-skip-date", true);
 
 var readCdxAndPrintInfo = function (fname){
 	var data = fs.readFileSync(fname);
