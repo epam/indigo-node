@@ -570,6 +570,17 @@ IndigoObject.prototype.molfile = function () {
 };
 
 /*
+ * Generate CML from IndigoObject
+ *
+ * @method molfile
+ * @returns {string} string reprsantation of molfile
+ */
+IndigoObject.prototype.cml = function () {
+	this.d._setSessionId();
+	return this.d._checkResultString(this.d._lib.indigoCml(this.id));
+};
+
+/*
  *
  * @method match
  * @param {object} query

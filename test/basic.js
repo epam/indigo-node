@@ -32,7 +32,7 @@ test('Query reload', function (t) {
 
 	var q = indigo.loadQueryMoleculeFromFile(local("fixtures/q_atom_list.mol"));
 	var qmf1 = q.molfile();
-	var q2 = indigo.loadQueryMolecule(q.molfile());
+	var q2 = indigo.loadQueryMolecule(q.cml());
 	var qmf2 = q2.molfile();
 	t.equal(qmf1, qmf2, 'reloaded query should be equal');
 
@@ -78,7 +78,7 @@ test('Bad valence, smiles and unfold', function (t) {
 	var sm = m1.smiles();
 	// console.log(m1.smiles());
 	// console.log(m1.canonicalSmiles());
-	t.throws(m1.unfoldHydrogens, new IndigoException); // If exception then molecule should not be changed
+	t.throws(m1.unfoldHydrogens(), IndigoException); // If exception then molecule should not be changed
 
 	var sm2 = m1.smiles();
 	t.equal(sm2, sm, 'should be equal');
