@@ -1,0 +1,20 @@
+image: node:6
+
+stages:
+  - test
+
+before_script:
+  - npm prune
+  - npm install
+
+cache:
+  paths:
+   - node_modules/
+
+comeon:
+  stage: test
+  script:
+    - wget http://dp.itcwin.com/download/indigo/indigo-libs-latest-linux-shared.zip -P/tmp
+    - ( cd /tmp && unzip indigo-libs-latest-linux-shared.zip )
+    - mv /tmp/indigo-libs-*-linux-shared/shared lib
+    - npm test
