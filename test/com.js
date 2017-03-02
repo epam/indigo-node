@@ -14,6 +14,7 @@
 
 /* declaration of modules  */
 var test = require('tap').test;
+var tmp = require('tmp');
 
 var assert = require('assert');
 var path = require('path');
@@ -84,7 +85,10 @@ test('Test reaction making', function(t) {
 	rxn.addProduct(p1);
 
 	rxn.layout();
-	rxn.saveRxnfile("result.rxn");
+    var tmpDir = tmp.dirSync({ unsafeCleanup: true });
+	rxn.saveRxnfile(path.join(tmpDir.name, "result.rxn"));
+	tmpDir.removeCallback();
+
 	t.deepEquals([rxn.countReactants(), rxn.countProducts(), rxn.countMolecules()], [2,1,3]);
 	var correct = [
 		[105.98844146728516, 105.96427917480469, 105.96427917480469, 'O=C([O-])[O-].[Na+].[Na+]'],

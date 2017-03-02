@@ -58,7 +58,7 @@ var searchSim = function (bingo, q, minSim, maxSim, metric) {
 	result.close();
 };
 
-var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ unsafeCleanup: true });
 
 test('Creating temporary database', function (t) {
 	//console.log('\n#### - Bingo-basic test - ####\n');

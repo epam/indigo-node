@@ -31,7 +31,7 @@ var ids = [];
 //var entry = 10000;
 var entry = 10;
 
-var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ unsafeCleanup: true });
 
 test('Create database', function (t) {
 	// console.log('\n#### - Bingo database test - ####\n');

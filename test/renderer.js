@@ -27,7 +27,7 @@ var IndigoRenderer = require("../indigo_renderer");
 var indigo = new Indigo();
 var indigo_renderer = new IndigoRenderer(indigo);
 
-var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ unsafeCleanup: true });
 
 test('Dearomotize', function (t) {
     // console.log('\n#### - Renderer test - ####\n');
@@ -41,7 +41,8 @@ test('Dearomotize', function (t) {
     indigo_renderer.renderToBuffer(m);
     indigo.countReferences();
 
-    var status = indigo_renderer.renderToFile(m, "m.png");
+	var status = indigo_renderer.renderToFile(m, path.join(tmpDir.name, "m.png"));
+
     t.ok(status, 'm.png must be created');
     m.dearomatize();
     t.equal(m.smiles(), 'C1=CSC=C1');

@@ -24,7 +24,7 @@ var local = path.join.bind(path, __dirname);
 var Indigo = require("../indigo").Indigo;
 var indigo = new Indigo();
 
-var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ unsafeCleanup: true });
 
 var readSdfAndPrintInfo = function (fname) {
     for (var m of indigo.iterateSDFile(local(fname))) {

@@ -26,7 +26,7 @@ var IndigoRenderer = require("../indigo_renderer");
 
 var indigo = new Indigo();
 var renderer = new IndigoRenderer(indigo);
-var tmpDir = tmp.dirSync({ template: local('/tmp-XXXXXX'), unsafeCleanup: true });
+var tmpDir = tmp.dirSync({ unsafeCleanup: true });
 
 test('Align Atoms', function (t) {
     // console.log('\n#### - Align Atoms - ####\n');
