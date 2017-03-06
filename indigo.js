@@ -2260,6 +2260,14 @@ Indigo.prototype.loadQueryReactionFromFile = function (filename) {
 	return new IndigoObject(this, this._checkResult(this._lib.indigoLoadQueryReactionFromFile(filename)));
 };
 
+Indigo.prototype.disposeAll = function () {
+	if (this._sid >= 0 && this._lib != null) {
+		this._setSessionId();
+		this._lib.indigoFreeAllObjects();
+		this._sid = this._lib.indigoAllocSessionId();
+	}
+};
+
 /*
  * Set Option
  *
