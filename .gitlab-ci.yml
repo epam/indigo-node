@@ -1,20 +1,45 @@
-image: node:6
-
 stages:
   - test
-
-before_script:
-  - npm prune
-  - npm install
 
 cache:
   paths:
    - node_modules/
 
-comeon:
+test-8:
+  image: node:8
   stage: test
+  before_script:
+    - npm prune
+    - npm install
+    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
+    - unzip indigo-libs-latest-linux-shared.zip
+    - mv indigo-libs-*-linux-shared/shared lib
+    - rm -rf indigo-libs-*-linux-shared/shared
   script:
-    - wget http://dp.itcwin.com/download/indigo/indigo-libs-latest-linux-shared.zip -P/tmp
-    - ( cd /tmp && unzip indigo-libs-latest-linux-shared.zip )
-    - mv /tmp/indigo-libs-*-linux-shared/shared lib
+    - npm test
+
+test-10:
+  image: node:10
+  stage: test
+  before_script:
+    - npm prune
+    - npm install
+    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
+    - unzip indigo-libs-latest-linux-shared.zip
+    - mv indigo-libs-*-linux-shared/shared lib
+    - rm -rf indigo-libs-*-linux-shared/shared
+  script:
+    - npm test
+
+test-12:
+  image: node:12
+  stage: test
+  before_script:
+    - npm prune
+    - npm install
+    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
+    - unzip indigo-libs-latest-linux-shared.zip
+    - mv indigo-libs-*-linux-shared/shared lib
+    - rm -rf indigo-libs-*-linux-shared/shared
+  script:
     - npm test

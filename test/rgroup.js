@@ -1,60 +1,62 @@
 /****************************************************************************
- * Copyright (C) 2016-2017 EPAM Systems
+ * Copyright (C) from 2015 to Present EPAM Systems.
  *
  * This file is part of Indigo-Node binding.
  *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 3 as published by the Free Software
- * Foundation and appearing in the file LICENSE.md  included in the
- * packaging of this file.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
 
 /* declaration of modules  */
-var test = require('tap').test;
+import { test } from 'tap';
 
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var local = path.join.bind(path, __dirname);
+import path, { join } from 'path';
+let local = join.bind(path, __dirname);
 
-var Indigo = require("../indigo").Indigo;
-var indigo = new Indigo();
+import { Indigo } from '../indigo';
+let indigo = new Indigo();
 
-indigo.setOption("treat-x-as-pseudoatom", true);
-indigo.setOption("ignore-stereochemistry-errors", true);
+indigo.setOption('treat-x-as-pseudoatom', true);
+indigo.setOption('ignore-stereochemistry-errors', true);
 
-test('testRsite', function (t) {
+test('testRsite', function(t) {
     // console.log('\n#### - Rgroup test - ####\n');
-	t.plan(1);
-    var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
-    for (var rsite of query.iterateRSites()) {
-        rsite.removeConstraints("rsite");
-        rsite.addConstraint("atomic-number", "12");
+    t.plan(1);
+    let query = indigo.loadQueryMolecule('[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]');
+    for (let rsite of query.iterateRSites()) {
+        rsite.removeConstraints('rsite');
+        rsite.addConstraint('atomic-number', '12');
     }
     t.equal(query.smiles(), '[OH]C1C([OH])C([Mg])OC([Mg])C1[OH]');
 });
 
-test('testRGroupDecomposition', function (t) {
-	t.plan(1);
-	t.doesNotThrow(() => {
-        var query = indigo.loadQueryMolecule("[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]");
-        for (var rsite of query.iterateRSites()) {
-            rsite.removeConstraints("rsite");
-            rsite.addConstraintNot("atomic-number", "1");
+test('testRGroupDecomposition', function(t) {
+    t.plan(1);
+    t.doesNotThrow(() => {
+        let query = indigo.loadQueryMolecule('[OH]C1C([OH])C([*:1])OC([*:2])C1[OH]');
+        for (let rsite of query.iterateRSites()) {
+            rsite.removeConstraints('rsite');
+            rsite.addConstraintNot('atomic-number', '1');
         }
-        for (var structure of indigo.iterateSDFile(local("fixtures/sugars.sdf.gz"))) {
-            var id = structure.getProperty("molregno");
-            var match = indigo.substructureMatcher(structure).match(query);
+        for (let structure of indigo.iterateSDFile(local('fixtures/sugars.sdf.gz'))) {
+            structure.getProperty('molregno');
+            let match = indigo.substructureMatcher(structure).match(query);
             if (!match)
                 continue;
 
-            var to_remove = [];
-            var mapped_rsites = [];
-            for (var qatom of query.iterateAtoms()) {
-                var tatom = match.mapAtom(qatom);
+            let to_remove = [];
+            let mapped_rsites = [];
+            for (let qatom of query.iterateAtoms()) {
+                let tatom = match.mapAtom(qatom);
                 if (qatom.atomicNumber() == 0) {
                     tatom.setAttachmentPoint(1);
                     mapped_rsites.push(tatom);
@@ -62,10 +64,10 @@ test('testRGroupDecomposition', function (t) {
                     to_remove.push(tatom.index());
             }
             structure.removeAtoms(to_remove);
-            for (var tatom of mapped_rsites) {
+            for (const tatom of mapped_rsites) {
                 if (structure.component(tatom.componentIndex()).clone().smiles() == '')
-                	throw Error("!");
+                    throw Error('!');
             }
         }
-	});
+    });
 });

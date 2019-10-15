@@ -1,14 +1,14 @@
-var indigo = require('./indigo');
-var bingo = require('./bingo');
+let indigo = require('./indigo');
+let bingo = require('./bingo');
 
-var IndigoRenderer = require('./indigo_renderer');
-var IndigoInchi = require('./indigo_inchi');
+let IndigoRenderer = require('./indigo_renderer');
+let IndigoInchi = require('./indigo_inchi');
 
 module.exports = {
-	Indigo: indigo.Indigo,
-	IndigoException: indigo.IndigoException,
-	Bingo: bingo.Bingo,
-	BingoException: bingo.BingoException,
-	IndigoRenderer: IndigoRenderer,
-	IndigoInchi: IndigoInchi
+    Indigo: indigo.Indigo,
+    IndigoException: indigo.IndigoException,
+    Bingo: bingo.Bingo,
+    BingoException: bingo.BingoException,
+    IndigoRenderer: IndigoRenderer,
+    IndigoInchi: IndigoInchi,
 };

@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es2015": true
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "max-len": [2, 160, 4],
+        "indent": ["error", 4],
+        "no-unused-vars" : [2, { "varsIgnorePattern": "[iI]gnored" }],
+        "no-undef" : 2,
+        "no-var": 2
+    }
+}

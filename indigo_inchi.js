@@ -1,36 +1,40 @@
 /****************************************************************************
- * Copyright (C) 2016-2017 EPAM Systems
+ * Copyright (C) from 2015 to Present EPAM Systems.
  *
  * This file is part of Indigo-Node binding.
  *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 3 as published by the Free Software
- * Foundation and appearing in the file LICENSE.md  included in the
- * packaging of this file.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
-var path = require('path');
-var ffi = require('ffi');
+import { join } from 'path';
+import { Library } from 'ffi-napi';
 
-var indigo = require('./indigo');
+import { IndigoObject } from './indigo';
 
-var IndigoInchi = function (indigo) {
-	this.indigo = indigo;
-	var libpath = path.join(indigo.dllpath,
-	                        process.platform != 'win32' ? 'libindigo-inchi' : 'indigo-inchi');
+let IndigoInchi = function(indigo) {
+    this.indigo = indigo;
+    let libpath = join(indigo.dllpath,
+        process.platform !== 'win32' ? 'libindigo-inchi' : 'indigo-inchi');
 
-	this._lib = ffi.Library(libpath, {
-		"indigoInchiVersion": ["string", []],
-		"indigoInchiResetOptions": ["int", []],
-		"indigoInchiLoadMolecule": ["int", ["string"]],
-		"indigoInchiGetInchi": ["string", ["int"]],
-		"indigoInchiGetInchiKey": ["string", ["string"]],
-		"indigoInchiGetWarning": ["string", []],
-		"indigoInchiGetLog": ["string", []],
-		"indigoInchiGetAuxInfo": [" string", []]
-	});
+    this._lib = Library(libpath, {
+        indigoInchiVersion: ['string', []],
+        indigoInchiResetOptions: ['int', []],
+        indigoInchiLoadMolecule: ['int', ['string']],
+        indigoInchiGetInchi: ['string', ['int']],
+        indigoInchiGetInchiKey: ['string', ['string']],
+        indigoInchiGetWarning: ['string', []],
+        indigoInchiGetLog: ['string', []],
+        indigoInchiGetAuxInfo: [' string', []],
+    });
 };
 
 /*
@@ -38,9 +42,9 @@ var IndigoInchi = function (indigo) {
  * @method version
  * @return {string} string of version
  */
-IndigoInchi.prototype.version = function () {
-	this.indigo._setSessionId();
-	return this._lib.indigoInchiVersion();
+IndigoInchi.prototype.version = function() {
+    this.indigo._setSessionId();
+    return this._lib.indigoInchiVersion();
 };
 
 /*
@@ -48,9 +52,9 @@ IndigoInchi.prototype.version = function () {
  * @method resetOptions
  * @return {boolean} return true if option applies as successful
  */
-IndigoInchi.prototype.resetOptions = function () {
-	this.indigo._setSessionId();
-	return (this.indigo._checkResult(this._lib.indigoInchiResetOptions()) === 1);
+IndigoInchi.prototype.resetOptions = function() {
+    this.indigo._setSessionId();
+    return (this.indigo._checkResult(this._lib.indigoInchiResetOptions()) === 1);
 };
 
 /*
@@ -60,9 +64,9 @@ IndigoInchi.prototype.resetOptions = function () {
  * @param {string}
  * @return {object} a new indigo object
  */
-IndigoInchi.prototype.loadMolecule = function (inchi) {
-	this.indigo._setSessionId();
-	return new indigo.IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)));
+IndigoInchi.prototype.loadMolecule = function(inchi) {
+    this.indigo._setSessionId();
+    return new IndigoObject(this.indigo, this.indigo._checkResult(this._lib.indigoInchiLoadMolecule(inchi)));
 };
 
 /*
@@ -71,9 +75,9 @@ IndigoInchi.prototype.loadMolecule = function (inchi) {
  * @param {object}
  * @return {string}
  */
-IndigoInchi.prototype.getInchi = function (molecule) {
-	this.indigo._setSessionId();
-	return this.indigo._checkResultString(this._lib.indigoInchiGetInchi(molecule.id));
+IndigoInchi.prototype.getInchi = function(molecule) {
+    this.indigo._setSessionId();
+    return this.indigo._checkResultString(this._lib.indigoInchiGetInchi(molecule.id));
 };
 
 /*
@@ -81,9 +85,9 @@ IndigoInchi.prototype.getInchi = function (molecule) {
  * @method getWarning
  * @return {string}
  */
-IndigoInchi.prototype.getWarning = function () {
-	this.indigo._setSessionId();
-	return this.indigo._checkResultString(this._lib.indigoInchiGetWarning());
+IndigoInchi.prototype.getWarning = function() {
+    this.indigo._setSessionId();
+    return this.indigo._checkResultString(this._lib.indigoInchiGetWarning());
 };
 
 /*
@@ -91,9 +95,9 @@ IndigoInchi.prototype.getWarning = function () {
  * @method getInchiKey
  * @return {string}
  */
-IndigoInchi.prototype.getInchiKey = function (inchi) {
-	this.indigo._setSessionId();
-	return this.indigo._checkResultString(this._lib.indigoInchiGetInchiKey(inchi));
+IndigoInchi.prototype.getInchiKey = function(inchi) {
+    this.indigo._setSessionId();
+    return this.indigo._checkResultString(this._lib.indigoInchiGetInchiKey(inchi));
 };
 
 /*
@@ -101,9 +105,9 @@ IndigoInchi.prototype.getInchiKey = function (inchi) {
  * @method getLog
  * @return {string}
  */
-IndigoInchi.prototype.getLog = function () {
-	this.indigo._setSessionId();
-	return this.indigo._checkResultString(this._lib.indigoInchiGetLog());
+IndigoInchi.prototype.getLog = function() {
+    this.indigo._setSessionId();
+    return this.indigo._checkResultString(this._lib.indigoInchiGetLog());
 };
 
 /*
@@ -111,9 +115,9 @@ IndigoInchi.prototype.getLog = function () {
  * @method getAuxInfo
  * @return {string}
  */
-IndigoInchi.prototype.getAuxInfo = function () {
-	this.indigo._setSessionId();
-	return this.indigo._checkResultString(this._lib.indigoInchiGetAuxInfo());
+IndigoInchi.prototype.getAuxInfo = function() {
+    this.indigo._setSessionId();
+    return this.indigo._checkResultString(this._lib.indigoInchiGetAuxInfo());
 };
 
-module.exports = IndigoInchi;
+export default IndigoInchi;

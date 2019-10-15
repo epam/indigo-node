@@ -1,53 +1,60 @@
 /****************************************************************************
- * Copyright (C) 2016-2017 EPAM Systems
+ * Copyright (C) from 2015 to Present EPAM Systems.
  *
  * This file is part of Indigo-Node binding.
  *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 3 as published by the Free Software
- * Foundation and appearing in the file LICENSE.md  included in the
- * packaging of this file.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
 
 /* declaration of modules  */
-var test = require('tap').test;
-var tmp = require('tmp');
+import { test } from 'tap';
+import { dirSync } from 'tmp';
 
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-var local = path.join.bind(path, __dirname);
+import path, { join } from 'path';
+let local = join.bind(path, __dirname);
 
-var Indigo = require("../indigo").Indigo;
-var indigo = new Indigo();
+import { Indigo } from '../indigo';
+let indigo = new Indigo();
 
-var tmpDir = tmp.dirSync({ unsafeCleanup: true });
+let tmpDir = dirSync({
+    keep: true
+});
 
-var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
-	// console.log("TESTING " + path.parse(smifile).name);
-	var sdfout = indigo.writeFile(tmpDir.name + ("/structures.sdf"));
-	var cmlout = indigo.writeFile(tmpDir.name + ("/structures.cml"));
-	var rdfout = indigo.writeFile(tmpDir.name + ("/structures.rdf"));
-	var smiout = indigo.writeFile(tmpDir.name + ("/structures.smi"));
-	rdfout.rdfHeader();
-	cmlout.cmlHeader();
-	t.doesNotThrow(() => {
-        for (var item of iterfunc(smifile)) {
-            var exc = false;
+let testMultipleSave = function(t, smifile, iterfunc, issmi, expectedIndex) {
+    let sdfout = indigo.writeFile(tmpDir.name + '/structures.sdf');
+    let cmlout = indigo.writeFile(tmpDir.name + '/structures.cml');
+    let rdfout = indigo.writeFile(tmpDir.name + '/structures.rdf');
+    let smiout = indigo.writeFile(tmpDir.name + '/structures.smi');
+    rdfout.rdfHeader();
+    cmlout.cmlHeader();
+    t.doesNotThrow(() => {
+        for (let item of iterfunc(smifile)) {
+            let exc = false;
             try {
                 item.countAtoms();
                 item.smiles();
             } catch (e) {
                 if (issmi)
-                    throw new Error(item.rawData());
+                {
+                    t.ok(
+                        e.message === 'SMILES loader: atom without a label' ||
+                        e.message.startsWith('SMILES loader: chirality not possible on atom')
+                    );
+                }
                 exc = true;
             }
             if (!exc) {
-                // item.clearCisTrans();
-                for (var bond of item.iterateBonds()) {
+                for (let bond of item.iterateBonds()) {
                     if ((bond.topology() == Indigo.RING) && (bond.bondOrder() == 2)) {
                         bond.resetStereo();
                     }
@@ -55,7 +62,6 @@ var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
                 try {
                     item.markEitherCisTrans();
                 } catch (e) {
-                    // console.log(item.index() + ' (while markEitherCisTrans) : ' + e.message);
                     if (issmi)
                         throw new Error(item.rawData());
                     continue;
@@ -65,13 +71,13 @@ var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
                 } else {
                     item.setName('structure-' + item.index());
                 }
-                item.setProperty("NUMBER", item.index().toString());
+                item.setProperty('NUMBER', item.index().toString());
                 cmlout.cmlAppend(item);
                 smiout.smilesAppend(item);
                 item.layout();
-                indigo.setOption("molfile-saving-mode", "2000");
+                indigo.setOption('molfile-saving-mode', '2000');
                 sdfout.sdfAppend(item);
-                indigo.setOption("molfile-saving-mode", "3000");
+                indigo.setOption('molfile-saving-mode', '3000');
                 rdfout.rdfAppend(item);
             }
         }
@@ -80,50 +86,49 @@ var testMultipleSave = function (/*test*/ t, smifile, iterfunc, issmi){
         cmlout.close();
         rdfout.close();
         smiout.close();
-	}, null, 'check right file');
+    }, 'check right file');
     sdfout.close();
     cmlout.close();
     rdfout.close();
     smiout.close();
 
-	var cmliter = indigo.iterateCMLFile(local("structures.cml"));
-	var sdfiter = indigo.iterateSDFile(local("structures.sdf"));
-	var rdfiter = indigo.iterateRDFile(local("structures.rdf"));
-	var smiiter = indigo.iterateSmilesFile(local("structures.smi"));
-	var idx = 1;
-	var sdf;
+    let cmliter = indigo.iterateCMLFile(tmpDir.name + '/structures.cml');
+    let sdfiter = indigo.iterateSDFile(tmpDir.name + '/structures.sdf');
+    let rdfiter = indigo.iterateRDFile(tmpDir.name + '/structures.rdf');
+    let smiiter = indigo.iterateSmilesFile(tmpDir.name + '/structures.smi');
+    let sdf;
     t.doesNotThrow(() => {
+        let idx = 1;
         while (sdf = sdfiter.next().value) {
-            var cml = cmliter.next().value;
-            var rdf = rdfiter.next().value;
-            var smi = smiiter.next().value;
+            let cml = cmliter.next().value;
+            let rdf = rdfiter.next().value;
+            let smi = smiiter.next().value;
 
             sdf.resetSymmetricCisTrans();
             rdf.resetSymmetricCisTrans();
             try {
-                var cs1 = sdf.canonicalSmiles();
-                var cs2 = rdf.canonicalSmiles();
-                var cs3 = smi.canonicalSmiles();
-                var cs4 = cml.canonicalSmiles();
-	            if (cs2 != cs1 || cs3 != cs1 || cs4 != cs1)
-		            return;
-                    // console.log("MISMATCH");
-            }
-            catch (e) {
-                // console.log(e.message);
+                let cs1 = sdf.canonicalSmiles();
+                let cs2 = rdf.canonicalSmiles();
+                let cs3 = smi.canonicalSmiles();
+                let cs4 = cml.canonicalSmiles();
+                if (cs2 != cs1 || cs3 != cs1 || cs4 != cs1)
+                    return;
+            } catch (e) {
                 continue;
             }
             idx += 1;
         }
-    }, null, 'check iterate');
+        t.equal(idx, expectedIndex);
+    }, 'check iterate');
 };
 
-test('\n#### - SAVE test - ####\n', function (t) {
-	t.plan(4);
-    testMultipleSave(t, local("fixtures/helma.smi"), indigo.iterateSmilesFile.bind(indigo), true);
-    testMultipleSave(t, local("fixtures/chemical-structures.smi"), indigo.iterateSmilesFile.bind(indigo), true);
-    testMultipleSave(t, local("fixtures/pubchem_7m_err.sdf"), indigo.iterateSDFile.bind(indigo), false);
-    testMultipleSave(t, local("fixtures/acd2d_err.sdf"), indigo.iterateSDFile.bind(indigo), false);
-
+// TODO: Check
+test('MultipleSave', function(t) {
+    t.plan(21);
+    testMultipleSave(t, local('fixtures/helma.smi'), indigo.iterateSmilesFile.bind(indigo), true, 685);
+    testMultipleSave(t, local('fixtures/chemical-structures.smi'), indigo.iterateSmilesFile.bind(indigo), true, 1396);
+    testMultipleSave(t, local('fixtures/pubchem_7m_err.sdf'), indigo.iterateSDFile.bind(indigo), false, 15);
+    testMultipleSave(t, local('fixtures/acd2d_err.sdf'), indigo.iterateSDFile.bind(indigo), false, 18);
     tmpDir.removeCallback();
 });
+

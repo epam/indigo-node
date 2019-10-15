@@ -1,35 +1,38 @@
 /****************************************************************************
- * Copyright (C) 2016-2017 EPAM Systems
+ * Copyright (C) from 2015 to Present EPAM Systems.
  *
  * This file is part of Indigo-Node binding.
  *
- * This file may be distributed and/or modified under the terms of the
- * GNU General Public License version 3 as published by the Free Software
- * Foundation and appearing in the file LICENSE.md  included in the
- * packaging of this file.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
-var path = require('path');
+import { join } from 'path';
 
-var ffi = require('ffi');
-var refArray = require('ref-array');
+import { Library } from 'ffi-napi';
+import refArray from 'ref-array-napi';
 
-var indigo = require('./indigo');
+import { IndigoException } from './indigo';
 
-var IndigoRenderer = function (indigo) {
-	this.indigo = indigo;
-	var libpath = path.join(indigo.dllpath,
-	                        process.platform != 'win32' ? 'libindigo-renderer' : 'indigo-renderer');
+let IndigoRenderer = function(indigo) {
+    this.indigo = indigo;
+    const libpath = join(indigo.dllpath, process.platform !== 'win32' ? 'libindigo-renderer' : 'indigo-renderer');
 
-	this._lib = ffi.Library(libpath, {
-		"indigoRender": ["int", ["int", "int"]],
-		"indigoRenderToFile": ["int", ["int", "string"]],
-		"indigoRenderGrid": ["int", ["int", refArray('int'), "int", "int"]],
-		"indigoRenderGridToFile": ["int", ["int", refArray('int'), "int", "string"]],
-		"indigoRenderReset": ["int", []]
-	});
+    this._lib = Library(libpath, {
+        indigoRender: ['int', ['int', 'int']],
+        indigoRenderToFile: ['int', ['int', 'string']],
+        indigoRenderGrid: ['int', ['int', refArray('int'), 'int', 'int']],
+        indigoRenderGridToFile: ['int', ['int', refArray('int'), 'int', 'string']],
+        indigoRenderReset: ['int', []],
+    });
 };
 
 /*
@@ -38,15 +41,15 @@ var IndigoRenderer = function (indigo) {
  * @param {object} obj is IndigoObject
  * @returns {Array}
  */
-IndigoRenderer.prototype.renderToBuffer = function (obj) {
-	this.indigo._setSessionId();
-	var wb = this.indigo.writeBuffer();
-	try {
-		this.indigo._checkResult(this._lib.indigoRender(obj.id, wb.id));
-		return wb.toBuffer();
-	} finally {
-		wb.dispose();
-	}
+IndigoRenderer.prototype.renderToBuffer = function(obj) {
+    this.indigo._setSessionId();
+    let wb = this.indigo.writeBuffer();
+    try {
+        this.indigo._checkResult(this._lib.indigoRender(obj.id, wb.id));
+        return wb.toBuffer();
+    } finally {
+        wb.dispose();
+    }
 };
 
 /*
@@ -56,9 +59,9 @@ IndigoRenderer.prototype.renderToBuffer = function (obj) {
  * @param {string} filename
  * @return {boolean} return true if file have been saved successfully
  */
-IndigoRenderer.prototype.renderToFile = function (obj, filename) {
-	this.indigo._setSessionId();
-	return (this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename)) == 1);
+IndigoRenderer.prototype.renderToFile = function(obj, filename) {
+    this.indigo._setSessionId();
+    return (this.indigo._checkResult(this._lib.indigoRenderToFile(obj.id, filename)) === 1);
 };
 
 /*
@@ -66,9 +69,9 @@ IndigoRenderer.prototype.renderToFile = function (obj, filename) {
  * @method renderReset
  * @return {boolean} return true if reset have been done successfully
  */
-IndigoRenderer.prototype.renderReset = function () {
-	this.indigo._setSessionId();
-	return (this.indigo._checkResult(this._lib.indigoRenderReset()) == 1);
+IndigoRenderer.prototype.renderReset = function() {
+    this.indigo._setSessionId();
+    return (this.indigo._checkResult(this._lib.indigoRenderReset()) === 1);
 };
 
 /*
@@ -79,16 +82,16 @@ IndigoRenderer.prototype.renderReset = function () {
  * @param {number} ncolumns is the number of columns in the grid
  * @param {string} filename
  */
-IndigoRenderer.prototype.renderGridToFile = function (objects, refatoms, ncolumns, filename) {
-	this.indigo._setSessionId();
-	var arr = null;
-	if (refatoms) {
-		if (refatoms.length != objects.count())
-			throw new indigo.IndigoException("renderGridToFile(): refatoms[] size must be equal to the number of objects");
-		// TODO: check python conformance
-		arr = refatoms;
-	}
-	this.indigo._checkResult(this._lib.indigoRenderGridToFile(objects.id, arr, ncolumns, filename));
+IndigoRenderer.prototype.renderGridToFile = function(objects, refatoms, ncolumns, filename) {
+    this.indigo._setSessionId();
+    let arr = null;
+    if (refatoms) {
+        if (refatoms.length !== objects.count())
+            throw new IndigoException('renderGridToFile(): refatoms[] size must be equal to the number of objects');
+        // TODO: check python conformance
+        arr = refatoms;
+    }
+    this.indigo._checkResult(this._lib.indigoRenderGridToFile(objects.id, arr, ncolumns, filename));
 };
 
 /*
@@ -98,24 +101,24 @@ IndigoRenderer.prototype.renderGridToFile = function (objects, refatoms, ncolumn
  * @param {array} refatoms is an array of integers, whose size must be equal to the number of molecules if the array
  * @param {number} ncolumns is the number of columns in the grid
  */
-IndigoRenderer.prototype.renderGridToBuffer = function (objects, refatoms, ncolumns, filename) {
-	this.indigo._setSessionId();
-	var arr = null;
-	if (refatoms) {
-		if (refatoms.length != objects.count())
-			throw new indigo.IndigoException("renderGridToBuffer(): refatoms[] size must be equal to the number of objects");
+IndigoRenderer.prototype.renderGridToBuffer = function(objects, refatoms, ncolumns) {
+    this.indigo._setSessionId();
+    let arr = null;
+    if (refatoms) {
+        if (refatoms.length !== objects.count())
+            throw new IndigoException('renderGridToBuffer(): refatoms[] size must be equal to the number of objects');
 
-		// TODO: check python conformance
-		arr = refatoms;
-	}
-	var wb = this.indigo.writeBuffer();
+        // TODO: check python conformance
+        arr = refatoms;
+    }
+    let wb = this.indigo.writeBuffer();
 
-	try {
-		this.indigo._checkResult(this._lib.indigoRenderGrid(objects.id, arr, ncolumns, wb.id));
-		return wb.toBuffer();
-	} finally {
-		wb.dispose();
-	}
+    try {
+        this.indigo._checkResult(this._lib.indigoRenderGrid(objects.id, arr, ncolumns, wb.id));
+        return wb.toBuffer();
+    } finally {
+        wb.dispose();
+    }
 };
 
-module.exports = IndigoRenderer;
+export default IndigoRenderer;
