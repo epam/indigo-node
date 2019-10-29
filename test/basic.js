@@ -334,3 +334,81 @@ test('Serialization of aromatic hydrogens', function(t) {
     const matcher = indigo.substructureMatcher(m2);
     t.equal(matcher.match(q), null, 'should be null');
 });
+
+test('massComposition', function(t) {
+    t.plan(1);
+    const m = indigo.loadMolecule('C');
+    t.equal(m.massComposition(), "C 74.87 H 25.13", 'should be equal');
+});
+
+test('clean2d', function(t) {
+    t.plan(1);
+    let m = indigo.loadMolecule('C');
+    m.clean2d();
+    t.equal(m.smiles(), 'C');
+});
+
+test('isTemplateAtom', function(t) {
+    t.plan(1);
+    const ma = indigo.loadMolecule('C');
+    t.notok(ma.getAtom(0).isTemplateAtom(), 'should be false');    
+});
+
+test('isPossibleFischerProjection', function(t) {
+    t.plan(2);
+    const mf = indigo.loadMolecule(`
+    -INDIGO-01000000002D          
+
+  5  4  0  0  0  0            999 V2000
+   -9.0824    1.1270    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.0824    1.8857    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.4342    1.1270    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.0824    0.3462    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.7748    1.1270    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  1  3  1  0  0  0  0
+  1  4  1  0  0  0  0
+  1  5  1  0  0  0  0
+M  END
+`);
+    t.ok(mf.isPossibleFischerProjection());
+    const mnf = indigo.loadMolecule(`
+    -INDIGO-01000000002D          
+
+  5  4  0  0  0  0            999 V2000
+   -9.0824    1.1270    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.0824    1.8857    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.3237    0.6188    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.4138    0.1694    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.9074    1.0607    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  1  3  1  0  0  0  0
+  1  4  1  0  0  0  0
+  1  5  1  0  0  0  0
+M  END
+`);
+    t.notok(mnf.isPossibleFischerProjection());
+});
+
+test('checkStructure', function(t) {
+    t.plan(1);    
+    t.strictEqual(indigo.checkStructure('C'), '{}');
+});
+
+test('IndigoObject.check', function(t) {
+    t.plan(1);    
+    t.strictEqual(indigo.loadMolecule('C').check(), '{}');
+});
+
+test('IndigoObject.checkAll', function(t) {
+    t.plan(8);    
+    const m = indigo.loadMolecule('C');
+    t.strictEqual(m.getAtom(0).checkValence(), 0);
+    t.strictEqual(m.checkQuery(), 1);
+    t.strictEqual(m.checkRGroups(), 0);
+    t.strictEqual(m.checkChirality(), 1);
+    t.strictEqual(m.checkStereo(), 0);
+    t.strictEqual(m.check3DStereo(), 0);
+    t.strictEqual(m.checkAmbiguousH(), "");
+    t.strictEqual(m.checkBadValence(), "");
+});

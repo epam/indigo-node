@@ -71,3 +71,11 @@ test('testRGroupDecomposition', function(t) {
         }
     });
 });
+
+test('countRGroups', function(t) {
+    t.plan(1);
+    const query = indigo.loadQueryMolecule('[*:1]CC(C1=CC=CC=C1)CCC%91.[*:2]%91 |$_R1;;;;;;;;;;;;_R2$,RG:_R1={N1%91C=CC=C1.[*:1]%91 ' +
+                                           '|$;;;;;_AP1$|},_R2={C1=CC=CC=C%911.[*:2]%91 |$;;;;;;_AP2$|},LOG={_R1:;;>2._R2:;H;>0}|'); 
+    t.equal(query.countRGroups(), 2);
+});
+

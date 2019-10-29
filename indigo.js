@@ -1364,6 +1364,419 @@ IndigoObject.prototype.toBuffer = function() {
     return res;
 };
 
+/*
+ *
+ * @method checkValence
+ * @returns {int}
+ */
+IndigoObject.prototype.checkValence = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheckValence(this.id));
+};
+
+/*
+ *
+ * @method checkQuery
+ * @returns {int}
+ */
+IndigoObject.prototype.checkQuery = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheckQuery(this.id));
+};
+
+/*
+ *
+ * @method checkRGroups
+ * @returns {int}
+ */
+IndigoObject.prototype.checkRGroups = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheckRGroups(this.id));
+};
+
+/*
+ *
+ * @method checkChirality
+ * @returns {int}
+ */
+IndigoObject.prototype.checkChirality = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheckChirality(this.id));
+};
+
+/*
+ *
+ * @method check3DStereo
+ * @returns {int}
+ */
+IndigoObject.prototype.check3DStereo = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheck3DStereo(this.id));
+};
+
+/*
+ *
+ * @method checkStereo
+ * @returns {int}
+ */
+IndigoObject.prototype.checkStereo = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCheckStereo(this.id));
+};
+
+/*
+ *
+ * @method check
+ * @param {string} type = ""
+ * @returns {string}
+ */
+IndigoObject.prototype.check = function(type = "") {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoCheck(this.id, type));
+};
+
+/*
+ *
+ * @method iterateSGroups
+ * @returns {object}
+ */
+IndigoObject.prototype.iterateSGroups = function*() {
+    this.d._setSessionId();
+    let o = new IndigoObject(this.d, this.d._checkResult(this.d._lib.indigoIterateSGroups(this.id)));
+    let newobj = o;
+    while (newobj && newobj.id != -1)
+        if (newobj = o._next()) yield newobj;
+};
+
+/*
+ *
+ * @method getSGroupSeqId
+ * @returns {int}
+ */
+IndigoObject.prototype.getSGroupSeqId = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoGetSGroupSeqId(this.id));
+};
+
+
+/*
+ *
+ * @method getSGroupCoords
+ * @returns {Array} the [x, y] coordinates
+ */
+IndigoObject.prototype.getSGroupCoords = function() {
+    this.d._setSessionId();
+    return this.d._checkResultFloat(this.d._lib.indigoGetSGroupCoords(this.id));
+};
+
+/*
+ *
+ * @method getRepeatingUnitSubscript
+ * @returns {string}
+ */
+IndigoObject.prototype.getRepeatingUnitSubscript = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoGetRepeatingUnitSubscript(this.id));
+};
+
+/*
+ *
+ * @method getRepeatingUnitConnectivity
+ * @returns {int}
+ */
+IndigoObject.prototype.getRepeatingUnitConnectivity = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoGetRepeatingUnitConnectivity(this.id));
+};
+
+/*
+ *
+ * @method getSGroupOriginalId
+ * @param {int} original
+ * @returns {int}
+ */
+IndigoObject.prototype.getSGroupOriginalId = function(original = null) {
+    this.d._setSessionId();
+    original = original || 0;
+    if (!original)
+        return this.d._checkResult(this.d._lib.indigoGetSGroupOriginalId(this.id));
+    else
+        return this.d._checkResult(this.d._lib.indigoGetSGroupOriginalId(this.id, original));
+};
+
+/*
+ *
+ * @method getSGroupParentId
+ * @param {int} parent
+ * @returns {int}
+ */
+IndigoObject.prototype.getSGroupParentId = function(parent = null) {
+    this.d._setSessionId();
+    parent = parent || 0;
+    if (!parent)
+        return this.d._checkResult(this.d._lib.indigoGetSGroupParentId(this.id));
+    else
+        return this.d._checkResult(this.d._lib.indigoGetSGroupParentId(this.id, parent));
+};
+
+/*
+ *
+ * @method addTemplate
+ * @param {IndigoObject} templates
+ * @param {string} name
+ * @returns {int}
+ */
+IndigoObject.prototype.addTemplate = function(templates, name) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoAddTemplate(this.id, templates.id, name));
+};
+
+/*
+ *
+ * @method removeTemplate
+ * @param {string} name
+ * @returns {int}
+ */
+IndigoObject.prototype.removeTemplate = function(name) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoRemoveTemplate(this.id, name));
+};
+
+/*
+ *
+ * @method findTemplate
+ * @param {string} name
+ * @returns {int}
+ */
+IndigoObject.prototype.findTemplate = function(name) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoFindTemplate(this.id, name));
+};
+
+/*
+ *
+ * @method getTGroupClass
+ * @returns {string}
+ */
+IndigoObject.prototype.getTGroupClass = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoGetTGroupClass(this.id));
+};
+
+/*
+ *
+ * @method getTGroupName
+ * @returns {string}
+ */
+IndigoObject.prototype.getTGroupName = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoGetTGroupName(this.id));
+};
+
+/*
+ *
+ * @method getTGroupAlias
+ * @returns {string}
+ */
+IndigoObject.prototype.getTGroupAlias = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoGetTGroupAlias(this.id));
+};
+
+/*
+ *
+ * @method transformSCSRtoCTAB
+ * @returns {int}
+ */
+IndigoObject.prototype.transformSCSRtoCTAB = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoTransformSCSRtoCTAB(this.id));
+};
+
+/*
+ *
+ * @method transformCTABtoSCSR
+ * @param {IndigoObject} templates
+ * @returns {int}
+ */
+IndigoObject.prototype.transformCTABtoSCSR = function(templates) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoTransformCTABtoSCSR(this.id, templates.id));
+};
+
+/*
+ *
+ * @method getTemplateAtomClass
+ * @returns {string}
+ */
+IndigoObject.prototype.getTemplateAtomClass = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoGetTemplateAtomClass(this.id));
+};
+
+/*
+ *
+ * @method setTemplateAtomClass
+ * @param {string} name
+ */
+IndigoObject.prototype.setTemplateAtomClass = function(name) {
+    this.d._setSessionId();
+    this.d._checkResult(this.d._lib.indigoSetTemplateAtomClass(this.id, name));
+};
+
+/*
+ *
+ * @method massComposition
+ * @returns {string}
+ */
+IndigoObject.prototype.massComposition = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoMassComposition(this.id));
+};
+
+/*
+ *
+ * @method isPossibleFischerProjection
+ * @param {string} options
+ * @returns {bool}
+ */
+IndigoObject.prototype.isPossibleFischerProjection = function(options) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoIsPossibleFischerProjection(this.id, options)) === 1;
+};
+
+/*
+ *
+ * @method clean2d
+ */
+IndigoObject.prototype.clean2d = function() {
+    this.d._setSessionId();
+    this.d._checkResult(this.d._lib.indigoClean2d(this.id));
+};
+
+/*
+ *
+ * @method smarts
+ * @returns {string}
+ */
+IndigoObject.prototype.smarts = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoSmarts(this.id));
+};
+
+/*
+ *
+ * @method canonicalSmarts
+ * @returns {string}
+ */
+IndigoObject.prototype.canonicalSmarts = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoCanonicalSmarts(this.id));
+};
+
+/*
+ *
+ * @method ionize
+ * @param {float} pH
+ * @param {float} pHToll
+ */
+IndigoObject.prototype.ionize = function(pH, pHToll) {
+    this.d._setSessionId();
+    this.d._checkResult(this.d._lib.indigoIonize(this.id, pH, pHToll));
+};
+
+/*
+ *
+ * @method buildPkaModel
+ * @param {int} level
+ * @param {float} threshold
+ * @param {string} filename
+ * @returns {int}
+ */
+IndigoObject.prototype.buildPkaModel = function(level, threshold, filename) {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoBuildPkaModel(level, threshold, filename));
+};
+
+/*
+ *
+ * @method getAcidPkaValue
+ * @param {IndigoObject} atom
+ * @param {int} level
+ * @param {int} minLevel
+ * @returns {array(float)}
+ */
+IndigoObject.prototype.getAcidPkaValue = function(atom, level, minLevel) {
+    this.d._setSessionId();
+    return this.d._checkResultFloat(this.d._lib.indigoGetAcidPkaValue(this.id, atom.id, level, minLevel));
+};
+
+/*
+ *
+ * @method getBasicPkaValue
+ * @param {IndigoObject} atom
+ * @param {int} level
+ * @param {int} minLevel
+ * @returns {array(float)}
+ */
+IndigoObject.prototype.getBasicPkaValue = function(atom, level, minLevel) {
+    this.d._setSessionId();
+    return this.d._checkResultFloat(this.d._lib.indigoGetBasicPkaValue(this.id, atom.id, level, minLevel));
+};
+
+/*
+ *
+ * @method ionize
+ * @param {string} filename
+ */
+IndigoObject.prototype.saveCdxml = function(filename) {
+    this.d._setSessionId();
+    let s = this.d.writeFile(filename);
+    this.d._checkResultString(this.d._lib.indigoIonize(this.id, s));    
+    s.dispose();
+};
+
+/*
+ *
+ * @method cdxml
+ * @returns {string}
+ */
+IndigoObject.prototype.cdxml = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoCdxml(this.id));
+};
+
+/*
+ *
+ * @method json
+ * @returns {string}
+ */
+IndigoObject.prototype.json = function() {
+    this.d._setSessionId();
+    return this.d._checkResultString(this.d._lib.indigoJson(this.id));
+};
+
+/*
+ *
+ * @method countRGroups
+ * @returns {int}
+ */
+IndigoObject.prototype.countRGroups = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoCountRGroups(this.id));
+};
+
+/*
+ *
+ * @method isTemplateAtom
+ * @returns {bool}
+ */
+IndigoObject.prototype.isTemplateAtom = function() {
+    this.d._setSessionId();
+    return this.d._checkResult(this.d._lib.indigoIsTemplateAtom(this.id)) === 1;
+};
+
+
 export let Indigo = function(basepath) {
     if (!basepath)
         basepath = join(__dirname, 'lib');
@@ -1707,8 +2120,54 @@ export let Indigo = function(basepath) {
         "indigoIterateCDX": ["int", ["int"]],
         "indigoIterateRDF": ["int", ["int"]],
         "indigoWriteFile": ["int", ["string"]],
-        "indigoIterateTautomers": ["int", ["int", "string"]]
+        "indigoIterateTautomers": ["int", ["int", "string"]],
+        "indigoCheckValence": ["int", ["int"]],
+        "indigoCheckQuery": ["int", ["int"]],
+        "indigoCheckRGroups": ["int", ["int"]],
+        "indigoCheck": ["string", ["int", "string"]],
+        "indigoCheckStructure": ["string", ["string", "string"]],
+        "indigoIterateSGroups": ["int", ["int"]],
+        "indigoGetSGroupSeqId": ["int", ["int"]],
+        "indigoGetSGroupCoords": [refType("float"), ["int"]],
+        "indigoGetRepeatingUnitSubscript": ["string", ["int"]],
+        "indigoGetRepeatingUnitConnectivity": ["int", ["int"]],
+        "indigoGetSGroupOriginalId": ["int", ["int"]],
+        "indigoSetSGroupOriginalId": ["int", ["int", "int"]],
+        "indigoGetSGroupParentId": ["int", ["int"]],
+        "indigoGetSGroupParentId": ["int", ["int", "int"]],
+        "indigoAddTemplate": ["int", ["int", "int", "string"]],
+        "indigoRemoveTemplate": ["int", ["int", "string"]],
+        "indigoFindTemplate": ["int", ["int", "string"]],
+        "indigoGetSGroupClass": ["string", ["int"]],
+        "indigoGetSGroupName": ["string", ["int"]],
+        "indigoTransformSCSRtoCTAB": ["int", ["int"]],
+        "indigoTransformCTABtoSCSR": ["int", ["int", "int"]],
+        "indigoGetTemplateAtomClass": ["string", ["int"]],
+        "indigoSetTemplateAtomClass": ["int", ["int", "string"]],
+        "indigoMassComposition": ["string", ["int"]],
+        "indigoCheckChirality": ["int", ["int"]],
+        "indigoCheck3DStereo": ["int", ["int"]],
+        "indigoCheckStereo": ["int", ["int"]],
+        "indigoIsPossibleFischerProjection": ["int", ["int", "string"]],
+        "indigoClean2d": ["int", ["int"]],
+        "indigoSmarts": ["string", ["int"]],
+        "indigoCanonicalSmarts": ["string", ["int"]],
+        "indigoGetFragmentedMolecule": ["string", ["int", "string"]],
+        "indigoRGroupComposition": ["string", ["int", "string"]],
+        "indigoTransformHELMtoSCSR": ["int", ["int"]],
+        "indigoIonize": ["int", ["int", "float", "float"]],
+        "indigoBuildPkaModel": ["int", ["int", "float", "string"]],
+        "indigoGetAcidPkaValue": [refType("float"), ["int", "int", "int"]],
+        "indigoGetBasicPkaValue": [refType("float"), ["int", "int", "int"]],
+        "indigoSaveCdxml": ["int", ["int", "int"]],
+        "indigoSaveCdxmlToFile": ["int", ["int", "string"]],
+        "indigoCdxml": ["string", ["int"]],
+        "indigoJson": ["string", ["int"]],
+        "indigoCountRGroups": ["int", ["int"]],
+        "indigoNameToStructure": ["int", ["string", "string"]],
+        "indigoIsTemplateAtom": ["int", ["int"]]
     });
+
     // Allocate a new session. Each session has its own
     // set of objects created and options set up.
     this._sid = this._lib.indigoAllocSessionId();
@@ -2341,4 +2800,63 @@ Indigo.prototype.setOption = function(option, value1, value2, value3) {
         }
     }
     return (ret === 1);
+};
+
+/*
+ *
+ * @method checkStructure
+ * @param {string} structure
+ * @param {string} options = ""
+ * @returns {string}
+ */
+Indigo.prototype.checkStructure = function(structure, options = "") {
+    this._setSessionId();
+    return this._checkResultString(this._lib.indigoCheckStructure(structure, options));
+};
+
+/*
+ *
+ * @method getFragmentedMolecule
+ * @param {IndigoObject} structures
+ * @param {string} options
+ * @returns {IndigoObject}
+ */
+Indigo.prototype.getFragmentedMolecule = function(structures, options) {
+    this._setSessionId();
+    return new IndigoObject(this, this._checkResult(this._lib.indigoGetFragmentedMolecule(structures.id, options)));
+};
+
+/*
+ *
+ * @method rgroupComposition
+ * @param {IndigoObject} structures
+ * @param {string} options
+ * @returns {IndigoObject}
+ */
+Indigo.prototype.rgroupComposition = function(structures, options) {
+    this._setSessionId();
+    return new IndigoObject(this, this._checkResult(this._lib.indigoRGroupComposition(structures.id, options)));
+};
+
+/*
+ *
+ * @method rgroupComposition
+ * @param {IndigoObject} monomer
+ * @returns {IndigoObject}
+ */
+Indigo.prototype.indigoTransformHELMtoSCSR = function(monomer) {
+    this._setSessionId();
+    return new IndigoObject(this, this._checkResult(this._lib.indigoTransformHELMtoSCSR(monomer.id)));
+};
+
+/*
+ *
+ * @method nameToStructure
+ * @param {string} name
+ * @param {string} params = ""
+ * @returns {IndigoObject}
+ */
+Indigo.prototype.nameToStructure = function(name, params = "") {
+    this._setSessionId();
+    return new IndigoObject(this, this._checkResult(this._lib.indigoNameToStructure(name, params)));
 };
