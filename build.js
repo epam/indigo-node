@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ***************************************************************************/
-import { exec } from 'child_process';
-import path, { join } from 'path';
-import { ensureDir, copy } from 'fs-extra';
+const cp = require('child_process');
+const path = require('path');
+const fs = require('fs-extra');
 
-const local = join.bind(path, __dirname);
+const local = path.join.bind(path, __dirname);
 
 const filterFunc = function(src) {
     if (src.includes('.lib')) {
@@ -28,9 +28,9 @@ const filterFunc = function(src) {
     return true;
 };
 
-export default function buildLib() {
+function buildLib() {
     return new Promise(function(resolve, reject) {
-        exec('python ' + local('indigo/build_scripts/indigo-release-libs.py'), function(err, stdout, stderr) {
+        cp.exec('python ' + local('indigo/build_scripts/indigo-release-libs.py'), function(err, stdout, stderr) {
             if (err) {
                 console.error(stderr);
                 reject(err, stderr);
@@ -40,8 +40,8 @@ export default function buildLib() {
             }
         });
     }).then(function() {
-        ensureDir(local('/lib/'));
-        copy(local('/indigo/api/libs/shared/'), local('/lib/'), {
+        fs.ensureDir(local('/lib/'));
+        fs.copy(local('/indigo/api/libs/shared/'), local('/lib/'), {
             filter: filterFunc,
         }, function(err) {
             if (err) return console.error(err);
@@ -50,6 +50,4 @@ export default function buildLib() {
     });
 };
 
-if (require.main === module) {
-    module.exports();
-}
+buildLib();

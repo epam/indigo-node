@@ -1,6 +1,6 @@
 {
     "name": "indigo",
-    "version": "0.1.0",
+    "version": "1.4.0-beta",
     "description": "Indigo Node.js FFI bindings",
     "author": {
         "name": "EPAM Life Sciences Department",
@@ -49,7 +49,7 @@
         "tmp": "0.1.0"
     },
     "scripts": {
-        "build": "node build.js",
+        "build": "git submodule update --init --recursive && node build.js",
         "pretest": "eslint --ignore-path .gitignore .",
         "test": "tap --no-timeout test/*.js"
     }

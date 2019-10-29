@@ -9,12 +9,10 @@ test-8:
   image: node:8
   stage: test
   before_script:
+    - apt update && apt upgrade -y && apt install -y --no-install-recommends cmake g++ git libfontconfig1-dev libfreetype6-dev make python
     - npm prune
     - npm install
-    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
-    - unzip indigo-libs-latest-linux-shared.zip
-    - mv indigo-libs-*-linux-shared/shared lib
-    - rm -rf indigo-libs-*-linux-shared/shared
+    - npm run build
   script:
     - npm test
 
@@ -22,12 +20,10 @@ test-10:
   image: node:10
   stage: test
   before_script:
+    - apt update && apt upgrade -y && apt install -y --no-install-recommends cmake g++ git libfontconfig1-dev libfreetype6-dev make python
     - npm prune
     - npm install
-    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
-    - unzip indigo-libs-latest-linux-shared.zip
-    - mv indigo-libs-*-linux-shared/shared lib
-    - rm -rf indigo-libs-*-linux-shared/shared
+    - npm run build
   script:
     - npm test
 
@@ -35,11 +31,9 @@ test-12:
   image: node:12
   stage: test
   before_script:
+    - apt update && apt upgrade -y && apt install -y --no-install-recommends cmake g++ git libfontconfig1-dev libfreetype6-dev make python
     - npm prune
     - npm install
-    - curl -L -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -X GET "https://artifactory.epam.com/artifactory/EPM-LSOP/indigo/ci/indigo-libs-latest-linux-shared.zip" -o indigo-libs-latest-linux-shared.zip
-    - unzip indigo-libs-latest-linux-shared.zip
-    - mv indigo-libs-*-linux-shared/shared lib
-    - rm -rf indigo-libs-*-linux-shared/shared
+    - npm run build
   script:
     - npm test

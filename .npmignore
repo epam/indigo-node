@@ -1,0 +1,7 @@
+.nyc_output/
+indigo/
+test/
+*.tgz
+.gitlab-ci.yml
+.eslintrc.json
+package-lock.json
