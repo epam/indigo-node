@@ -46,7 +46,7 @@
     "devDependencies": {
         "eslint": "^6.5.1",
         "tap": "14.7.0",
-        "tmp": "0.1.0"
+        "tmp": "0.2.4"
     },
     "scripts": {
         "build": "git submodule update --init --recursive && node build.js",
